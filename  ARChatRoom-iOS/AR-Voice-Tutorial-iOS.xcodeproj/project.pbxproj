@@ -1,0 +1,613 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6312CBDA251081EC00A18B86 /* ARMicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6312CBD9251081EC00A18B86 /* ARMicViewController.swift */; };
+		6312CBEB2511E07F00A18B86 /* UIAlertController+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 6312CBEA2511E07F00A18B86 /* UIAlertController+Blocks.m */; };
+		6312CBF72512400A00A18B86 /* UILabel+YBAttributeTextTapAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 6312CBF62512400A00A18B86 /* UILabel+YBAttributeTextTapAction.m */; };
+		6312CC002512FB8000A18B86 /* ARtcKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6312CBFC2512FB6B00A18B86 /* ARtcKit.framework */; };
+		6312CC012512FB8000A18B86 /* ARtcKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6312CBFC2512FB6B00A18B86 /* ARtcKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		6312CC022512FB8100A18B86 /* ARtmKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6312CBFE2512FB7600A18B86 /* ARtmKit.framework */; };
+		6312CC032512FB8100A18B86 /* ARtmKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6312CBFE2512FB7600A18B86 /* ARtmKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		634444C424FF396F0038189A /* ARMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634444C324FF396F0038189A /* ARMainViewController.swift */; };
+		634444C624FF45B80038189A /* ARChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634444C524FF45B80038189A /* ARChatViewController.swift */; };
+		634444C824FF47E20038189A /* AppID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634444C724FF47E20038189A /* AppID.swift */; };
+		634444CB24FF71310038189A /* ARExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634444CA24FF71310038189A /* ARExtension.swift */; };
+		634444CD24FF726F0038189A /* ARUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634444CC24FF726F0038189A /* ARUserModel.swift */; };
+		634444D12500838F0038189A /* ARVoiceRtm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634444D02500838F0038189A /* ARVoiceRtm.swift */; };
+		6357EC9424FE2E41005E0C60 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357EC9324FE2E41005E0C60 /* AppDelegate.swift */; };
+		6357EC9824FE2E41005E0C60 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357EC9724FE2E41005E0C60 /* ViewController.swift */; };
+		6357EC9B24FE2E41005E0C60 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6357EC9924FE2E41005E0C60 /* Main.storyboard */; };
+		6357EC9D24FE2E44005E0C60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6357EC9C24FE2E44005E0C60 /* Assets.xcassets */; };
+		6357ECA024FE2E44005E0C60 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6357EC9E24FE2E44005E0C60 /* LaunchScreen.storyboard */; };
+		636537F02509C1F600B1317F /* ARAnnouncementController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636537EF2509C1F600B1317F /* ARAnnouncementController.swift */; };
+		636537F22509C40200B1317F /* ARFansViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636537F12509C40200B1317F /* ARFansViewController.swift */; };
+		6369B4032508C6B20028F2B4 /* ARChatInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6369B4022508C6B20028F2B4 /* ARChatInfoViewController.swift */; };
+		6369B4052508DD8D0028F2B4 /* ARModifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6369B4042508DD8D0028F2B4 /* ARModifyViewController.swift */; };
+		636A7DA1250A070A002341D9 /* 无名之辈.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 636A7D9F250A0709002341D9 /* 无名之辈.m4a */; };
+		636A7DA2250A070A002341D9 /* 最美的光.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 636A7DA0250A070A002341D9 /* 最美的光.mp3 */; };
+		636A7DA4250A49AE002341D9 /* ARFunctionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636A7DA3250A49AE002341D9 /* ARFunctionViewController.swift */; };
+		6378C82F250CC1B1009A46EF /* ARInfoDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6378C82E250CC1B1009A46EF /* ARInfoDataViewController.swift */; };
+		6378C831250DFAF4009A46EF /* ARFloatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6378C830250DFAF4009A46EF /* ARFloatingView.swift */; };
+		6378C837250E05C5009A46EF /* WMDragView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6378C836250E05C5009A46EF /* WMDragView.m */; };
+		6378C839250E17AC009A46EF /* ARGiftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6378C838250E17AC009A46EF /* ARGiftViewController.swift */; };
+		6384205D2509019900BEDE39 /* ARVolumeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6384205C2509019900BEDE39 /* ARVolumeViewController.swift */; };
+		638420612509119800BEDE39 /* ARMusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638420602509119800BEDE39 /* ARMusicViewController.swift */; };
+		63B4009A2500FFCC000D52EC /* ARMicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B400992500FFCC000D52EC /* ARMicView.swift */; };
+		63B4009C2500FFE9000D52EC /* ARMicView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63B4009B2500FFE9000D52EC /* ARMicView.xib */; };
+		63B4009E25011F8E000D52EC /* LogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B4009D25011F8E000D52EC /* LogViewController.swift */; };
+		63B400A025011F99000D52EC /* Log.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63B4009F25011F99000D52EC /* Log.storyboard */; };
+		63B400C0250601D3000D52EC /* awkward.wav in Resources */ = {isa = PBXBuildFile; fileRef = 63B400BA250601D2000D52EC /* awkward.wav */; };
+		63B400C1250601D3000D52EC /* guzhang.wav in Resources */ = {isa = PBXBuildFile; fileRef = 63B400BB250601D2000D52EC /* guzhang.wav */; };
+		63B400C2250601D3000D52EC /* qihong.wav in Resources */ = {isa = PBXBuildFile; fileRef = 63B400BC250601D2000D52EC /* qihong.wav */; };
+		63B400C3250601D3000D52EC /* wodema.wav in Resources */ = {isa = PBXBuildFile; fileRef = 63B400BD250601D2000D52EC /* wodema.wav */; };
+		63B400C4250601D3000D52EC /* wuya.wav in Resources */ = {isa = PBXBuildFile; fileRef = 63B400BE250601D3000D52EC /* wuya.wav */; };
+		63B400C5250601D3000D52EC /* chipmunk.wav in Resources */ = {isa = PBXBuildFile; fileRef = 63B400BF250601D3000D52EC /* chipmunk.wav */; };
+		63B400C725065EB0000D52EC /* ARChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B400C625065EB0000D52EC /* ARChatModel.swift */; };
+		78D077A767644B0A6B49CA73 /* Pods_AR_Voice_Tutorial_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 695F3D8F3E96721161D6E642 /* Pods_AR_Voice_Tutorial_iOS.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		634444C024FE88F70038189A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				6312CC012512FB8000A18B86 /* ARtcKit.framework in Embed Frameworks */,
+				6312CC032512FB8100A18B86 /* ARtmKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		39D3B40D528FA83384A0086F /* Pods-AR-Voice-Tutorial-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AR-Voice-Tutorial-iOS.debug.xcconfig"; path = "Target Support Files/Pods-AR-Voice-Tutorial-iOS/Pods-AR-Voice-Tutorial-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		6312CBD9251081EC00A18B86 /* ARMicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARMicViewController.swift; sourceTree = "<group>"; };
+		6312CBE92511E07F00A18B86 /* UIAlertController+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIAlertController+Blocks.h"; path = "../UIAlertController+Blocks.h"; sourceTree = "<group>"; };
+		6312CBEA2511E07F00A18B86 /* UIAlertController+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIAlertController+Blocks.m"; path = "../UIAlertController+Blocks.m"; sourceTree = "<group>"; };
+		6312CBF52512400A00A18B86 /* UILabel+YBAttributeTextTapAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UILabel+YBAttributeTextTapAction.h"; path = "../UILabel+YBAttributeTextTapAction.h"; sourceTree = "<group>"; };
+		6312CBF62512400A00A18B86 /* UILabel+YBAttributeTextTapAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UILabel+YBAttributeTextTapAction.m"; path = "../UILabel+YBAttributeTextTapAction.m"; sourceTree = "<group>"; };
+		6312CBFC2512FB6B00A18B86 /* ARtcKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ARtcKit.framework; sourceTree = "<group>"; };
+		6312CBFE2512FB7600A18B86 /* ARtmKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ARtmKit.framework; sourceTree = "<group>"; };
+		634444C324FF396F0038189A /* ARMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARMainViewController.swift; sourceTree = "<group>"; };
+		634444C524FF45B80038189A /* ARChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARChatViewController.swift; sourceTree = "<group>"; };
+		634444C724FF47E20038189A /* AppID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppID.swift; sourceTree = "<group>"; };
+		634444CA24FF71310038189A /* ARExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARExtension.swift; sourceTree = "<group>"; };
+		634444CC24FF726F0038189A /* ARUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARUserModel.swift; sourceTree = "<group>"; };
+		634444D02500838F0038189A /* ARVoiceRtm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARVoiceRtm.swift; sourceTree = "<group>"; };
+		6357EC9024FE2E41005E0C60 /* 语音开黑.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "语音开黑.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6357EC9324FE2E41005E0C60 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		6357EC9724FE2E41005E0C60 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		6357EC9A24FE2E41005E0C60 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		6357EC9C24FE2E44005E0C60 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6357EC9F24FE2E44005E0C60 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		6357ECA124FE2E44005E0C60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		636537EF2509C1F600B1317F /* ARAnnouncementController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARAnnouncementController.swift; sourceTree = "<group>"; };
+		636537F12509C40200B1317F /* ARFansViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARFansViewController.swift; sourceTree = "<group>"; };
+		6369B4022508C6B20028F2B4 /* ARChatInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARChatInfoViewController.swift; sourceTree = "<group>"; };
+		6369B4042508DD8D0028F2B4 /* ARModifyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARModifyViewController.swift; sourceTree = "<group>"; };
+		636A7D9F250A0709002341D9 /* 无名之辈.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "无名之辈.m4a"; sourceTree = "<group>"; };
+		636A7DA0250A070A002341D9 /* 最美的光.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "最美的光.mp3"; sourceTree = "<group>"; };
+		636A7DA3250A49AE002341D9 /* ARFunctionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARFunctionViewController.swift; sourceTree = "<group>"; };
+		6378C82E250CC1B1009A46EF /* ARInfoDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARInfoDataViewController.swift; sourceTree = "<group>"; };
+		6378C830250DFAF4009A46EF /* ARFloatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARFloatingView.swift; sourceTree = "<group>"; };
+		6378C834250E05C4009A46EF /* AR-Voice-Tutorial-iOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AR-Voice-Tutorial-iOS-Bridging-Header.h"; sourceTree = "<group>"; };
+		6378C835250E05C5009A46EF /* WMDragView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WMDragView.h; path = ../WMDragView.h; sourceTree = "<group>"; };
+		6378C836250E05C5009A46EF /* WMDragView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WMDragView.m; path = ../WMDragView.m; sourceTree = "<group>"; };
+		6378C838250E17AC009A46EF /* ARGiftViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARGiftViewController.swift; sourceTree = "<group>"; };
+		6384205C2509019900BEDE39 /* ARVolumeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARVolumeViewController.swift; sourceTree = "<group>"; };
+		638420602509119800BEDE39 /* ARMusicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARMusicViewController.swift; sourceTree = "<group>"; };
+		63B400992500FFCC000D52EC /* ARMicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARMicView.swift; sourceTree = "<group>"; };
+		63B4009B2500FFE9000D52EC /* ARMicView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ARMicView.xib; sourceTree = "<group>"; };
+		63B4009D25011F8E000D52EC /* LogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogViewController.swift; sourceTree = "<group>"; };
+		63B4009F25011F99000D52EC /* Log.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Log.storyboard; sourceTree = "<group>"; };
+		63B400BA250601D2000D52EC /* awkward.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = awkward.wav; sourceTree = "<group>"; };
+		63B400BB250601D2000D52EC /* guzhang.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = guzhang.wav; sourceTree = "<group>"; };
+		63B400BC250601D2000D52EC /* qihong.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = qihong.wav; sourceTree = "<group>"; };
+		63B400BD250601D2000D52EC /* wodema.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = wodema.wav; sourceTree = "<group>"; };
+		63B400BE250601D3000D52EC /* wuya.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = wuya.wav; sourceTree = "<group>"; };
+		63B400BF250601D3000D52EC /* chipmunk.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = chipmunk.wav; sourceTree = "<group>"; };
+		63B400C625065EB0000D52EC /* ARChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARChatModel.swift; sourceTree = "<group>"; };
+		67080C44A84A78C80A917A65 /* Pods-AR-Voice-Tutorial-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AR-Voice-Tutorial-iOS.release.xcconfig"; path = "Target Support Files/Pods-AR-Voice-Tutorial-iOS/Pods-AR-Voice-Tutorial-iOS.release.xcconfig"; sourceTree = "<group>"; };
+		695F3D8F3E96721161D6E642 /* Pods_AR_Voice_Tutorial_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AR_Voice_Tutorial_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6357EC8D24FE2E41005E0C60 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6312CC022512FB8100A18B86 /* ARtmKit.framework in Frameworks */,
+				6312CC002512FB8000A18B86 /* ARtcKit.framework in Frameworks */,
+				78D077A767644B0A6B49CA73 /* Pods_AR_Voice_Tutorial_iOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6312CC042512FD6D00A18B86 /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+				6378C835250E05C5009A46EF /* WMDragView.h */,
+				6378C836250E05C5009A46EF /* WMDragView.m */,
+				6312CBE92511E07F00A18B86 /* UIAlertController+Blocks.h */,
+				6312CBEA2511E07F00A18B86 /* UIAlertController+Blocks.m */,
+				6312CBF52512400A00A18B86 /* UILabel+YBAttributeTextTapAction.h */,
+				6312CBF62512400A00A18B86 /* UILabel+YBAttributeTextTapAction.m */,
+			);
+			path = Lib;
+			sourceTree = "<group>";
+		};
+		6357EC8724FE2E41005E0C60 = {
+			isa = PBXGroup;
+			children = (
+				6357EC9224FE2E41005E0C60 /* AR-Voice-Tutorial-iOS */,
+				6357EC9124FE2E41005E0C60 /* Products */,
+				FF4DA6FCC756E14177DF2748 /* Pods */,
+				C21A91B1ADD2DA05B2E9E70A /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		6357EC9124FE2E41005E0C60 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6357EC9024FE2E41005E0C60 /* 语音开黑.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6357EC9224FE2E41005E0C60 /* AR-Voice-Tutorial-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				6312CBFE2512FB7600A18B86 /* ARtmKit.framework */,
+				6312CBFC2512FB6B00A18B86 /* ARtcKit.framework */,
+				6357EC9324FE2E41005E0C60 /* AppDelegate.swift */,
+				6357EC9724FE2E41005E0C60 /* ViewController.swift */,
+				634444C324FF396F0038189A /* ARMainViewController.swift */,
+				634444C524FF45B80038189A /* ARChatViewController.swift */,
+				634444C724FF47E20038189A /* AppID.swift */,
+				634444CA24FF71310038189A /* ARExtension.swift */,
+				634444CC24FF726F0038189A /* ARUserModel.swift */,
+				634444D02500838F0038189A /* ARVoiceRtm.swift */,
+				63B4009D25011F8E000D52EC /* LogViewController.swift */,
+				6369B4022508C6B20028F2B4 /* ARChatInfoViewController.swift */,
+				6369B4042508DD8D0028F2B4 /* ARModifyViewController.swift */,
+				6384205C2509019900BEDE39 /* ARVolumeViewController.swift */,
+				638420602509119800BEDE39 /* ARMusicViewController.swift */,
+				636537EF2509C1F600B1317F /* ARAnnouncementController.swift */,
+				636537F12509C40200B1317F /* ARFansViewController.swift */,
+				636A7DA3250A49AE002341D9 /* ARFunctionViewController.swift */,
+				6378C82E250CC1B1009A46EF /* ARInfoDataViewController.swift */,
+				6378C838250E17AC009A46EF /* ARGiftViewController.swift */,
+				6312CBD9251081EC00A18B86 /* ARMicViewController.swift */,
+				6357EC9924FE2E41005E0C60 /* Main.storyboard */,
+				63B4009F25011F99000D52EC /* Log.storyboard */,
+				6357EC9C24FE2E44005E0C60 /* Assets.xcassets */,
+				6357EC9E24FE2E44005E0C60 /* LaunchScreen.storyboard */,
+				63B400B9250601D2000D52EC /* sound */,
+				6357ECA124FE2E44005E0C60 /* Info.plist */,
+				63B400992500FFCC000D52EC /* ARMicView.swift */,
+				63B4009B2500FFE9000D52EC /* ARMicView.xib */,
+				63B400C625065EB0000D52EC /* ARChatModel.swift */,
+				6378C830250DFAF4009A46EF /* ARFloatingView.swift */,
+				6378C834250E05C4009A46EF /* AR-Voice-Tutorial-iOS-Bridging-Header.h */,
+				6312CC042512FD6D00A18B86 /* Lib */,
+			);
+			path = "AR-Voice-Tutorial-iOS";
+			sourceTree = "<group>";
+		};
+		63B400B9250601D2000D52EC /* sound */ = {
+			isa = PBXGroup;
+			children = (
+				636A7D9F250A0709002341D9 /* 无名之辈.m4a */,
+				636A7DA0250A070A002341D9 /* 最美的光.mp3 */,
+				63B400BA250601D2000D52EC /* awkward.wav */,
+				63B400BB250601D2000D52EC /* guzhang.wav */,
+				63B400BC250601D2000D52EC /* qihong.wav */,
+				63B400BD250601D2000D52EC /* wodema.wav */,
+				63B400BE250601D3000D52EC /* wuya.wav */,
+				63B400BF250601D3000D52EC /* chipmunk.wav */,
+			);
+			path = sound;
+			sourceTree = "<group>";
+		};
+		C21A91B1ADD2DA05B2E9E70A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				695F3D8F3E96721161D6E642 /* Pods_AR_Voice_Tutorial_iOS.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FF4DA6FCC756E14177DF2748 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				39D3B40D528FA83384A0086F /* Pods-AR-Voice-Tutorial-iOS.debug.xcconfig */,
+				67080C44A84A78C80A917A65 /* Pods-AR-Voice-Tutorial-iOS.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6357EC8F24FE2E41005E0C60 /* AR-Voice-Tutorial-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6357ECA424FE2E44005E0C60 /* Build configuration list for PBXNativeTarget "AR-Voice-Tutorial-iOS" */;
+			buildPhases = (
+				CC54051D01A9FD8D9BF45A8F /* [CP] Check Pods Manifest.lock */,
+				6357EC8C24FE2E41005E0C60 /* Sources */,
+				6357EC8D24FE2E41005E0C60 /* Frameworks */,
+				6357EC8E24FE2E41005E0C60 /* Resources */,
+				0BFA13BFD7BFAC7F7F1280D6 /* [CP] Embed Pods Frameworks */,
+				634444C024FE88F70038189A /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AR-Voice-Tutorial-iOS";
+			productName = "AR-Voice-Tutorial-iOS";
+			productReference = 6357EC9024FE2E41005E0C60 /* 语音开黑.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6357EC8824FE2E41005E0C60 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1130;
+				LastUpgradeCheck = 1130;
+				ORGANIZATIONNAME = AR;
+				TargetAttributes = {
+					6357EC8F24FE2E41005E0C60 = {
+						CreatedOnToolsVersion = 11.3;
+						LastSwiftMigration = 1130;
+					};
+				};
+			};
+			buildConfigurationList = 6357EC8B24FE2E41005E0C60 /* Build configuration list for PBXProject "AR-Voice-Tutorial-iOS" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 6357EC8724FE2E41005E0C60;
+			productRefGroup = 6357EC9124FE2E41005E0C60 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6357EC8F24FE2E41005E0C60 /* AR-Voice-Tutorial-iOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6357EC8E24FE2E41005E0C60 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63B400C4250601D3000D52EC /* wuya.wav in Resources */,
+				6357ECA024FE2E44005E0C60 /* LaunchScreen.storyboard in Resources */,
+				636A7DA2250A070A002341D9 /* 最美的光.mp3 in Resources */,
+				63B400C1250601D3000D52EC /* guzhang.wav in Resources */,
+				63B4009C2500FFE9000D52EC /* ARMicView.xib in Resources */,
+				636A7DA1250A070A002341D9 /* 无名之辈.m4a in Resources */,
+				6357EC9D24FE2E44005E0C60 /* Assets.xcassets in Resources */,
+				63B400C2250601D3000D52EC /* qihong.wav in Resources */,
+				63B400C3250601D3000D52EC /* wodema.wav in Resources */,
+				6357EC9B24FE2E41005E0C60 /* Main.storyboard in Resources */,
+				63B400C0250601D3000D52EC /* awkward.wav in Resources */,
+				63B400A025011F99000D52EC /* Log.storyboard in Resources */,
+				63B400C5250601D3000D52EC /* chipmunk.wav in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0BFA13BFD7BFAC7F7F1280D6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AR-Voice-Tutorial-iOS/Pods-AR-Voice-Tutorial-iOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AR-Voice-Tutorial-iOS/Pods-AR-Voice-Tutorial-iOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AR-Voice-Tutorial-iOS/Pods-AR-Voice-Tutorial-iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CC54051D01A9FD8D9BF45A8F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AR-Voice-Tutorial-iOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6357EC8C24FE2E41005E0C60 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6312CBEB2511E07F00A18B86 /* UIAlertController+Blocks.m in Sources */,
+				634444CB24FF71310038189A /* ARExtension.swift in Sources */,
+				6384205D2509019900BEDE39 /* ARVolumeViewController.swift in Sources */,
+				638420612509119800BEDE39 /* ARMusicViewController.swift in Sources */,
+				63B4009E25011F8E000D52EC /* LogViewController.swift in Sources */,
+				6378C837250E05C5009A46EF /* WMDragView.m in Sources */,
+				6357EC9824FE2E41005E0C60 /* ViewController.swift in Sources */,
+				6378C831250DFAF4009A46EF /* ARFloatingView.swift in Sources */,
+				6378C839250E17AC009A46EF /* ARGiftViewController.swift in Sources */,
+				63B4009A2500FFCC000D52EC /* ARMicView.swift in Sources */,
+				634444CD24FF726F0038189A /* ARUserModel.swift in Sources */,
+				6369B4032508C6B20028F2B4 /* ARChatInfoViewController.swift in Sources */,
+				6357EC9424FE2E41005E0C60 /* AppDelegate.swift in Sources */,
+				636A7DA4250A49AE002341D9 /* ARFunctionViewController.swift in Sources */,
+				634444C824FF47E20038189A /* AppID.swift in Sources */,
+				634444C424FF396F0038189A /* ARMainViewController.swift in Sources */,
+				63B400C725065EB0000D52EC /* ARChatModel.swift in Sources */,
+				6312CBDA251081EC00A18B86 /* ARMicViewController.swift in Sources */,
+				6312CBF72512400A00A18B86 /* UILabel+YBAttributeTextTapAction.m in Sources */,
+				636537F22509C40200B1317F /* ARFansViewController.swift in Sources */,
+				634444C624FF45B80038189A /* ARChatViewController.swift in Sources */,
+				6369B4052508DD8D0028F2B4 /* ARModifyViewController.swift in Sources */,
+				634444D12500838F0038189A /* ARVoiceRtm.swift in Sources */,
+				636537F02509C1F600B1317F /* ARAnnouncementController.swift in Sources */,
+				6378C82F250CC1B1009A46EF /* ARInfoDataViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		6357EC9924FE2E41005E0C60 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6357EC9A24FE2E41005E0C60 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		6357EC9E24FE2E44005E0C60 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6357EC9F24FE2E44005E0C60 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		6357ECA224FE2E44005E0C60 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		6357ECA324FE2E44005E0C60 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6357ECA524FE2E44005E0C60 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 39D3B40D528FA83384A0086F /* Pods-AR-Voice-Tutorial-iOS.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5543CP4MRT;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/AR-Voice-Tutorial-iOS",
+				);
+				INFOPLIST_FILE = "AR-Voice-Tutorial-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "AR.AR-Voice-Tutorial-iOS";
+				PRODUCT_NAME = "语音开黑";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "AR-Voice-Tutorial-iOS/AR-Voice-Tutorial-iOS-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		6357ECA624FE2E44005E0C60 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 67080C44A84A78C80A917A65 /* Pods-AR-Voice-Tutorial-iOS.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5543CP4MRT;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/AR-Voice-Tutorial-iOS",
+				);
+				INFOPLIST_FILE = "AR-Voice-Tutorial-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "AR.AR-Voice-Tutorial-iOS";
+				PRODUCT_NAME = "语音开黑";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "AR-Voice-Tutorial-iOS/AR-Voice-Tutorial-iOS-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6357EC8B24FE2E41005E0C60 /* Build configuration list for PBXProject "AR-Voice-Tutorial-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6357ECA224FE2E44005E0C60 /* Debug */,
+				6357ECA324FE2E44005E0C60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6357ECA424FE2E44005E0C60 /* Build configuration list for PBXNativeTarget "AR-Voice-Tutorial-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6357ECA524FE2E44005E0C60 /* Debug */,
+				6357ECA624FE2E44005E0C60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6357EC8824FE2E41005E0C60 /* Project object */;
+}

@@ -1,0 +1,30 @@
+PODS:
+  - IQKeyboardManager (6.5.6)
+  - SDWebImage (3.7.6):
+    - SDWebImage/Core (= 3.7.6)
+  - SDWebImage/Core (3.7.6)
+  - SnapKit (4.2.0)
+  - XHToast (1.4.0)
+
+DEPENDENCIES:
+  - IQKeyboardManager
+  - SDWebImage (~> 3.7.3)
+  - SnapKit
+  - XHToast (~> 1.4.0)
+
+SPEC REPOS:
+  trunk:
+    - IQKeyboardManager
+    - SDWebImage
+    - SnapKit
+    - XHToast
+
+SPEC CHECKSUMS:
+  IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
+  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
+  SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
+  XHToast: 3b354766d56d9df8fef8e64387bbd25c90d71a86
+
+PODFILE CHECKSUM: 2b462e0d7f14c5f85ac0b3e42a4bbdeb29817273
+
+COCOAPODS: 1.9.3
