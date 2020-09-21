@@ -1,6 +1,6 @@
 ## 效果
 
-![image](https://github.com/anyRTC-UseCase/ARCall/blob/master/resource/demo.gif)
+![image](https://github.com/anyRTC-UseCase/ARChatRoom/blob/master/demo.gif)
 
 ## 项目概述
 
