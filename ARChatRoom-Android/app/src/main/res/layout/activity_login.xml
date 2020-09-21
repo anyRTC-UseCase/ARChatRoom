@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_36"
+        android:text="anyRTC语聊房"
+        android:textColor="#FF606060"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/sp_18"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/head_portrait"
+        android:layout_width="@dimen/dp_113"
+        android:layout_height="@dimen/dp_113"
+        android:layout_below="@+id/tv_title"
+        android:layout_marginTop="@dimen/dp_43"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/head_portrait"/>
+
+    <TextView
+        android:id="@+id/select_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请选择你的性别"
+        android:textSize="@dimen/sp_12"
+        android:textColor="#FF999999"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/head_portrait"
+        android:layout_marginTop="@dimen/dp_61" />
+
+    <LinearLayout
+        android:id="@+id/ll_select"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_68"
+        android:layout_below="@+id/select_tip"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dp_20">
+
+        <RelativeLayout
+            android:id="@+id/rl_select_man"
+            android:layout_width="@dimen/dp_135"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp_19">
+
+            <ImageView
+                android:layout_width="@dimen/dp_12"
+                android:layout_height="@dimen/dp_12"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/select_man"/>
+
+            <TextView
+                android:id="@+id/select_man"
+                android:layout_width="@dimen/dp_125"
+                android:layout_height="@dimen/dp_33"
+                android:text="我是男生"
+                android:textSize="@dimen/sp_12"
+                android:gravity="center"
+                android:textColor="@color/select_man_color"
+                android:background="@drawable/selector_man"/>
+
+            <ImageView
+                android:id="@+id/select_man_tag"
+                android:layout_width="@dimen/dp_12"
+                android:layout_height="@dimen/dp_12"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_centerVertical="true"
+                android:background="@drawable/select_man_tag"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_select_girl"
+            android:layout_marginTop="@dimen/dp_7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/select_girl"
+                android:layout_width="@dimen/dp_125"
+                android:layout_height="@dimen/dp_33"
+                android:text="我是女生"
+                android:textSize="@dimen/sp_12"
+                android:gravity="center"
+                android:textColor="@color/select_girl_color"
+                android:background="@drawable/selector_girl"/>
+
+            <ImageView
+                android:id="@+id/select_girl_tag"
+                android:layout_width="@dimen/dp_12"
+                android:layout_height="@dimen/dp_12"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_marginTop="@dimen/dp_11"
+                android:background="@drawable/select_girl_tag"/>
+
+            <ImageView
+                android:layout_width="@dimen/dp_12"
+                android:layout_height="@dimen/dp_12"
+                android:layout_marginLeft="@dimen/dp_125"
+                android:layout_below="@+id/select_girl"
+                android:src="@drawable/select_girl"
+                android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/et_input_name"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_43"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:hint="请输入您的昵称"
+        android:gravity="center"
+        android:cursorVisible="false"
+        android:layout_below="@+id/ll_select"
+        android:layout_marginTop="@dimen/dp_47"
+        android:background="@drawable/shape_input_bg" />
+
+    <Button
+        android:id="@+id/login_confirm"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_height="@dimen/dp_44"
+        android:text="进入"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/white"
+        android:layout_below="@+id/et_input_name"
+        android:layout_marginTop="@dimen/dp_34"
+        android:background="@drawable/shape_login_bg"/>
+
+    <ImageView
+        android:id="@+id/login_bg"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_64"
+        android:src="@drawable/login_bg"/>
+
+</RelativeLayout>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_anchor_function"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_43"
+    android:layout_marginBottom="@dimen/dp_14"
+    android:layout_alignParentBottom="true">
+        <TextView
+            android:id="@+id/anchor_input"
+            android:layout_width="@dimen/dp_137"
+            android:layout_height="@dimen/dp_43"
+            android:hint="聊点什么吧"
+            android:paddingLeft="@dimen/dp_14"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/sp_14"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:background="@drawable/shape_tourist_chat_input_bg"/>
+
+        <ImageView
+            android:id="@+id/anchor_join_mic"
+            android:layout_width="@dimen/dp_43"
+            android:layout_height="@dimen/dp_43"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_toRightOf="@+id/anchor_input"
+            android:gravity="center"
+            android:background="@drawable/selector_mic"/>
+
+        <TextView
+            android:id="@+id/anchor_join_mic_count"
+            android:layout_width="@dimen/dp_43"
+            android:layout_height="@dimen/dp_43"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_toRightOf="@+id/anchor_join_mic"
+            android:visibility="gone"
+            android:gravity="center"
+            android:text="0"
+            android:textSize="@dimen/sp_20"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_circle_transparency_bg"/>
+
+        <ImageView
+            android:id="@+id/anchor_fun_more"
+            android:layout_width="@dimen/dp_43"
+            android:layout_height="@dimen/dp_43"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_toLeftOf="@+id/anchor_present"
+            android:layout_marginRight="@dimen/dp_11"
+            android:gravity="center"
+            android:background="@drawable/fun_more"/>
+
+        <ImageView
+            android:id="@+id/anchor_present"
+            android:layout_width="@dimen/dp_43"
+            android:layout_height="@dimen/dp_43"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_14"
+            android:src="@drawable/present_icon"/>
+</RelativeLayout>

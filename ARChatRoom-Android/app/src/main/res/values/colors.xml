@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+
+    <color name="select_man_color">#FF4086FB</color>
+    <color name="select_girl_color">#FFFA92A3</color>
+    <color name="login_confirm_color">#FF40A3FB</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="light_white">#FFFAFAFA</color>
+    <color name="edit_color">#FFDDDDDD</color>
+    <color name="text_color">#FF606060</color>
+    <color name="text_announcement_color">#FF333333</color>
+
+    <color name="chat_start_color">#FF263160</color>
+    <color name="chat_center_color">#FF111F2B</color>
+    <color name="chat_end_color">#FF11202C</color>
+
+    <color name="chat_interaction_color">#4D000000</color>
+    <color name="source_green">#FF6FC644</color>
+    <color name="source_light_green">#FF82E200</color>
+    <color name="source_yellow">#FFF0D500</color>
+    <color name="source_orange">#FFF16700</color>
+    <color name="source_red">#FFFF082C</color>
+
+    <color name="seat_border">#09BDF4</color>
+
+    <color name="function_color">#FF08090A</color>
+    <color name="room_color">#FFF5F5F5</color>
+    <color name="gray_line">#FFE9E9E9</color>
+    <color name="view_color_line">#FF40A3FB</color>
+    <color name="pwd_color">#FFF7F7F7</color>
+    <color name="seek_progress_unfocus_color">#FFB4B4B4</color>
+    <color name="seek_progress_focus_color">#FF44A5FB</color>
+
+    <color name="effect_hhh_color">#FFCE5850</color>
+    <color name="effect_qihong_color">#FFF29025</color>
+    <color name="effect_guzhang_color">#FF8252F6</color>
+    <color name="effect_ganga_color">#FF6AB71C</color>
+    <color name="effect_wuya_color">#FF03A3C3</color>
+    <color name="effect_mymom_color">#FF0A6BBE</color>
+
+    <color name="msg_text_system">#FFEC99</color>
+    <color name="msg_text_normal_id">#7CE3FF</color>
+    <color name="msg_text_normal_msg">#FFFFFF</color>
+    <color name="msg_text_member_change">#FF971C</color>
+    <color name="msg_text_gift">#FC4070</color>
+    <color name="msg_text_give_gift">#1DC158</color>
+</resources>

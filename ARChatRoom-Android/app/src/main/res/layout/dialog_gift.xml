@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:id="@+id/ll_to_all"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_height="@dimen/dp_319"
+        android:background="#161824">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_15"
+            android:textColor="@color/white"
+            android:layout_marginTop="@dimen/dp_21"
+            android:layout_gravity="center_horizontal"
+            android:text="礼物">
+        </TextView>
+        
+        <org.ar.audioganme.weight.XRadioGroup
+            android:id="@+id/rg_group"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dp_10"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+                <RadioButton
+                    android:id="@+id/rb_a"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="棒棒糖"
+                    android:button="@null"
+                    android:background="@drawable/selector_gift"
+                    android:gravity="center"
+                    android:textSize="@dimen/sp_12"
+                    android:textColor="#606060"
+                    android:drawableTop="@drawable/gift_a">
+                </RadioButton>
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="星星"
+                    android:id="@+id/rb_b"
+                    android:button="@null"
+                    android:background="@drawable/selector_gift"
+                      
+                    android:gravity="center"
+                    android:textSize="@dimen/sp_12"
+                    android:textColor="#606060"
+                    android:drawableTop="@drawable/gift_b">
+                </RadioButton>
+                <RadioButton
+                    android:id="@+id/rb_c"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="魔术帽"
+                    android:button="@null"
+                    android:background="@drawable/selector_gift"
+                      
+                    android:gravity="center"
+                    android:textSize="@dimen/sp_12"
+                    android:textColor="#606060"
+                    android:drawableTop="@drawable/gift_c">
+                </RadioButton>
+                <RadioButton
+                    android:id="@+id/rb_d"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="独角兽"
+                    android:button="@null"
+                    android:background="@drawable/selector_gift"
+                      
+                    android:gravity="center"
+                    android:textSize="@dimen/sp_12"
+                    android:textColor="#606060"
+                    android:drawableTop="@drawable/gift_d">
+                </RadioButton>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+                <RadioButton
+                    android:id="@+id/rb_e"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="王冠"
+                    android:button="@null"
+                    android:background="@drawable/selector_gift"
+                     
+                    android:gravity="center"
+                    android:textSize="@dimen/sp_12"
+                    android:textColor="#606060"
+                    android:drawableTop="@drawable/gift_e">
+                </RadioButton>
+                <RadioButton
+                    android:id="@+id/rb_f"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="宝箱"
+                    android:button="@null"
+                    android:background="@drawable/selector_gift"
+                      
+                    android:gravity="center"
+                    android:textSize="@dimen/sp_12"
+                    android:textColor="#606060"
+                    android:drawableTop="@drawable/gift_f">
+                </RadioButton>
+                <RadioButton
+                    android:id="@+id/rb_g"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="跑车"
+                    android:button="@null"
+                    android:background="@drawable/selector_gift"
+                      
+                    android:gravity="center"
+                    android:textSize="@dimen/sp_12"
+                    android:textColor="#606060"
+                    android:drawableTop="@drawable/gift_g">
+                </RadioButton>
+                <RadioButton
+                    android:id="@+id/rb_h"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:text="火箭"
+                    android:button="@null"
+                    android:background="@drawable/selector_gift"
+                      
+                    android:gravity="center"
+                    android:textSize="@dimen/sp_12"
+                    android:textColor="#606060"
+                    android:drawableTop="@drawable/gift_h">
+                </RadioButton>
+            </LinearLayout>
+        </org.ar.audioganme.weight.XRadioGroup>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="#2D3038">
+        </View>
+
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="@dimen/dp_92"
+            android:layout_height="@dimen/dp_30"
+            android:textColor="@color/white"
+            android:text="赠送"
+            android:layout_marginTop="@dimen/dp_18"
+            android:textSize="@dimen/sp_15"
+            android:layout_marginBottom="@dimen/dp_18"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/shape_send_gift">
+        </Button>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

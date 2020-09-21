@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="random_avatar_images_man">
+        <item>@drawable/man_head1</item>
+        <item>@drawable/man_head2</item>
+        <item>@drawable/man_head3</item>
+        <item>@drawable/man_head4</item>
+        <item>@drawable/man_head5</item>
+        <item>@drawable/man_head6</item>
+        <item>@drawable/man_head7</item>
+        <item>@drawable/man_head8</item>
+        <item>@drawable/man_head9</item>
+        <item>@drawable/man_head10</item>
+    </array>
+
+    <array name="random_avatar_images_woman">
+        <item>@drawable/woman_head1</item>
+        <item>@drawable/woman_head2</item>
+        <item>@drawable/woman_head3</item>
+        <item>@drawable/woman_head4</item>
+        <item>@drawable/woman_head5</item>
+        <item>@drawable/woman_head6</item>
+        <item>@drawable/woman_head7</item>
+        <item>@drawable/woman_head8</item>
+        <item>@drawable/woman_head9</item>
+        <item>@drawable/woman_head10</item>
+    </array>
+</resources>

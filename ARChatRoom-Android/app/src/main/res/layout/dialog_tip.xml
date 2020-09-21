@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="@dimen/dp_270"
+        android:layout_height="@dimen/dp_117"
+        android:layout_centerInParent="true"
+        android:background="@drawable/shape_white_bg">
+
+        <TextView
+            android:id="@+id/tip_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/sp_15"
+            android:layout_marginTop="@dimen/dp_29"
+            android:textColor="@color/text_announcement_color"
+            android:text="是否申请上麦"/>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_1"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/dp_51"
+            android:background="@color/gray_line"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_51"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tip_cancel"
+                android:layout_width="@dimen/dp_135"
+                android:layout_height="match_parent"
+                android:textColor="#FF666666"
+                android:textSize="@dimen/sp_17"
+                android:gravity="center"
+                android:text="取消"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:background="@color/gray_line"/>
+
+            <TextView
+                android:id="@+id/tip_confirm"
+                android:layout_width="@dimen/dp_134"
+                android:layout_height="match_parent"
+                android:textColor="@color/view_color_line"
+                android:textSize="@dimen/sp_17"
+                android:gravity="center"
+                android:text="确定"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

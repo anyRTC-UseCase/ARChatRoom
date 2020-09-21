@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_function_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/dp_15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="更多"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_15"
+            android:layout_gravity="center"/>
+
+        <ImageView
+            android:id="@+id/function_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/dp_10"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_20"
+            android:src="@drawable/white_close"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/room_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="房间信息"
+                android:padding="@dimen/dp_5"
+                android:textSize="@dimen/sp_12"
+                android:textColor="@color/white"
+                android:drawableTop="@drawable/room_info"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/free_mic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="自由上麦"
+                android:padding="@dimen/dp_5"
+                android:textSize="@dimen/sp_12"
+                android:textColor="@color/white"
+                android:drawableTop="@drawable/selector_free_mic"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/setting_paw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="设置密码"
+                android:padding="@dimen/dp_5"
+                android:textSize="@dimen/sp_12"
+                android:textColor="@color/white"
+                android:drawableTop="@drawable/setting_paw"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/dp_25"
+        android:layout_marginBottom="@dimen/dp_14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/volume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="音量"
+                android:padding="@dimen/dp_5"
+                android:textSize="@dimen/sp_12"
+                android:textColor="@color/white"
+                android:drawableTop="@drawable/volume"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/record"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="录音"
+                android:padding="@dimen/dp_5"
+                android:textSize="@dimen/sp_12"
+                android:textColor="@color/white"
+                android:drawableTop="@drawable/record"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/sound_effect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="音效"
+                android:padding="@dimen/dp_5"
+                android:textSize="@dimen/sp_12"
+                android:textColor="@color/white"
+                android:drawableTop="@drawable/selector_sound_effect"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

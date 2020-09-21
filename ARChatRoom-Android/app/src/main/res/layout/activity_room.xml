@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_height="@dimen/dp_44">
+
+        <ImageView
+            android:id="@+id/room_back"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_20"
+            android:layout_centerVertical="true"
+            android:src="@drawable/back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="anyRTC语聊房"
+            android:layout_gravity="center"
+            android:textSize="@dimen/sp_18"
+            android:textColor="@color/text_color"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:id="@+id/my_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的房间"
+            android:layout_gravity="center"
+            android:textSize="@dimen/sp_12"
+            android:padding="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_20"
+            android:textColor="@color/text_color"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+
+    <EditText
+        android:id="@+id/et_room_id"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_43"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:hint="请输入房间ID"
+        android:paddingLeft="18dp"
+        android:layout_below="@+id/rl_title"
+        android:cursorVisible="false"
+        android:layout_marginTop="@dimen/dp_58"
+        android:background="@drawable/shape_input_bg" />
+
+    <Button
+        android:id="@+id/go_room_confirm"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_height="@dimen/dp_44"
+        android:text="进入"
+        android:layout_below="@+id/et_room_id"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/dp_34"
+        android:background="@drawable/shape_login_bg"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="V4.0.2"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dp_47"
+        android:textSize="@dimen/sp_10"
+        android:gravity="center"/>
+
+</RelativeLayout>

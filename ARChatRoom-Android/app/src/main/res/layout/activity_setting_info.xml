@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/room_color"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/dp_35"
+        android:layout_height="@dimen/dp_44"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/room_setting_info_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_7"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:src="@drawable/back"/>
+
+        <TextView
+            android:id="@+id/info_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/room_setting_info_back"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/sp_17"
+            android:layout_marginLeft="@dimen/dp_18"
+            android:textColor="@color/text_color"
+            android:text="公告"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_setting_announcement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/edit_announcement"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/dp_18"
+            android:layout_marginRight="@dimen/dp_18"
+            android:hint="请输入公告内容"
+            android:background="@null"
+            android:layout_height="wrap_content"/>
+
+        <View
+            android:id="@+id/announcement_view_line"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/edit_announcement"
+            android:layout_marginLeft="@dimen/dp_18"
+            android:layout_marginRight="@dimen/dp_18"
+            android:background="@color/view_color_line"/>
+
+        <TextView
+            android:id="@+id/announcement_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="192"
+            android:layout_marginTop="@dimen/sp_12"
+            android:layout_below="@+id/announcement_view_line"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_18"
+            android:textColor="#FF333333"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/rl_setting_welcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/edit_welcome"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/dp_18"
+            android:layout_marginRight="@dimen/dp_18"
+            android:hint="请设置欢迎语"
+            android:background="@null"
+            android:layout_height="wrap_content"/>
+
+        <View
+            android:id="@+id/welcome_view_line"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_below="@+id/edit_welcome"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="@dimen/dp_18"
+            android:layout_marginRight="@dimen/dp_18"
+            android:background="@color/view_color_line"/>
+
+        <TextView
+            android:id="@+id/welcome_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="16"
+            android:layout_marginTop="@dimen/sp_12"
+            android:layout_below="@+id/welcome_view_line"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_18"
+            android:textColor="#FF333333"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/rl_setting_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/edit_name"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/dp_18"
+            android:layout_marginRight="@dimen/dp_18"
+            android:hint="请设置房间名称"
+            android:background="@null"
+            android:layout_height="wrap_content"/>
+
+        <View
+            android:id="@+id/name_view_line"
+            android:layout_marginTop="@dimen/dp_30"
+            android:layout_below="@+id/edit_name"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="@dimen/dp_18"
+            android:layout_marginRight="@dimen/dp_18"
+            android:background="@color/view_color_line"/>
+
+        <TextView
+            android:id="@+id/name_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4~32"
+            android:layout_marginTop="@dimen/sp_12"
+            android:layout_below="@+id/name_view_line"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_18"
+            android:textColor="#FF333333"/>
+
+    </RelativeLayout>
+</LinearLayout>

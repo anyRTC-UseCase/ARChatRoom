@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">AudioGanme</string>
+    <string-array name="tourist_name">
+        <item>1号麦位</item>
+        <item>2号麦位</item>
+        <item>3号麦位</item>
+        <item>4号麦位</item>
+        <item>5号麦位</item>
+        <item>6号麦位</item>
+        <item>7号麦位</item>
+        <item>8号麦位</item>
+    </string-array>
+
+    <string-array name="avatar_woman">
+        <item>https://teameeting.oss-cn-shanghai.aliyuncs.com/play/woman/head1.jpeg</item>
+        <item>https://teameeting.oss-cn-shanghai.aliyuncs.com/play/woman/head2.jpeg</item>
+        <item>https://teameeting.oss-cn-shanghai.aliyuncs.com/play/woman/head3.jpeg</item>
+        <item>https://teameeting.oss-cn-shanghai.aliyuncs.com/play/woman/head4.jpeg</item>
+        <item>https://teameeting.oss-cn-shanghai.aliyuncs.com/play/woman/head5.jpeg</item>
+        <item>https://teameeting.oss-cn-shanghai.aliyuncs.com/play/woman/head6.jpeg</item>
+        <item>https://teameeting.oss-cn-shanghai.aliyuncs.com/play/woman/head7.jpeg</item>
+        <item>https://teameeting.oss-cn-shanghai.aliyuncs.com/play/woman/head8.jpeg</item>
+        <item>https://teameeting.oss-cn-shanghai.aliyuncs.com/play/woman/head9.jpeg</item>
+        <item>https://teameeting.oss-cn-shanghai.aliyuncs.com/play/woman/head10.jpeg</item>
+    </string-array>
+
+    <string-array name="avatar_man">
+        <item>http://teameeting.oss-cn-shanghai.aliyuncs.com/play/man/head1.jpeg</item>
+        <item>http://teameeting.oss-cn-shanghai.aliyuncs.com/play/man/head2.jpeg</item>
+        <item>http://teameeting.oss-cn-shanghai.aliyuncs.com/play/man/head3.jpeg</item>
+        <item>http://teameeting.oss-cn-shanghai.aliyuncs.com/play/man/head4.jpeg</item>
+        <item>http://teameeting.oss-cn-shanghai.aliyuncs.com/play/man/head5.jpeg</item>
+        <item>http://teameeting.oss-cn-shanghai.aliyuncs.com/play/man/head6.jpeg</item>
+        <item>http://teameeting.oss-cn-shanghai.aliyuncs.com/play/man/head7.jpeg</item>
+        <item>http://teameeting.oss-cn-shanghai.aliyuncs.com/play/man/head8.jpeg</item>
+        <item>http://teameeting.oss-cn-shanghai.aliyuncs.com/play/man/head9.jpeg</item>
+        <item>http://teameeting.oss-cn-shanghai.aliyuncs.com/play/man/head10.jpeg</item>
+    </string-array>
+</resources>

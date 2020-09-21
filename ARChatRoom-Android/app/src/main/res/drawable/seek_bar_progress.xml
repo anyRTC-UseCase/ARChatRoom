@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@android:id/background"
+        android:drawable="@color/seek_progress_unfocus_color"/>
+    <item android:id="@android:id/progress">
+        <clip android:drawable="@color/seek_progress_focus_color" />
+    </item>
+
+</layer-list>
+

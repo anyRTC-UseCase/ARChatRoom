@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/room_color"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/dp_35"
+        android:layout_height="@dimen/dp_44"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/music_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/dp_7"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:src="@drawable/back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/music_back"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/sp_17"
+            android:layout_marginLeft="@dimen/dp_18"
+            android:textColor="@color/text_color"
+            android:text="音乐列表"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/music_wuming"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="无名之辈"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/sp_15"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_15"/>
+
+        <ImageView
+            android:id="@+id/music_wuming_undulate"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/anim_list"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/music_wuming"/>
+
+        <ImageView
+            android:id="@+id/music_wuming_stop"
+            android:visibility="gone"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/music_wuming_play"
+            android:layout_marginRight="@dimen/dp_27"
+            android:background="@drawable/stop">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/music_wuming_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:src="@drawable/play">
+        </ImageView>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/gray_line"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/music_name_zuimei"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="最美的光"
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/sp_15"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_15"/>
+
+        <ImageView
+            android:id="@+id/music_zuimei_undulate"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/anim_list"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/music_name_zuimei"/>
+
+        <ImageView
+            android:id="@+id/music_zuimei_stop"
+            android:visibility="gone"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/music_zuimei_play"
+            android:layout_marginRight="@dimen/dp_27"
+            android:background="@drawable/stop">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/music_zuimei_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:src="@drawable/play">
+        </ImageView>
+
+    </RelativeLayout>
+
+</LinearLayout>

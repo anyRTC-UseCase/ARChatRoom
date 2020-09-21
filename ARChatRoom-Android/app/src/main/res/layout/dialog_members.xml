@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="@dimen/dp_270"
+    android:background="@color/white"
+    android:layout_centerInParent="true"
+    android:layout_height="@dimen/dp_360">
+
+
+    <TextView
+        android:textSize="@dimen/sp_17"
+        android:text="在线用户"
+        android:gravity="center"
+        android:textColor="#333333"
+        android:layout_marginTop="@dimen/dp_33"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></TextView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_weight="1">
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray_line"
+        android:layout_height="1dp"/>
+
+    <TextView
+        android:id="@+id/btn_ok"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:textColor="#40A3FB"
+        android:text="确定"
+        android:textSize="@dimen/sp_17"
+        android:gravity="center">
+
+    </TextView>
+
+
+</LinearLayout>
+</RelativeLayout>

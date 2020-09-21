@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll_information"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_200"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/show_avatar">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/informant_avatar"
+            android:layout_width="@dimen/dp_64"
+            android:layout_height="@dimen/dp_64"
+            android:layout_marginTop="@dimen/dp_10"
+            android:src="@drawable/head_portrait"
+            android:layout_gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/informant_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_12"
+                android:text="Nico"/>
+
+            <ImageView
+                android:id="@+id/informant_gender"
+                android:layout_width="@dimen/dp_13"
+                android:layout_height="@dimen/dp_13"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/dp_4"
+                android:src="@drawable/man"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/information_down_mic"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_25"
+            android:layout_marginRight="@dimen/dp_25"
+            android:text="下麦"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_informant_tag_bg"/>
+
+        <Button
+            android:id="@+id/information_prohibit_mic"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_25"
+            android:layout_marginRight="@dimen/dp_25"
+            android:text="禁麦"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_informant_tag_bg"/>
+
+        <Button
+            android:id="@+id/information_prohibit_chat"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_25"
+            android:layout_marginRight="@dimen/dp_25"
+            android:text="禁言"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_informant_tag_bg"/>
+
+
+        <Button
+            android:id="@+id/information_go_out"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_25"
+            android:layout_marginRight="@dimen/dp_25"
+            android:text="请出"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_informant_tag_bg"/>
+
+        <Button
+            android:id="@+id/information_care_of"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_25"
+            android:layout_marginRight="@dimen/dp_25"
+            android:text="转交主持"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_informant_tag_bg"/>
+        <Button
+            android:id="@+id/information_give_gift"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_25"
+            android:layout_marginRight="@dimen/dp_25"
+            android:text="送礼"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_informant_tag_bg"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

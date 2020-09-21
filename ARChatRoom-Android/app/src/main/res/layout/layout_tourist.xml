@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:visibility="gone"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_tourist_function"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_43"
+    android:layout_marginBottom="@dimen/dp_14"
+    android:layout_alignParentBottom="true">
+
+    <TextView
+        android:id="@+id/tv_input"
+        android:layout_width="@dimen/dp_224"
+        android:layout_height="@dimen/dp_43"
+        android:hint="聊点什么吧"
+        android:textSize="@dimen/sp_14"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp_14"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:layout_marginLeft="@dimen/dp_13"
+        android:background="@drawable/shape_tourist_chat_input_bg"/>
+
+
+    <TextView
+        android:id="@+id/tourist_join_mic"
+        android:layout_width="@dimen/dp_43"
+        android:layout_height="@dimen/dp_43"
+        android:layout_marginLeft="@dimen/dp_14"
+        android:layout_toRightOf="@+id/tv_input"
+        android:text="上麦"
+        android:textSize="@dimen/sp_14"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:background="@drawable/shape_join_mic_bg"/>
+
+    <ImageView
+        android:id="@+id/tourist_present"
+        android:layout_width="@dimen/dp_43"
+        android:layout_height="@dimen/dp_43"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_14"
+        android:src="@drawable/present_icon"/>
+
+</RelativeLayout>

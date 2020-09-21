@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dp_270"
+    android:layout_height="@dimen/dp_360"
+    android:background="@color/white"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/room_ann"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="房间公告"
+        android:layout_marginTop="@dimen/dp_33"
+        android:textSize="@dimen/sp_17"
+        android:gravity="center"
+        android:textColor="@color/text_announcement_color" />
+
+    <ScrollView
+        android:visibility="gone"
+        android:id="@+id/sv_announcement"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_230"
+        android:layout_below="@+id/room_ann"
+        android:layout_marginTop="@dimen/dp_24"
+        android:layout_marginRight="@dimen/dp_22"
+        android:layout_marginLeft="@dimen/dp_20">
+
+        <TextView
+            android:id="@+id/tv_show_announcement"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp_14"
+            android:text="1111 我的"
+            android:textColor="@color/text_announcement_color"/>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/ll_none_ann"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="@dimen/dp_103"
+            android:layout_height="@dimen/dp_111"
+            android:src="@drawable/none_ann"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="暂无公告"
+            android:textSize="@dimen/sp_14"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/ann_confirm"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:background="@color/gray_line"/>
+
+    <TextView
+        android:id="@+id/ann_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_17"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_alignParentBottom="true"
+        android:text="知道了"
+        android:gravity="center"
+        android:textColor="@color/login_confirm_color"/>
+
+</RelativeLayout>

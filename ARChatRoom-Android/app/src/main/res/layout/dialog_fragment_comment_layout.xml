@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/dp_53"
+              android:layout_gravity="bottom"
+              android:background="#F7F7F7">
+
+    <EditText
+        android:id="@+id/edit_comment"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_38"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:hint="聊点什么吧..."
+        android:layout_toLeftOf="@+id/btn_send"
+        android:paddingLeft="@dimen/dp_8"
+        android:paddingRight="@dimen/dp_8"
+        android:layout_margin="@dimen/dp_10"
+        android:textColorHint="#AAAAAA"
+        android:textSize="@dimen/sp_14"/>
+
+
+    <Button
+        android:id="@+id/btn_send"
+        android:layout_width="@dimen/dp_63"
+        android:text="确定"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_height="@dimen/dp_38"
+        android:tintMode="multiply"/>
+</RelativeLayout>

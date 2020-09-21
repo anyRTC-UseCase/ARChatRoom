@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_title"
+    android:layout_width="match_parent"
+    android:layout_marginTop="@dimen/dp_11"
+    android:layout_height="@dimen/dp_36">
+
+        <ImageView
+            android:id="@+id/chat_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/back_white"/>
+
+        <RelativeLayout
+            android:layout_width="@dimen/dp_180"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/dp_40"
+            android:background="@drawable/shape_chat_interaction_bg">
+
+            <TextView
+                android:id="@+id/chat_name"
+                android:layout_width="@dimen/dp_100"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_9"
+                android:text="一起来聊天啊"
+                android:singleLine="true"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:textSize="@dimen/sp_12"
+                android:textColor="@color/white"/>
+
+            <ImageView
+                android:id="@+id/pwd_room_lock"
+                android:visibility="gone"
+                android:layout_width="@dimen/dp_8"
+                android:layout_height="@dimen/dp_9"
+                android:layout_toRightOf="@id/chat_name"
+                android:layout_marginTop="@dimen/dp_3"
+                android:src="@drawable/mic_lock"/>
+
+            <LinearLayout
+                android:id="@+id/ll_source"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_9"
+                android:layout_marginTop="@dimen/dp_3"
+                android:layout_below="@+id/chat_name"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/chat_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ID:000000"
+                    android:textSize="@dimen/sp_10"
+                    android:textColor="@color/white"/>
+
+                <ImageView
+                    android:id="@+id/chat_source_img"
+                    android:layout_width="@dimen/dp_10"
+                    android:layout_height="@dimen/dp_10"
+                    android:layout_marginLeft="@dimen/dp_22"
+                    android:layout_gravity="center"
+                    android:background="@drawable/source_green" />
+
+                <TextView
+                    android:id="@+id/chat_source_val"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp_10"
+                    android:textColor="@color/source_green"
+                    android:text="10ms"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/chat_interaction"
+                android:layout_width="@dimen/dp_49"
+                android:layout_height="@dimen/dp_26"
+                android:text="互动"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/dp_5"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_12"
+                android:background="@drawable/shape_chat_interaction_btn_bg"/>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/chat_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_20"
+            android:background="@drawable/exit"/>
+
+    </RelativeLayout>
+

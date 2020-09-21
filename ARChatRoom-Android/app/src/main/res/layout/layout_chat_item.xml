@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dp_64"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/rl_tourist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <org.ar.audioganme.weight.SpreadView
+            android:id="@+id/tourist_anim"
+            android:layout_width="@dimen/dp_65"
+            android:layout_height="@dimen/dp_65"
+            android:layout_centerInParent="true" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/tourist_head"
+            android:layout_width="@dimen/dp_64"
+            android:layout_height="@dimen/dp_64"
+            android:background="@drawable/shape_circle_bg"
+            android:layout_centerInParent="true"/>
+
+        <ImageView
+            android:id="@+id/tourist_join"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/join_mic"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/tourist_mute"
+            android:layout_width="@dimen/dp_14"
+            android:layout_height="@dimen/dp_14"
+            android:layout_alignEnd="@id/tourist_head"
+            android:layout_alignBottom="@id/tourist_head"
+            android:src="@drawable/mic_close_samall" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tourist_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_tourist"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dp_4"
+        android:textSize="@dimen/sp_12"
+        android:textColor="@color/white"
+        android:text="1号麦位"/>
+
+</RelativeLayout>

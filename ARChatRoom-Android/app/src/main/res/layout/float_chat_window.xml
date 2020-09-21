@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_113">
+
+    <RelativeLayout
+        android:layout_width="@dimen/dp_195"
+        android:layout_height="@dimen/dp_62"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/shape_float_window_bg">
+
+        <RelativeLayout
+            android:layout_width="@dimen/dp_183"
+            android:layout_height="@dimen/dp_50"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_6"
+            android:background="@drawable/float_window_avatar_bg">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/float_window_avatar"
+                android:layout_width="@dimen/dp_47"
+                android:layout_height="@dimen/dp_47"
+                android:layout_marginLeft="@dimen/dp_2"
+                android:layout_centerVertical="true"
+                android:src="@drawable/woman_head7"/>
+
+            <TextView
+                android:id="@+id/float_window_room_name"
+                android:layout_width="@dimen/dp_77"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_10"
+                android:textColor="@color/text_color"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/float_window_avatar"
+                android:layout_marginLeft="@dimen/dp_6"
+                android:text="我们一起来聊天"/>
+
+            <ImageView
+                android:id="@+id/float_window_exit"
+                android:layout_width="@dimen/sp_20"
+                android:layout_height="@dimen/sp_20"
+                android:src="@drawable/exit_float"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/sp_15"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

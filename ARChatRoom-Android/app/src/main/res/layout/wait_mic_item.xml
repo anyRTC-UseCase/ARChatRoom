@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_30"
+    android:background="@color/function_color">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/wait_mic_avatar"
+        android:layout_width="@dimen/dp_26"
+        android:layout_height="@dimen/dp_26"
+        android:layout_marginLeft="@dimen/dp_25"
+        android:layout_centerVertical="true"
+        android:src="@drawable/head_portrait"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/wait_mic_avatar"
+        android:layout_marginLeft="@dimen/dp_4"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/wait_mic_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sky"
+            android:textSize="@dimen/sp_12"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:id="@+id/wait_mic_apply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="申请1号麦"
+            android:textSize="@dimen/sp_10"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/wait_mic_agree"
+        android:layout_width="@dimen/dp_49"
+        android:layout_height="@dimen/dp_26"
+        android:layout_centerVertical="true"
+        android:text="同意"
+        android:layout_toLeftOf="@+id/wait_mic_refuse"
+        android:layout_marginRight="@dimen/dp_4"
+        android:textColor="@color/white"
+        android:background="@drawable/shape_login_bg"/>
+
+    <Button
+        android:id="@+id/wait_mic_refuse"
+        android:layout_width="@dimen/dp_49"
+        android:layout_height="@dimen/dp_26"
+        android:layout_centerVertical="true"
+        android:text="拒绝"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_25"
+        android:textColor="@color/text_color"
+        android:background="@drawable/shape_wait_mic_refuse"/>
+
+</RelativeLayout>
