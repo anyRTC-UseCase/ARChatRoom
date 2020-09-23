@@ -29,7 +29,7 @@ public class WaitMicAdapter extends BaseQuickAdapter<WaitMicBean,BaseViewHolder>
         TextView waitApply = helper.getView(R.id.wait_mic_apply);
         helper.addOnClickListener(R.id.wait_mic_agree);
         helper.addOnClickListener(R.id.wait_mic_refuse);
-        AlertUtil.setAvatar(mContext,item.waitAvatar,waitAvatar);
+        AlertUtil.showAvatar(item.waitAvatar,waitAvatar);
         waitName.setText(item.waitName);
         waitApply.setText("申请"+String.valueOf(item.waitApplyPos)+"号麦");
 

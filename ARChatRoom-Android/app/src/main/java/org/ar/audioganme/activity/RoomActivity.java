@@ -137,46 +137,37 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onHasAttribute(String userId) {
+    public void onHasAttribute(String userId,boolean isHas) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (userId.equals(mUserId)){
-                    intentChat(true);
-                }else {
-                    if (manager.getChannelData().isLock()){
-                        Toast.makeText(RoomActivity.this, "密码房,请输入密码", Toast.LENGTH_SHORT).show();
-                        pwdDialog =new PwdDialog(RoomActivity.this,manager,false,callBack);
-                        pwdDialog.show();
+                if (isHas){
+                    if (userId.equals(mUserId)){
+                        intentChat(true);
                     }else {
-                        intentChat(false);
+                        if (manager.getChannelData().isLock()){
+                            Toast.makeText(RoomActivity.this, "密码房,请输入密码", Toast.LENGTH_SHORT).show();
+                            pwdDialog =new PwdDialog(RoomActivity.this,manager,false,callBack);
+                            pwdDialog.show();
+                        }else {
+                            intentChat(false);
+                        }
+                    }
+                }else {
+                    if (isRoom || mUserId.equals(mChannelId)){
+                        //设置主播：host，头像索引，名字，性别，和房间名称
+                        Member member = MemberUtil.getMember();
+                        List<RtmChannelAttribute> rtmChannelAttributes =new ArrayList<>();
+                        rtmChannelAttributes.add(new RtmChannelAttribute(AttributeKey.KEY_HOST,member.getUserId()));
+                        rtmChannelAttributes.add(new RtmChannelAttribute(AttributeKey.KEY_ROOM_NAME,"一起聊天吧"));
+                        manager.getRtmManager().setChannelAttributes(mUserId,rtmChannelAttributes);
+                        intentChat(true);
+                    }else {
+                        AlertUtil.showToast("无"+mChannelId+"房间");
                     }
                 }
-                Log.i(TAG, "onHasAttribute: dong userID ="+userId);
-                Log.i(TAG, "onHasAttribute:dong getAnchorId ="+manager.getChannelData().getAnchorId());
+
             }
         });
     }
-
-    @Override
-    public void OnNothing() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Log.i(TAG, "OnNothing: dong ===>");
-                if (isRoom || mUserId.equals(mChannelId)){
-                    //设置主播：host，头像索引，名字，性别，和房间名称
-                    Member member = MemberUtil.getMember();
-                    List<RtmChannelAttribute> rtmChannelAttributes =new ArrayList<>();
-                    rtmChannelAttributes.add(new RtmChannelAttribute(AttributeKey.KEY_HOST,member.getUserId()));
-                    rtmChannelAttributes.add(new RtmChannelAttribute(AttributeKey.KEY_ROOM_NAME,"一起聊天吧"));
-                    manager.getRtmManager().setChannelAttributes(mUserId,rtmChannelAttributes);
-                    intentChat(true);
-                }else {
-                    AlertUtil.showToast("无"+mChannelId+"房间");
-                }
-            }
-        });
-    }
-
 }

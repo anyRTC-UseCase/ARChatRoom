@@ -12,11 +12,6 @@ import org.ar.audioganme.model.Constant;
 import org.ar.audioganme.model.Member;
 import org.ar.audioganme.model.Message;
 import org.ar.audioganme.model.MessageListBean;
-import org.ar.audioganme.model.UserBean;
-import org.ar.audioganme.util.AlertUtil;
-import org.ar.audioganme.util.MemberUtil;
-import org.ar.audioganme.util.SpUtil;
-import org.ar.rtm.ChannelAttributeOptions;
 import org.ar.rtm.ErrorInfo;
 import org.ar.rtm.ResultCallback;
 import org.ar.rtm.RtmChannel;
@@ -36,6 +31,8 @@ import java.util.Map;
 public final class ChatRoomManager extends SeatManager implements MessageManager {
 
     private final String TAG = ChatRoomManager.class.getSimpleName();
+    public static final String MSG_TYPE_GIFT="gift";
+    public static final String MSG_TYPE_MESSAGE ="msg";
 
     private static ChatRoomManager instance;
 
@@ -49,12 +46,10 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
 
     public static final int[] giftArray={R.drawable.anim_a,R.drawable.anim_b,R.drawable.anim_c,R.drawable.anim_d,R.drawable.anim_e,R.drawable.anim_f,R.drawable.anim_g,R.drawable.anim_h};
 
-    private Map<String, String> attrQueryMap =new HashMap<>();
     private Map<String, String> attrUpdateMap =new HashMap<>();
 
     public interface QueryChannelAttributes{
-        void onHasAttribute(String userId);
-        void OnNothing();
+        void onHasAttribute(String userId,boolean isHas);
     }
 
     private QueryChannelAttributes queryListener;
@@ -86,10 +81,9 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
 
 
     @Override
-    void onSeatUpdated(int position) {
+    void onSeatUpdated(String userId,int position) {
         if (mListener != null) {
-            Log.i(TAG, "onSeatUpdated: --->pos ="+position);
-            mListener.onSeatUpdated(position);
+            mListener.onSeatUpdated(userId,position);
         }
     }
 
@@ -118,7 +112,6 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
         mRtmManager.login(userId, new ResultCallback<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Log.i(TAG, "onSuccess: dong ---->");
                 mRtmManager.getChannelAttr(mChannel);
             }
 
@@ -138,6 +131,7 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
     }
 
     public void leaveChannel() {
+        attrUpdateMap.clear();
         mRtcManager.leaveChannel();
         mRtmManager.leaveChannel();
         mChannelData.release();
@@ -172,7 +166,7 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("cmd","gift");
-            jsonObject.put("giftId",giftId);
+            jsonObject.put("giftId",String.valueOf(giftId));
             jsonObject.put("userId",userId);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -252,28 +246,23 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
             if (!jsonObject.isNull("cmd")){
                 String cmd = jsonObject.getString("cmd");
                 switch (cmd){
-                    case "gift":
+                    case MSG_TYPE_GIFT:
                         String toUserId = jsonObject.getString("userId");
-                        int giftId = jsonObject.getInt("giftId");
+                        int giftId = Integer.parseInt(jsonObject.getString("giftId"));
                         if (mListener!=null){
                             mListener.onUserGivingGift(userId,toUserId,giftId);
-                            Member toMember =mChannelData.getMember(toUserId);
-                            Member member =mChannelData.getMember(userId);
-                            Log.i(TAG, "processChannelMessage: toUser ="+toUserId+",UserId ="+userId);
+                            String toName =mChannelData.getName(toUserId);
+                            String name =mChannelData.getName(userId);
                             if (mChannelData.isAnchor(toUserId)){
-                                mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_GIFT,
-                                        member.getName(),"赠送", (TextUtils.isEmpty(toUserId)? "所有人":"主播"),"一个"+giftNameArray[giftId]));
+                                addGiftMessage(name,toUserId,"主播",giftId);
                             }else if (mChannelData.isAnchor(userId)){
-                                mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_GIFT,
-                                        "主播","赠送",(TextUtils.isEmpty(toUserId)? "所有人":toMember.getName()),"一个"+giftNameArray[giftId]));
-                            }
-                            else {
-                                mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_GIFT,
-                                        member.getName(),"赠送", (TextUtils.isEmpty(toUserId)? "所有人":toMember.getName()),"一个"+giftNameArray[giftId]));
+                                addGiftMessage("主播",toUserId,toName,giftId);
+                            } else {
+                                addGiftMessage(name,toUserId,toName,giftId);
                             }
                         }
                         break;
-                    case "msg":
+                    case MSG_TYPE_MESSAGE:
                         String content = jsonObject.getString("content");
                         if (mListener!=null){
                             mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_NORMAL,mChannelData.getName(userId)+":",content));
@@ -284,6 +273,12 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
             }
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+    private void addGiftMessage(String name,String toUserId,String toName,int giftId){
+        if (mListener !=null){
+            mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_GIFT,
+                    name,"赠送", (TextUtils.isEmpty(toUserId)? "所有人":toName),"一个"+giftNameArray[giftId]));
         }
     }
 
@@ -334,6 +329,12 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
             if (mListener != null)
                 mListener.onAudioVolumeIndication(String.valueOf(uid), volume);
         }
+
+        @Override
+        public void onNetWorkDelayChanges(int rtt) {
+            if (mListener != null)
+                mListener.onNetWorkDelayChanges(rtt);
+        }
     };
 
     public void setQueryListener(QueryChannelAttributes listener){
@@ -352,7 +353,7 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
             if (mListener != null){
                 mListener.onMessageAdd(new MessageListBean
                         (MessageListBean.MSG_SYSYTEM,"系统：官方倡导绿色交友，" +
-                                "并24小时对互动房间进行巡查，如果发现低俗、骂人、人身攻击等违规行为。官方将进行封房封号处理"));
+                                "并24小时对互动房间进行巡查，如果发现低俗、骂人、人身攻击等违规行为。官方将进行封房封号处理。"));
 
                 if (!TextUtils.isEmpty(mChannelData.getWelcomeTip())){
                     mListener.onMessageAdd(new MessageListBean
@@ -367,107 +368,66 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
         }
 
         @Override
-        public void onChannelAttributesQuery(Map<String, String> attributes,String channelId) {
-            boolean hasAttributes =false;
-            if (attrQueryMap.size() !=0){
-                for (Map.Entry<String, String> entryOld : attrQueryMap.entrySet()) {
-                    String keyOld = entryOld.getKey();
-                    if (!attributes.containsKey(keyOld)){
-                        Log.i(TAG, "onChannelAttributesUpdated: QuerykeyOld ="+keyOld);
-                        switch (keyOld){
-                            case AttributeKey.KEY_IS_LOCK:
-                                mChannelData.setLock(false);
-                                mChannelData.setLockVal(null);
-                                if (mListener !=null){
-                                    mListener.onPwdLockUpdated("");
+        public void onChannelAttributesUpdated(Map<String, String> attributes,boolean isQuery) {
+            //查
+            if (isQuery){
+                if (!attributes.containsKey(AttributeKey.KEY_HOST)){
+                    if (queryListener !=null){
+                        queryListener.onHasAttribute(null,false);
+                    }
+                }else {
+                    for (Map.Entry<String,String> queryEntry : attributes.entrySet()){
+                        String query =queryEntry.getKey();
+                        switch (query){
+                            case AttributeKey.KEY_HOST:
+                                String value = queryEntry.getValue();
+                                if (queryListener!=null){
+                                    Log.i(TAG, "onHasAttribute: true");
+                                    queryListener.onHasAttribute(value,true);
                                 }
+                                break;
+                            case AttributeKey.KEY_ROOM_NAME:
+                                String roomName =queryEntry.getValue();
+                                mChannelData.setRoomName(roomName);
                                 break;
                             default:
                                 break;
                         }
                     }
                 }
+                return;
             }
-            for (Map.Entry<String, String> entry : attributes.entrySet()) {
-                String key = entry.getKey();
-                Log.i(TAG, "onChannelAttributesQuery: dong key="+key);
-                switch (key) {
-                    case AttributeKey.KEY_HOST:
-                        hasAttributes =true;
-                        String userId = entry.getValue();
-                        if (mChannelData.setAnchorId(userId)){
-                            Log.i(TAG, String.format("onChannelAttributesUpdated--> %s %s", key, userId));
-                        }
-                        if (queryListener!=null){
-                            queryListener.onHasAttribute(userId);
-                        }
-                        break;
-                    case AttributeKey.KEY_ROOM_NAME:
-                        String roomName =entry.getValue();
-                        mChannelData.setRoomName(roomName);
-                        break;
-                    case AttributeKey.KEY_ANCHOR_AVATAR:
-                        String addr =entry.getValue();
-                        mChannelData.setAnchorAvatarAddr(addr);
-                        break;
-                    case AttributeKey.KEY_IS_LOCK:
-                        String val =entry.getValue();
-                        mChannelData.setLock(true);
-                        mChannelData.setLockVal(val);
-                        break;
-                    case AttributeKey.KEY_ANCHOR_NAME:
-                        String name =entry.getValue();
-                        mChannelData.setAnchorName(name);
-                        break;
-                    case AttributeKey.KEY_ANCHOR_SEX:
-                        String sex =entry.getValue();
-                        mChannelData.setAnchorSex(sex);
-                        break;
-                    case AttributeKey.KEY_MUTE_MIC_LIST:
-                        String userVal =entry.getValue();
-                        mChannelData.setUserMuted(userVal);
-                        break;
-                    case AttributeKey.KEY_MUTE_INPUT_LIST:
-                        String userMutedInput =entry.getValue();
-                        mChannelData.setUserMutedInput(userMutedInput);
-                        break;
-                    case AttributeKey.KEY_MUSIC:
-                        String musicVal =entry.getValue();
-                        mChannelData.setMusicVal(musicVal);
-                        break;
-                    default:
-                        break;
+            int oldKeySize = attrUpdateMap.size();
+            int newKeySize =attributes.size();
+            if (oldKeySize < newKeySize){
+               //增
+                for (Map.Entry<String,String> insetEntry : attributes.entrySet()){
+                    String insetKey =insetEntry.getKey();
+                    String insetVal =insetEntry.getValue();
+                    if (!attrUpdateMap.containsKey(insetKey)){
+                        Log.i(TAG, "onChannelAttributesUpdated: insetKey ="+insetKey);
+                        updateAttributes(insetKey,insetVal);
+                    }
                 }
-            }
-            Log.i(TAG, "onChannelAttributesQuery: dong hasAttributes ="+hasAttributes);
-            if (!hasAttributes){
-                if (queryListener !=null){
-                    queryListener.OnNothing();
-                }
-            }
-            attrQueryMap =attributes;
-        }
-
-        @Override
-        public void onChannelAttributesUpdated(Map<String, String> attributes) {
-            if (attrQueryMap.size() !=0){
-                for (Map.Entry<String, String> entryOld : attrQueryMap.entrySet()) {
-                    String keyOld = entryOld.getKey();
-                    Log.i(TAG, "onChannelAttributesUpdated: keyOld ----> ="+keyOld);
-                    if (!attributes.containsKey(keyOld)){
-                        Log.i(TAG, "onChannelAttributesUpdated: keyOld ="+keyOld);
-                        if (keyOld.contains("seat")){
-                            int index = AttributeKey.indexOfSeatKey(keyOld);
+            }else if (oldKeySize > newKeySize){
+                //删
+                for (Map.Entry<String, String> deleteEntry : attrUpdateMap.entrySet()) {
+                    String deleteKey = deleteEntry.getKey();
+                    String userId =deleteEntry.getValue();
+                    if (!attributes.containsKey(deleteKey)){
+                        Log.i(TAG, "onChannelAttributesUpdated: deleteKey ="+deleteKey);
+                        if (deleteKey.contains("seat")){
+                            int index = AttributeKey.indexOfSeatKey(deleteKey);
                             if (index >= 0) {
                                 String value = null;
                                 if (updateSeatArray(index, value)) {
                                     if (mListener != null){
-                                        mListener.onSeatUpdated(index);
+                                        mListener.onSeatUpdated(userId,index);
                                     }
                                 }
                             }
                         }
-                        switch (keyOld){
+                        switch (deleteKey){
                             case AttributeKey.KEY_IS_LOCK:
                                 mChannelData.setLock(false);
                                 mChannelData.setLockVal(null);
@@ -475,110 +435,35 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
                                     mListener.onPwdLockUpdated("");
                                 }
                                 break;
+                            case AttributeKey.KEY_WAITING_LIST:
+                                mChannelData.setWaitVal(null);
+                                if (mListener !=null){
+                                    mListener.onWaitUpdated(null);
+                                }
+                                break;
                             default:
                                 break;
                         }
                     }
                 }
-            }
-            for (Map.Entry<String, String> entry : attributes.entrySet()) {
-                String key = entry.getKey();
-                Log.i(TAG, "onChannelAttributesUpdated: key ="+key);
-                if (key.contains("seat")){
-                    int index = AttributeKey.indexOfSeatKey(key);
-                    if (index >= 0) {
-                        String value =entry.getValue();
-                        if (updateSeatArray(index, value)) {
-                            Log.i(TAG, String.format("onChannelAttributesUpdated %s %s", key, value));
-                            if (mListener != null){
-                                Log.i(TAG, "onChannelAttributesUpdated: dong index ="+index);
-                                mListener.onSeatUpdated(index);
+            }else {
+                //改 oldKeySize = newKeySize
+                for (Map.Entry<String,String> oldEntry : attrUpdateMap.entrySet()){
+                    String oldKey = oldEntry.getKey();
+                    String oldVal= oldEntry.getValue();
+                    for (Map.Entry<String,String> newEntry : attributes.entrySet()){
+                        String newKey = newEntry.getKey();
+                        String newVal= newEntry.getValue();
+                        if (TextUtils.equals(newKey,oldKey)){
+                            if (!TextUtils.equals(newVal,oldVal)){
+                                Log.i(TAG, "onChannelAttributesUpdated: newKey ="+newKey+",newVal ="+newVal);
+                                updateAttributes(newKey,newVal);
                             }
                         }
                     }
                 }
-                switch (key){
-                    case AttributeKey.KEY_ROOM_NAME:
-                        String roomName = entry.getValue();
-                        mChannelData.setRoomName(roomName);
-                        if (mListener !=null){
-                            mListener.onRoomNameUpdated(roomName);
-                        }
-                        break;
-                    case AttributeKey.KEY_WELCOME_TIP:
-                        String welcomeVal = entry.getValue();
-                        mChannelData.setWelcomeTip(welcomeVal);
-                        break;
-                    case AttributeKey.KEY_NOTICE:
-                        String notice =entry.getValue();
-                        mChannelData.setAnnouncement(notice);
-                        if (mListener !=null){
-                            mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_SYSYTEM,"系统：主持人修改了公告"));
-                        }
-                        break;
-                    case AttributeKey.KEY_IS_MIC_LOCK:
-                        String val =entry.getValue();
-                        mChannelData.setIsMicLock(val);
-                        if (mListener !=null){
-                            mListener.onMicLockUpdated(val);
-                        }
-                        break;
-                    case AttributeKey.KEY_IS_LOCK:
-                        String lockVal =entry.getValue();
-                        mChannelData.setLock(true);
-                        mChannelData.setLockVal(lockVal);
-                        if (mListener !=null){
-                            //mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_SYSYTEM,"系统：主持人设置了密码"));
-                            mListener.onPwdLockUpdated(lockVal);
-                        }
-                        break;
-                    case AttributeKey.KEY_MUTE_MIC_LIST:
-                        String userVal =entry.getValue();
-                        mChannelData.setUserMuted(userVal);
-                        if (mListener !=null){
-                            mListener.onMutedMicUpdated(userVal);
-                        }
-                        break;
-                    case AttributeKey.KEY_MUTE_INPUT_LIST:
-                        String userMeteVal =entry.getValue();
-                        mChannelData.setUserMutedInput(userMeteVal);
-                        if (mListener !=null){
-                            mListener.onMutedInputUpdated(userMeteVal);
-                        }
-                        break;
-                    case AttributeKey.KEY_MUSIC:
-                        String musicVal =entry.getValue();
-                        mChannelData.setMusicVal(musicVal);
-                        if (mListener !=null){
-                            mListener.onMusicUpdated(musicVal);
-                        }
-                        break;
-                    case AttributeKey.KEY_HOST:
-                        String userHost = entry.getValue();
-                        Member member = mChannelData.getMember(userHost);
-                        Log.i(TAG, "onCareOfAnchor KEY_HOST: member ="+member+",userHost ="+userHost);
-                        if (mListener !=null && member !=null){
-                            if (!TextUtils.isEmpty(member.getName())){
-                                if (!mChannelData.isAnchor(member.getUserId())){
-                                    mListener.onCareOfAnchor(member);
-                                }
-                            }
-                        }
-                        mChannelData.setAnchorId(userHost);
-                        break;
-                    case AttributeKey.KEY_WAITING_LIST:
-                        String waitVal =entry.getValue();
-                        mChannelData.setWaitVal(waitVal);
-                        Log.i(TAG, "onWaitUpdated KEY_WAITING_LIST:  --->listener ="+mListener);
-                        if (mListener !=null){
-                            mListener.onWaitUpdated(waitVal);
-                        }
-                        break;
-                    default:
-                        break;
-                }
             }
-            attrQueryMap =attributes;
+            attrUpdateMap =attributes;
         }
 
         @Override
@@ -608,9 +493,13 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
 
         @Override
         public void onMemberLeft(String userId) {
-            if (mListener != null)
-                mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_MEMBER_CHANGE,userId,"离开了房间"));
-
+            if (mListener != null){
+                if (mChannelData.isAnchor(userId)){
+                    mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_SYSYTEM,"系统：主持人离开了"));
+                }else {
+                    mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_MEMBER_CHANGE,userId,"离开了房间"));
+                }
+            }
         }
 
         @Override
@@ -623,12 +512,12 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
                     String acceptPos =jsonObject.getString("seat");
                     if (mListener !=null){
                         mChannelData.setAcceptPos(acceptPos);
-                        mListener.onAcceptLineUpdated(acceptPos);
+                        mListener.onAcceptLineUpdated(userId);
                     }
                 }else if ("rejectLine".equals(cmd)){
                     String reason =jsonObject.getString("reason");
                     if (mListener !=null){
-                        mListener.onRejectLineUpdated(reason);
+                        mListener.onRejectLineUpdated(reason,userId);
                     }
                 }
             } catch (JSONException e) {
@@ -673,4 +562,85 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
         }
     };
 
+    private void updateAttributes(String key,String value){
+        if (key.contains("seat")){
+            int index = AttributeKey.indexOfSeatKey(key);
+            if (index >= 0) {
+                if (updateSeatArray(index, value)) {
+                    Log.i(TAG, String.format("onChannelAttributesUpdated %s %s", key, value));
+                    if (mListener != null){
+                        mListener.onSeatUpdated(value,index);
+                    }
+                }
+            }
+        }
+        switch (key){
+            case AttributeKey.KEY_HOST:
+                Member member = mChannelData.getMember(value);
+                if (mListener !=null && member !=null ){
+                    if (!TextUtils.isEmpty(member.getName())){
+                        if (!mChannelData.isAnchor(member.getUserId())){
+                            mListener.onCareOfAnchor(member);
+                        }
+                    }
+                }
+                mChannelData.setAnchorId(value);
+                break;
+            case AttributeKey.KEY_ROOM_NAME:
+                mChannelData.setRoomName(value);
+                if (mListener !=null){
+                    mListener.onRoomNameUpdated(value);
+                }
+                break;
+            case AttributeKey.KEY_WELCOME_TIP:
+                mChannelData.setWelcomeTip(value);
+                break;
+            case AttributeKey.KEY_NOTICE:
+                mChannelData.setAnnouncement(value);
+                if (mListener !=null){
+                    mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_SYSYTEM,"系统：主持人修改了公告"));
+                }
+                break;
+            case AttributeKey.KEY_IS_MIC_LOCK:
+                mChannelData.setIsMicLock(value);
+                if (mListener !=null){
+                    mListener.onMicLockUpdated(value);
+                }
+                break;
+            case AttributeKey.KEY_IS_LOCK:
+                mChannelData.setLock(true);
+                mChannelData.setLockVal(value);
+                if (mListener !=null){
+                    mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_SYSYTEM,"系统：主持人设置了密码"));
+                    mListener.onPwdLockUpdated(value);
+                }
+                break;
+            case AttributeKey.KEY_MUTE_MIC_LIST:
+                mChannelData.setUserMuted(value);
+                if (mListener !=null){
+                    mListener.onMutedMicUpdated(value);
+                }
+                break;
+            case AttributeKey.KEY_MUTE_INPUT_LIST:
+                mChannelData.setUserMutedInput(value);
+                if (mListener !=null){
+                    mListener.onMutedInputUpdated(value);
+                }
+                break;
+            case AttributeKey.KEY_MUSIC:
+                mChannelData.setMusicVal(value);
+                if (mListener !=null){
+                    mListener.onMusicUpdated(value);
+                }
+                break;
+            case AttributeKey.KEY_WAITING_LIST:
+                mChannelData.setWaitVal(value);
+                if (mListener !=null){
+                    mListener.onWaitUpdated(value);
+                }
+                break;
+            default:
+                break;
+        }
+    }
 }

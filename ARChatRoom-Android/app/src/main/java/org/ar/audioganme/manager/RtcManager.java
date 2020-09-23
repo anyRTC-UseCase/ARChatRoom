@@ -24,6 +24,8 @@ public final class RtcManager {
         void onAudioMixingStateChanged(int state);
 
         void onAudioVolumeIndication(String uid, int volume);
+
+        void onNetWorkDelayChanges(int rtt);
     }
 
     private final String TAG = RtcManager.class.getSimpleName();
@@ -191,15 +193,12 @@ public final class RtcManager {
         }
 
         @Override
-        public void onLastmileProbeResult(LastmileProbeResult result) {
-            Log.i("dongmuyu", "onLastmileProbeResult: rtt ="+result.rtt +",jitter ="+result.downlinkReport.jitter);
-            super.onLastmileProbeResult(result);
-        }
-
-        @Override
-        public void onLastmileQuality(int quality) {
-            super.onLastmileQuality(quality);
-            Log.i("dongmuyu", "onLastmileQuality:  quality ="+quality);
+        public void onRtcStats(RtcStats stats) {
+            super.onRtcStats(stats);
+            Log.i(TAG, "onRtcStats: rtt="+stats.gatewayRtt);
+            if (mListener !=null){
+                mListener.onNetWorkDelayChanges(stats.gatewayRtt);
+            }
         }
 
         @Override

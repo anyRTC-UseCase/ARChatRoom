@@ -3,9 +3,6 @@ package org.ar.audioganme.model;
 import android.text.TextUtils;
 import android.util.Log;
 
-import org.ar.audioganme.R;
-import org.ar.audioganme.util.MemberUtil;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,9 +26,6 @@ public class ChannelData implements Serializable {
     private String mAnchorId;
     private boolean isLock;
     private String lockVal;
-    private String anchorAvatarAddr;
-    private String anchorName;
-    private String anchorSex;
     private String roomName;
     private String welcomeTip;
     private String announcement;
@@ -104,30 +98,6 @@ public class ChannelData implements Serializable {
 
     public void setAnnouncement(String announcement) {
         this.announcement = announcement;
-    }
-
-    public String getAnchorName() {
-        return anchorName;
-    }
-
-    public void setAnchorName(String anchorName) {
-        this.anchorName = anchorName;
-    }
-
-    public String getAnchorSex() {
-        return anchorSex;
-    }
-
-    public void setAnchorSex(String anchorSex) {
-        this.anchorSex = anchorSex;
-    }
-
-    public String getAnchorAvatarAddr() {
-        return anchorAvatarAddr;
-    }
-
-    public void setAnchorAvatarAddr(String mAnchorAvatarAddr) {
-        this.anchorAvatarAddr = mAnchorAvatarAddr;
     }
 
     public String getRoomName() {
@@ -278,6 +248,9 @@ public class ChannelData implements Serializable {
 
     public String getName(String userId){
         Member member =getMember(userId);
+        if (member==null){
+            return userId;
+        }
         if (!TextUtils.isEmpty(member.getName())){
             return member.getName();
         }

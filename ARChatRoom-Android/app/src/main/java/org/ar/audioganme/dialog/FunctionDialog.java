@@ -24,6 +24,7 @@ import org.ar.audioganme.activity.ChatActivity;
 import org.ar.audioganme.activity.RoomInfoActivity;
 import org.ar.audioganme.manager.ChatRoomManager;
 import org.ar.audioganme.model.AttributeKey;
+import org.ar.audioganme.model.Constant;
 import org.ar.audioganme.util.AlertUtil;
 
 public class FunctionDialog extends Dialog implements View.OnClickListener {
@@ -34,6 +35,7 @@ public class FunctionDialog extends Dialog implements View.OnClickListener {
     private ChatRoomManager chatRoomManager;
     private PwdDialog pwdDialog;
     private VolumeDialog volumeDialog;
+    private RecordDialog recordDialog;
     private boolean isHasPwd;
     private TipDialog tipDialog;
     private EffectCallBack effectCallBack;
@@ -98,7 +100,12 @@ public class FunctionDialog extends Dialog implements View.OnClickListener {
             mFreeMic.setSelected(true);
             mFreeMic.setText("自由上麦");
         }
-        mSoundEffect.setSelected(false);
+        if (Constant.isEffectOpen){
+            mSoundEffect.setSelected(true);
+        }else {
+            mSoundEffect.setSelected(false);
+        }
+
     }
 
     @Override
@@ -149,15 +156,19 @@ public class FunctionDialog extends Dialog implements View.OnClickListener {
                 dismiss();
                 break;
             case R.id.volume:
-                volumeDialog =new VolumeDialog(activity,chatRoomManager);
+                if (volumeDialog ==null){
+                    volumeDialog =new VolumeDialog(activity,chatRoomManager);
+                }
                 volumeDialog.show();
                 dismiss();
                 break;
             case R.id.record:
-                AlertUtil.showToast("敬请期待");
+                recordDialog =new RecordDialog(activity,"开始录音","管理录音",true);
+                recordDialog.show();
                 dismiss();
                 break;
             case R.id.sound_effect:
+                Constant.isEffectOpen = !mSoundEffect.isSelected();
                 mSoundEffect.setSelected(!mSoundEffect.isSelected());
                 effectCallBack.onStateChange(mSoundEffect.isSelected());
                 dismiss();

@@ -47,9 +47,7 @@ public final class RtmManager {
 
         void onChannelAttributesLoaded();
 
-        void onChannelAttributesUpdated(Map<String, String> attributes);
-
-        void onChannelAttributesQuery(Map<String, String> attributes,String channelId);
+        void onChannelAttributesUpdated(Map<String, String> attributes,boolean isQuery);
 
         void onInitMembers(List<RtmChannelMember> members);
 
@@ -137,7 +135,6 @@ public final class RtmManager {
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "rtm join success");
                         mRtmChannel = rtmChannel;
-
                         getChannelAttributes(channelId);
                         getMembers();
                         if (mListener != null)
@@ -158,7 +155,7 @@ public final class RtmManager {
     }
 
 
-    public RtmClient getmRtmClient() {
+    public RtmClient getRtmClient() {
         return mRtmClient;
     }
 
@@ -167,8 +164,7 @@ public final class RtmManager {
             mRtmClient.getChannelAttributes(channelId, new ResultCallback<List<RtmChannelAttribute>>() {
                 @Override
                 public void onSuccess(List<RtmChannelAttribute> attributeList) {
-                    Log.i(TAG, "onSuccess:  dong---->"+channelId);;
-                    queryChannelAttributes(attributeList,channelId);
+                    processChannelAttributes(attributeList,true);
                 }
 
                 @Override
@@ -187,10 +183,7 @@ public final class RtmManager {
             mRtmClient.getChannelAttributes(channelId, new ResultCallback<List<RtmChannelAttribute>>() {
                 @Override
                 public void onSuccess(List<RtmChannelAttribute> attributeList) {
-                    Log.i(TAG, "onSuccess: attributeList muyu size="+attributeList.size());
-                    processChannelAttributes(attributeList);
-                    if (mListener != null)
-                        mListener.onChannelAttributesLoaded();
+                    processChannelAttributes(attributeList,false);
                 }
 
                 @Override
@@ -201,19 +194,7 @@ public final class RtmManager {
         }
     }
 
-    //判断频道属性有无host属性
-    private void queryChannelAttributes(List<RtmChannelAttribute> attributeList,String channelId) {
-        if (attributeList != null) {
-            Map<String, String> attributes = new HashMap<>();
-            for (RtmChannelAttribute attribute : attributeList) {
-                attributes.put(attribute.getKey(), attribute.getValue());
-            }
-            if (mListener != null)
-                mListener.onChannelAttributesQuery(attributes,channelId);
-        }
-    }
-
-    private void processChannelAttributes(List<RtmChannelAttribute> attributeList) {
+    private void processChannelAttributes(List<RtmChannelAttribute> attributeList,boolean isQuery) {
         if (attributeList != null) {
             Map<String, String> attributes = new HashMap<>();
             for (RtmChannelAttribute attribute : attributeList) {
@@ -221,7 +202,7 @@ public final class RtmManager {
             }
 
             if (mListener != null)
-                mListener.onChannelAttributesUpdated(attributes);
+                mListener.onChannelAttributesUpdated(attributes,isQuery);
         }
     }
 
@@ -451,8 +432,7 @@ public final class RtmManager {
 
         @Override
         public void onAttributesUpdated(List<RtmChannelAttribute> list) {
-            Log.i(TAG, "onChannelAttributesUpdated: --2-->");
-            processChannelAttributes(list);
+            processChannelAttributes(list,false);
         }
 
         @Override

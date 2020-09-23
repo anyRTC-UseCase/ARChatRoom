@@ -96,7 +96,7 @@ public class SpreadView extends FrameLayout {
 
     private void initAnimation2() {
         mAnimLayer2 = new AnimationSet(true);
-        ScaleAnimation scale = new ScaleAnimation(1, 1.2f, 1, 1.2f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        ScaleAnimation scale = new ScaleAnimation(1, 1, 1, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         scale.setDuration(1000);
 
         AlphaAnimation alpha1 = new AlphaAnimation(0, 1);

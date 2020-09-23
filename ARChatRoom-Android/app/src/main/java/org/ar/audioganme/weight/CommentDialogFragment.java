@@ -62,7 +62,8 @@ public class CommentDialogFragment extends DialogFragment implements View.OnClic
 
         commentEditText.addTextChangedListener(mTextWatcher);
         sendButton.setOnClickListener(this);
-
+        sendButton.setEnabled(false);
+        sendButton.setClickable(false);
         return mDialog;
     }
 

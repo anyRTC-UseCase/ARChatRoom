@@ -47,4 +47,7 @@
     <color name="msg_text_member_change">#FF971C</color>
     <color name="msg_text_gift">#FC4070</color>
     <color name="msg_text_give_gift">#1DC158</color>
+
+    <color name="record_text_color">#181914</color>
+    <color name="record_bg_line">#DEDEDE</color>
 </resources>

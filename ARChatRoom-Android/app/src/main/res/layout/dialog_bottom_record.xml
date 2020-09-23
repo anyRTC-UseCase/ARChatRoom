@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_above="@+id/record_text_cancel"
+        android:layout_marginBottom="@dimen/dp_6"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/record_text_one"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:text="高保真"
+            android:textSize="@dimen/sp_16"
+            android:gravity="center"
+            android:textColor="@color/record_text_color" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@color/record_bg_line"/>
+
+        <TextView
+            android:id="@+id/record_text_two"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:text="有损压缩"
+            android:textSize="@dimen/sp_16"
+            android:gravity="center"
+            android:textColor="@color/record_text_color" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/record_text_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="@color/record_text_color"
+        android:textSize="@dimen/sp_16" />
+</RelativeLayout>

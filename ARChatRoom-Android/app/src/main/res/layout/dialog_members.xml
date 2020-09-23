@@ -24,6 +24,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_list"
         android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/sp_10"
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_weight="1">
@@ -38,7 +39,7 @@
     <TextView
         android:id="@+id/btn_ok"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
+        android:layout_height="@dimen/dp_45"
         android:textColor="#40A3FB"
         android:text="确定"
         android:textSize="@dimen/sp_17"

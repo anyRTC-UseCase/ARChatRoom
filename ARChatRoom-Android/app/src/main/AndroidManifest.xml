@@ -16,6 +16,7 @@
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.RecordActivity"></activity>
         <activity android:name=".activity.PlayMusicActivity"></activity>
         <activity android:name=".activity.SettingInfoActivity"></activity>
         <activity android:name=".activity.RoomInfoActivity"></activity>

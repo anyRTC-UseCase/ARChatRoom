@@ -22,7 +22,7 @@ public class AttributeKey {
     public static final String KEY_MUTE_MIC_LIST = "MuteMicList";
     public static final String KEY_MUTE_INPUT_LIST = "MuteInputList";
     public static final String KEY_MUSIC = "music";
-    public static final String KEY_WAITING_LIST = "waritinglist";
+    public static final String KEY_WAITING_LIST = "waitinglist";
 
     public static final String KEY_NAME = "name";
     public static final String KEY_UID = "uid";
@@ -33,7 +33,6 @@ public class AttributeKey {
         String[] strings = new String[ChannelData.MAX_SEAT_NUM];
         for (int i = 0; i < strings.length; i++) {
             strings[i] = String.format(Locale.getDefault(), "seat%d", (i+1));
-            Log.i("muyu", "initSeatKeys: i="+i+",strings[i] ="+strings[i]);
         }
         return strings;
     }

@@ -20,7 +20,6 @@
         android:textColorHint="#AAAAAA"
         android:textSize="@dimen/sp_14"/>
 
-
     <Button
         android:id="@+id/btn_send"
         android:layout_width="@dimen/dp_63"

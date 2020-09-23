@@ -21,22 +21,15 @@ public class OnlineMemberAdapter extends BaseQuickAdapter<MemberListBean, BaseVi
         super(R.layout.online_member_item);
     }
 
-    private  String[] avatarRes;
-    private  String[] avatars;
     @Override
     protected void convert(BaseViewHolder helper, MemberListBean item) {
         helper.setText(R.id.online_name,item.getName());
         ImageView avatar = helper.getView(R.id.online_avatar);
-
         if (item.getGender() ==0){
-            avatarRes =mContext.getResources().getStringArray(R.array.avatar_man);
-            avatars =mContext.getResources().getStringArray(R.array.random_avatar_images_man);
             helper.setImageResource(R.id.online_sex,R.drawable.man);
         }else {
-            avatarRes =mContext.getResources().getStringArray(R.array.avatar_woman);
-            avatars =mContext.getResources().getStringArray(R.array.random_avatar_images_woman);
             helper.setImageResource(R.id.online_sex,R.drawable.girl);
         }
-        AlertUtil.setAvatar(mContext,item.getAvatar(),avatar);
+        AlertUtil.showAvatar(item.getAvatar(),avatar);
     }
 }

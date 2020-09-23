@@ -139,8 +139,9 @@ public class InformantDialog extends Dialog implements View.OnClickListener {
         if (isAnchor){
             if(Constant.isMyself(userId)){
                 RelativeLayout.LayoutParams params =new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                        AlertUtil.dip2px(context,120));
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
                 ll_infor.setLayoutParams(params);
+                ll_infor.setBackgroundResource(R.drawable.show_avatar_samll);
                 mDownMic.setVisibility(View.GONE);
                 mProhibitMic.setVisibility(View.GONE);
                 mProhibitChat.setVisibility(View.GONE);
@@ -152,6 +153,7 @@ public class InformantDialog extends Dialog implements View.OnClickListener {
                     RelativeLayout.LayoutParams params =new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
                             RelativeLayout.LayoutParams.WRAP_CONTENT);
                     ll_infor.setLayoutParams(params);
+                    ll_infor.setBackgroundResource(R.drawable.show_avatar);
                     mDownMic.setVisibility(View.VISIBLE);
                     mProhibitMic.setVisibility(View.VISIBLE);
                     mProhibitChat.setVisibility(View.VISIBLE);
@@ -173,7 +175,9 @@ public class InformantDialog extends Dialog implements View.OnClickListener {
         }else {
             if (Constant.isMyself(userId)){
                 RelativeLayout.LayoutParams params =new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                        AlertUtil.dip2px(context,120));
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+                ll_infor.setLayoutParams(params);
+                ll_infor.setBackgroundResource(R.drawable.show_avatar_samll);
                 ll_infor.setLayoutParams(params);
                 mDownMic.setVisibility(View.GONE);
                 mProhibitMic.setVisibility(View.GONE);
@@ -183,8 +187,9 @@ public class InformantDialog extends Dialog implements View.OnClickListener {
                 mGift.setVisibility(View.GONE);
             }else {
                 RelativeLayout.LayoutParams params =new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                        AlertUtil.dip2px(context,200));
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
                 ll_infor.setLayoutParams(params);
+                ll_infor.setBackgroundResource(R.drawable.show_avatar_samll);
                 mDownMic.setVisibility(View.GONE);
                 mProhibitMic.setVisibility(View.GONE);
                 mProhibitChat.setVisibility(View.GONE);
@@ -195,7 +200,7 @@ public class InformantDialog extends Dialog implements View.OnClickListener {
         }
 
         if (channelData.isUserOnline(userId)){
-            AlertUtil.setAvatar(context,channelData.getMemberAvatar(userId),mAvatar);
+            AlertUtil.showAvatar(channelData.getMemberAvatar(userId),mAvatar);
             mName.setText(member.getName());
             if (member.getGender() ==0){
                 imgGender.setImageResource(R.drawable.man);
@@ -245,7 +250,6 @@ public class InformantDialog extends Dialog implements View.OnClickListener {
         switch (view.getId()){
             case R.id.information_down_mic:  //下麦
                 chatRoomManager.toAudience(userId, null);
-
                 dismiss();
                 break;
             case R.id.information_prohibit_mic: //禁麦

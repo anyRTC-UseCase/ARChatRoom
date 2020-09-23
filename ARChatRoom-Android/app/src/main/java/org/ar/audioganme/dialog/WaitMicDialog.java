@@ -3,6 +3,7 @@ package org.ar.audioganme.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -30,8 +31,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class WaitMicDialog extends Dialog implements View.OnClickListener {
 
@@ -81,47 +85,53 @@ public class WaitMicDialog extends Dialog implements View.OnClickListener {
     }
 
     private void setListener() {
-        waitMicAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                String userId =waitMicAdapter.getItem(position).getUserId();
-                String name =waitMicAdapter.getItem(position).getWaitName();
-                int micPos =waitMicAdapter.getItem(position).getWaitApplyPos();
-                JSONObject jsonObject =new JSONObject();
-                switch (view.getId()){
-                    case R.id.wait_mic_refuse:
-                        isAgree =false;
-                        try {
-                            jsonObject.put("cmd","rejectLine");
-                            jsonObject.put("reason","拒绝上麦");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        chatRoomManager.getRtmManager().sendMessageToPeer(userId,jsonObject.toString(),null);
-                        break;
-                    case R.id.wait_mic_agree:
+        waitMicAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            String userId =waitMicAdapter.getItem(position).getUserId();
+            String name =waitMicAdapter.getItem(position).getWaitName();
+            int micPos =waitMicAdapter.getItem(position).getWaitApplyPos();
+            JSONObject jsonObject =new JSONObject();
+            switch (view.getId()){
+                case R.id.wait_mic_refuse:
+                    isAgree =false;
+                    try {
+                        jsonObject.put("cmd","rejectLine");
+                        jsonObject.put("reason","拒绝上麦");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    chatRoomManager.getRtmManager().sendMessageToPeer(userId,jsonObject.toString(),null);
+                    break;
+                case R.id.wait_mic_agree:
+                    Log.i(TAG, "onItemChildClick: userId ="+userId+",micPos ="+micPos);
+                    if (TextUtils.isEmpty(chatRoomManager.getChannelData().getSeatArray()[micPos-1])){
                         isAgree =true;
-                        Log.i(TAG, "onItemChildClick: userId ="+userId+",micPos ="+micPos);
                         chatRoomManager.toBroadcaster(userId,(micPos-1));
-
                         try {
                             jsonObject.put("cmd","acceptLine");
                             jsonObject.put("seat",String.valueOf(micPos));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        chatRoomManager.getRtmManager().sendMessageToPeer(userId,jsonObject.toString(),null);
-                        break;
-                    default:
-                        break;
-                }
-                clickCallBack.onClick(userId,micPos,isAgree);
-                deleteMicAttrVal(userId);
-                waitMicAdapter.remove(position);
-                if (waitMicAdapter.getItemCount() ==0){
-                    tvWaitNone.setVisibility(View.VISIBLE);
-                    mWaitRecycler.setVisibility(View.GONE);
-                }
+                    }else {
+                        isAgree =false;
+                        try {
+                            jsonObject.put("cmd","rejectLine");
+                            jsonObject.put("reason","麦位已被占");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    chatRoomManager.getRtmManager().sendMessageToPeer(userId,jsonObject.toString(),null);
+                    break;
+                default:
+                    break;
+            }
+            clickCallBack.onClick(userId,micPos,isAgree);
+            deleteMicAttrVal(userId);
+            waitMicAdapter.remove(position);
+            if (waitMicAdapter.getItemCount() ==0){
+                tvWaitNone.setVisibility(View.VISIBLE);
+                mWaitRecycler.setVisibility(View.GONE);
             }
         });
     }
@@ -181,9 +191,84 @@ public class WaitMicDialog extends Dialog implements View.OnClickListener {
                 dismiss();
                 break;
             case R.id.quick_mic:
+                setQuickMic();
                 break;
             default:
                 break;
         }
+    }
+
+    private void setQuickMic() {
+        int seatLength =channelData.getSeatArray().length;
+        int seatCount =0;
+        List<Integer> seatPosList =new ArrayList<>();
+        JSONObject jsonObject =new JSONObject();
+        String userId;
+        int seatPos;
+        for (int i = 0; i <seatLength; i++) {
+            if (channelData.getSeatArray()[i] ==null){
+                seatCount++;
+                seatPosList.add(i);
+            }
+        }
+        if (seatCount ==0){
+            return;
+        }
+
+        if (seatCount >= waitMicAdapter.getItemCount()){
+            for (int i = 0; i <waitMicAdapter.getItemCount() ; i++) {
+                isAgree =true;
+                userId = Objects.requireNonNull(waitMicAdapter.getItem(i)).getUserId();
+                seatPos =seatPosList.get(i);
+                Log.i(TAG, "setQuickMic:userId = "+userId+",pos ="+seatPos);
+                chatRoomManager.toBroadcaster(userId,seatPos);
+                clickCallBack.onClick(userId,seatPos,isAgree);
+                try {
+                    jsonObject.put("cmd","acceptLine");
+                    jsonObject.put("seat",String.valueOf(seatPos));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                chatRoomManager.getRtmManager().sendMessageToPeer(userId,jsonObject.toString(),null);
+            }
+            for (int i = 0; i <waitMicAdapter.getItemCount() ; i++) {
+                waitMicAdapter.remove(0);
+            }
+        }else {
+            for (int i = 0; i <seatCount ; i++) {
+                isAgree =true;
+                userId = Objects.requireNonNull(waitMicAdapter.getItem(i)).getUserId();
+                seatPos =seatPosList.get(i);
+                chatRoomManager.toBroadcaster(userId,seatPos);
+                clickCallBack.onClick(userId,seatPos,isAgree);
+                waitMicAdapter.remove(0);
+                try {
+                    jsonObject.put("cmd","acceptLine");
+                    jsonObject.put("seat",String.valueOf(seatPos));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                chatRoomManager.getRtmManager().sendMessageToPeer(userId,jsonObject.toString(),null);
+            }
+            Log.i(TAG, "setQuickMic: waitMicAdapter ="+waitMicAdapter.getItemCount());
+            for (int i = 0; i < waitMicAdapter.getItemCount(); i++) {
+                isAgree =false;
+                userId = Objects.requireNonNull(waitMicAdapter.getItem(i)).getUserId();
+                clickCallBack.onClick(userId,-1,isAgree);
+                try {
+                    jsonObject.put("cmd","rejectLine");
+                    jsonObject.put("reason","拒绝上麦");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                chatRoomManager.getRtmManager().sendMessageToPeer(userId,jsonObject.toString(),null);
+            }
+            for (int i = 0; i <waitMicAdapter.getItemCount() ; i++) {
+                waitMicAdapter.remove(0);
+            }
+        }
+        chatRoomManager.getRtmManager().deleteChannelAttributesByKey(AttributeKey.KEY_WAITING_LIST,null);
+        tvWaitNone.setVisibility(View.VISIBLE);
+        mWaitRecycler.setVisibility(View.GONE);
     }
 }

@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import org.ar.audioganme.R;
+import org.ar.audioganme.manager.ChatRoomManager;
 import org.ar.audioganme.model.MessageListBean;
 
 import java.util.List;
@@ -54,7 +55,8 @@ public class MessageAdapter extends BaseQuickAdapter<MessageListBean, BaseViewHo
             default:
                 break;
         }
-        tvFromId.setText(item.id);
+        String name =ChatRoomManager.instance(mContext).getChannelData().getName(item.id);
+        tvFromId.setText(name);
         tvMsg.setText(item.content);
         tvToId.setText(item.toId);
         tvGift.setText(item.gift);

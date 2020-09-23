@@ -109,7 +109,7 @@ public abstract class SeatManager {
             public void onSuccess(Void aVoid) {
                 if (getChannelData().updateSeat(oldPosition, null)) {
                     // don't wait onChannelAttributesUpdated, refresh now
-                    onSeatUpdated(oldPosition);
+                    onSeatUpdated(userId,oldPosition);
                 }
                 occupySeat(userId, newPosition, callback);
             }
@@ -141,7 +141,7 @@ public abstract class SeatManager {
         }
     }
 
-    abstract void onSeatUpdated(int position);
+    abstract void onSeatUpdated(String userId,int position);
 
     final boolean updateSeatArray(int position, String value) {
         return getChannelData().updateSeat(position, value);

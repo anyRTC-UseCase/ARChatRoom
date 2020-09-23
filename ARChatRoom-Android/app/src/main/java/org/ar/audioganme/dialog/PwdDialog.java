@@ -2,12 +2,12 @@ package org.ar.audioganme.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -17,8 +17,6 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 
 import org.ar.audioganme.R;
-import org.ar.audioganme.activity.ChatActivity;
-import org.ar.audioganme.activity.RoomActivity;
 import org.ar.audioganme.manager.ChatRoomManager;
 import org.ar.audioganme.model.AttributeKey;
 import org.ar.audioganme.util.AlertUtil;
@@ -52,11 +50,14 @@ public class PwdDialog extends Dialog  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_paw);
-        edPwd = findViewById(R.id.ed_pwd);
+        setContentView(R.layout.layout_input);
+        edPwd = findViewById(R.id.ed_input);
         confirm = findViewById(R.id.btn_confirm);
         confirm.setEnabled(false);
         confirm.setClickable(false);
+        edPwd.setInputType(InputType.TYPE_CLASS_NUMBER);
+        edPwd.setHint("请输入4位密码");
+        edPwd.setFilters(new InputFilter[]{new InputFilter.LengthFilter(4)});
         edPwd.requestFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         edPwd.addTextChangedListener(new TextWatcher() {

@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView, View
 
     @Override
     public void loginFailed(String reason) {
-        AlertUtil.showToast(reason);
+        showToast(reason);
     }
 
 

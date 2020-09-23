@@ -11,11 +11,8 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,11 +40,7 @@ import com.lzf.easyfloat.permission.PermissionUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -76,16 +69,11 @@ import org.ar.audioganme.model.Member;
 import org.ar.audioganme.model.MessageListBean;
 import org.ar.audioganme.util.AlertUtil;
 import org.ar.audioganme.util.MemberUtil;
-import org.ar.audioganme.util.NetUtils;
 import org.ar.audioganme.util.SpUtil;
 import org.ar.audioganme.util.StatusBarUtil;
 import org.ar.audioganme.weight.CommentDialogFragment;
 import org.ar.audioganme.weight.SpreadView;
 import org.ar.rtc.Constants;
-import org.ar.rtm.ChannelAttributeOptions;
-import org.ar.rtm.RtmAttribute;
-import org.ar.rtm.RtmChannelAttribute;
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -93,6 +81,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -112,7 +101,13 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
     private final String TAG = ChatActivity.class.getSimpleName();
     public static final String KEY_CHANNEL_ID = "channelId";
     public static final String KEY_ANCHOR_IS = "isAnchor";
-    private final int WIFI_UPGRADE_TIME = 0;
+
+    public static final int NET_WORK_RTT_SUPER = 30;
+    public static final int NET_WORK_RTT_WELL = 40;
+    public static final int NET_WORK_RTT_GOOD = 60;
+    public static final int NET_WORK_RTT_BAD = 100;
+
+    private static final int WIFI_UPGRADE_TIME = 0;
 
     private RelativeLayout rlAnchor, rlTourist;
 
@@ -137,7 +132,6 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
     private ChatRoomManager mManager;
     private ChannelData mChannelData;
     private String mChannelId;
-    private Timer timeTimer;
     private FunctionDialog mFunctionDialog;
     private AnnouncementDialog mAnnouncementDialog;
     private InformantDialog mInformantDialog;
@@ -147,6 +141,7 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
     private FunctionDialog.EffectCallBack effectCallBack;
     private InformantDialog.GiftCallBack giftCallBack;
     private boolean isAnchor;
+    private String musicVal;
     //isTouristJoinMic是否是上下麦, isWaitJoinMic是否是等待上麦
     private boolean isTouristJoinMic,isWaitJoinMic;
 
@@ -258,42 +253,24 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
     }
 
     private void setCallBack(){
-        if (isAnchor){
-            effectCallBack =new FunctionDialog.EffectCallBack() {
-                @Override
-                public void onStateChange(boolean enabled) {
-                    if (enabled){
-                        mHsEffect.setVisibility(View.VISIBLE);
-                    }else {
-                        mHsEffect.setVisibility(View.GONE);
-                    }
-                }
-            };
-        }else {
-            mHsEffect.setVisibility(View.GONE);
-        }
-        giftCallBack =new InformantDialog.GiftCallBack() {
-            @Override
-            public void setGiveGift(String userId) {
-                GiftDialog giftDialog = new GiftDialog();
-                giftDialog.showDialog(userId, getSupportFragmentManager(), (userId1, giftId) -> showGift("我", userId1,giftId));
+        effectCallBack = enabled -> {
+            if (enabled){
+                mHsEffect.setVisibility(View.VISIBLE);
+            }else {
+                mHsEffect.setVisibility(View.GONE);
             }
+        };
+        giftCallBack = userId -> {
+            GiftDialog giftDialog = new GiftDialog();
+            giftDialog.showDialog(userId, getSupportFragmentManager(), (userId1, giftId) -> showGift("我", userId1,giftId));
         };
     }
 
     private void initMusicVolume(){
-        int  musicVal = SpUtil.getInt("musicVal",40);
-        int volumeVal = SpUtil.getInt("volumeVal",60);
-        int earVal = SpUtil.getInt("earVal",0);
-        mManager.getRtcManager().adjustAudioMixingVolume(musicVal);
-        mManager.getRtcManager().adjustRecordingSignalVolume(volumeVal);
-        if (earVal == 0){
-            mManager.getRtcManager().enableInEarMonitoring(false);
-            mManager.getRtcManager().setInEarMonitoringVolume(earVal);
-        }else {
-            mManager.getRtcManager().enableInEarMonitoring(true);
-            mManager.getRtcManager().setInEarMonitoringVolume(earVal);
-        }
+        mManager.getRtcManager().adjustAudioMixingVolume(40);
+        mManager.getRtcManager().adjustRecordingSignalVolume(60);
+        mManager.getRtcManager().enableInEarMonitoring(false);
+        mManager.getRtcManager().setInEarMonitoringVolume(0);
     }
 
     private void initMessageList(){
@@ -341,7 +318,6 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
         }else {
             mLock.setVisibility(View.GONE);
         }
-        playTimer();
         try {
             AlertUtil.musicWriteSD(this,musicPath);
         } catch (IOException e) {
@@ -367,7 +343,8 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
 
     private void setAnchor(){
         Log.i(TAG, "setAnchor: sAvatarAddr ="+Constant.sAvatarAddr);
-        AlertUtil.setAvatar(this,Constant.sAvatarAddr,mAnchorAvatar);
+        //AlertUtil.setAvatar(this,Constant.sAvatarAddr,mAnchorAvatar);
+        mAnchorAvatar.setImageResource(MemberUtil.getAvatarResId(Constant.sAvatarAddr));
         mAnchorName.setText(Constant.sName);
         if (Constant.sGender ==0){ //男生
             mAnchorGender.setImageResource(R.drawable.man);
@@ -381,13 +358,16 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
         String name;
         if (member ==null){
             Log.i(TAG, "setGuest: getAnchorId ="+mChannelData.getAnchorId());
-            Member member1 =mChannelData.getMember(mChannelData.getAnchorId());
-            AlertUtil.setAvatar(this,member1.getAvatarAddr(),mAnchorAvatar);
-            sex = member1.getGender();
-            name = member1.getName();
+            Member memberGuest =mChannelData.getMember(mChannelData.getAnchorId());
+            if(memberGuest == null){
+                //转交主播后，主播离开房间，会Crash.
+            }
+            AlertUtil.showAvatar(memberGuest.getAvatarAddr(),mAnchorAvatar);
+            sex = memberGuest.getGender();
+            name = memberGuest.getName();
         }else {
             Log.i(TAG, "onCareOfAnchor: Avatar ="+member.getUserId()+",sex="+ member.getGender()+",name ="+member.getName());
-            AlertUtil.setAvatar(this,member.getAvatarAddr(),mAnchorAvatar);
+            AlertUtil.showAvatar(member.getAvatarAddr(),mAnchorAvatar);
             sex = member.getGender();
             name = member.getName();
         }
@@ -414,11 +394,15 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
             case R.id.anchor_join_mic_count:
                 if (isAnchor){
                     mWaitMicDialog =new WaitMicDialog(this, mManager, mWaitingMap, (userId, pos, isAgree) -> {
-                        if (mWaitingMap.containsKey(userId)){
+                        if (pos !=-1){
                             mWaitingMap.remove(userId);
-                        }
-                        if (!isAgree && mMicPosList.contains(pos)){
-                            mMicPosList.remove(pos);
+                            if (!isAgree && mMicPosList.contains(pos)){
+                                mMicPosList.remove(pos);
+                            }
+                        }else {
+                            //为快速上麦
+                            mWaitingMap.clear();
+                            mMicPosList.clear();
                         }
                         anchorJoinMicCount.setText(String.valueOf(mWaitingMap.size()));
                     });
@@ -427,7 +411,7 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
                 break;
             case R.id.anchor_join_mic:
                 mAnchorMic.setSelected(!mAnchorMic.isSelected());
-                mManager.getRtcManager().getRtcEngine().muteLocalAudioStream(!mAnchorMic.isSelected());
+                mManager.getRtcManager().getRtcEngine().enableLocalAudio(mAnchorMic.isSelected());
                 break;
             case R.id.anchor_fun_more:
                 mFunctionDialog =new FunctionDialog(this,mManager,effectCallBack);
@@ -444,7 +428,8 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
                 }else {
-                    AlertUtil.showToast("只有主播才能播放音乐");
+                    autoTipDialog =new AutoTipDialog(this,R.drawable.red_tip,"只有主播才能播放音乐");
+                    autoTipDialog.show();
                 }
                 break;
             case R.id.anchor_head_portrait:
@@ -526,64 +511,39 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
                     CircleImageView avatar =view.findViewById(R.id.float_window_avatar);
                     TextView roomName =view.findViewById(R.id.float_window_room_name);
                     ImageView exit =view.findViewById(R.id.float_window_exit);
-                    avatar.setImageResource(MemberUtil.getAvatarResId(mChannelData));
+                    Member member =mChannelData.getMember(mChannelData.getAnchorId());
+                    avatar.setImageResource(MemberUtil.getAvatarResId(member.getAvatarAddr()));
                     roomName.setText(mChannelData.getRoomName());
-                    exit.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            EasyFloat.dismissAppFloat();
-                            finish();
-                        }
+                    exit.setOnClickListener(view1 -> {
+                        EasyFloat.dismissAppFloat();
+                        finish();
                     });
-                    avatar.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            EasyFloat.dismissAppFloat();
-                            Log.i(TAG, "onClick: SDK_INT ="+(Build.VERSION.SDK_INT >= 29));
-                            if (Build.VERSION.SDK_INT >= 29) {
-                                Intent intent =new Intent(ChatActivity.this, ChatActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                startActivity(intent);
-                            } else {
-                                moveToFront();
-                            }
+                    avatar.setOnClickListener(view12 -> {
+                        EasyFloat.dismissAppFloat();
+                        Log.i(TAG, "onClick: SDK_INT ="+(Build.VERSION.SDK_INT >= 29));
+                        if (Build.VERSION.SDK_INT >= 29) {
+                            Intent intent =new Intent(ChatActivity.this, ChatActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            startActivity(intent);
+                        } else {
+                            moveToFront();
                         }
                     });
                 }).registerCallbacks(new OnFloatCallbacks() {
             @Override
-            public void createdResult(boolean b, String s, View view) {
+            public void createdResult(boolean b, String s, View view) { }
 
-            }
+            @Override public void show(View view) { }
 
-            @Override
-            public void show(View view) {
+            @Override public void hide(View view) { }
 
-            }
+            @Override public void dismiss() { }
 
-            @Override
-            public void hide(View view) {
+            @Override public void touchEvent(View view, MotionEvent motionEvent) { }
 
-            }
+            @Override public void drag(View view, MotionEvent motionEvent) { }
 
-            @Override
-            public void dismiss() {
-
-            }
-
-            @Override
-            public void touchEvent(View view, MotionEvent motionEvent) {
-
-            }
-
-            @Override
-            public void drag(View view, MotionEvent motionEvent) {
-
-            }
-
-            @Override
-            public void dragEnd(View view) {
-
-            }
+            @Override public void dragEnd(View view) { }
         }).show();
     }
 
@@ -641,7 +601,7 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
                             jsonArray1 = new JSONArray(val);
                             for (int i = 0; i <jsonArray1.length() ; i++) {
                                 JSONObject jsonObject =jsonArray1.getJSONObject(i);
-                                int seatIndex =jsonObject.getInt("seat");
+                                int seatIndex =Integer.parseInt(jsonObject.getString("seat"));
                                 Log.i(TAG, "setApplyJoinMic: mMicPosList ="+mMicPosList);
                                 if (!mMicPosList.contains((seatIndex -1))){
                                     mMicPosList.add((seatIndex-1));
@@ -670,7 +630,7 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
                                 jsonArray =new JSONArray(val);
                             }
                             jsonObject.put("userid",Constant.sUserId);
-                            jsonObject.put("seat",(pos+1));
+                            jsonObject.put("seat",String.valueOf(pos+1));
                             jsonArray.put(jsonObject);
                             Log.i(TAG, "setApplyJoinMic: --->jsonArray ="+jsonArray.toString());
                             mTipDialog =new TipDialog(this, "是否申请上麦", "取消", "确定",null, new TipDialog.ConfirmCallBack() {
@@ -714,7 +674,7 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
         }else {
             if (isAnchor){
                 if ("0".equals(mChannelData.getIsMicLock())){
-                    autoTipDialog =new AutoTipDialog(this,R.drawable.red_tip,"主持人不可以换麦位");
+                    autoTipDialog =new AutoTipDialog(this,R.drawable.red_tip,"主持人不可以更改麦位");
                     autoTipDialog.show();
                 }
             }else {
@@ -735,7 +695,7 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
                                 jsonArray =new JSONArray(val);
                             }
                             jsonObject.put("userid",Constant.sUserId);
-                            jsonObject.put("seat",(position+1));
+                            jsonObject.put("seat",String.valueOf(position+1));
                             jsonArray.put(jsonObject);
                             mTipDialog =new TipDialog(this, "是否申请上麦", "取消", "确定", null,new TipDialog.ConfirmCallBack() {
                                 @Override
@@ -752,34 +712,35 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
                     }else {
                         AlertUtil.showToast("等待上麦中...");
                     }
-
                 }
             }
         }
     }
 
     @Override
-    public void onRejectLineUpdated(String val) {
+    public void onRejectLineUpdated(String val,String userId) {
         runOnUiThread(()->{
             Log.i(TAG, "onRejectLineUpdated: sUserId="+Constant.sUserId);
             if (!isAnchor){
                 isWaitJoinMic =false;
                 isTouristJoinMic =false;
                 toTouristMic.setText("上麦");
-                AlertUtil.showToast("主播已拒绝上麦");
+                autoTipDialog =new AutoTipDialog(this,R.drawable.red_tip,val);
+                autoTipDialog.show();
             }
         });
     }
 
     @Override
-    public void onAcceptLineUpdated(String val) {
+    public void onAcceptLineUpdated(String userId) {
         runOnUiThread(()->{
             Log.i(TAG, "onAcceptLineUpdated: sUserId="+Constant.sUserId);
             if (!isAnchor){
                 isWaitJoinMic =false;
                 isTouristJoinMic =true;
                 toTouristMic.setText("下麦");
-                AlertUtil.showToast("主播已同意上麦");
+                autoTipDialog =new AutoTipDialog(this,R.drawable.success_tip,"同意上麦");
+                autoTipDialog.show();
             }
         });
     }
@@ -788,25 +749,29 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
     public void onWaitUpdated(String val) {
         runOnUiThread(()->{
             Log.i(TAG, "onWaitUpdated: jsonArray val="+val);
-            try {
-                JSONArray jsonArray =new JSONArray(val);
-                if (jsonArray.length() ==0){
-                    mWaitingMap.clear();
-                }else {
-                    for (int i = 0; i <jsonArray.length() ; i++) {
-                        JSONObject jsonObject =jsonArray.getJSONObject(i);
-                        String userId =jsonObject.getString("userid");
-                        int seatIndex =jsonObject.getInt("seat");
-                        Log.i(TAG, "onWaitUpdated:  --->seatIndex ="+seatIndex);
-                        if (!mWaitingMap.containsKey(userId)){
-                            mWaitingMap.put(userId,seatIndex);
+            if (!TextUtils.isEmpty(val)){
+                try {
+                    JSONArray jsonArray =new JSONArray(val);
+                    if (jsonArray.length() ==0){
+                        mWaitingMap.clear();
+                    }else {
+                        for (int i = 0; i <jsonArray.length() ; i++) {
+                            JSONObject jsonObject =jsonArray.getJSONObject(i);
+                            String userId =jsonObject.getString("userid");
+                            int seatIndex =Integer.parseInt(jsonObject.getString("seat"));
+                            Log.i(TAG, "onWaitUpdated:  --->seatIndex ="+seatIndex);
+                            if (!mWaitingMap.containsKey(userId)){
+                                mWaitingMap.put(userId,seatIndex);
+                            }
+                            Log.i(TAG, "onWaitUpdated: uerid="+jsonObject.getString("userid"));
                         }
-                        Log.i(TAG, "onWaitUpdated: uerid="+jsonObject.getString("userid"));
                     }
-                }
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else {
+                mWaitingMap.clear();
             }
             Log.i(TAG, "onWaitUpdated:  ---> mWaitingMap ="+mWaitingMap.size());
             anchorJoinMicCount.setText(String.valueOf(mWaitingMap.size()));
@@ -831,10 +796,10 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
     public void onMusicUpdated(String val) {
         runOnUiThread(()->{
             try {
-                Log.i(TAG, "onMusicUpdated: val ="+val);
                 JSONObject jsonObject =new JSONObject(val);
                 String name =jsonObject.getString("name");
                 String state =jsonObject.getString("state");
+                Log.i(TAG, "onMusicUpdated: name ="+name+",state ="+state);
                 if ("无名之辈".equals(name)){
                     if ("close".equals(state)){
                         mMusicName.setVisibility(View.GONE);
@@ -939,8 +904,6 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
     public void onRoomNameUpdated(String val) {
         runOnUiThread(()->{
             Log.i(TAG, "onRoomNameUpdated:zhao val="+val);
-            Log.i(TAG, "onRoomNameUpdated: getWelcomeTip="+mChannelData.getWelcomeTip());
-            Log.i(TAG, "onRoomNameUpdated: getAnnouncement="+mChannelData.getAnnouncement());
             mChatName.setText(val);
         });
     }
@@ -962,16 +925,18 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
     }
 
     @Override
-    public void onSeatUpdated(int position) {
+    public void onSeatUpdated(String userId,int position) {
         runOnUiThread(()->{
-            Log.i(TAG, "onSeatUpdated:zhao pos ="+position);
-            String  userId =mChannelData.getSeatArray()[position];
-            if (TextUtils.isEmpty(userId)){
-                isTouristJoinMic =false;
-                toTouristMic.setText("上麦");
-            }else {
-                isTouristJoinMic =true;
-                toTouristMic.setText("下麦");
+            Log.i(TAG, "onSeatUpdated: pos ="+position);
+            String  seatId =mChannelData.getSeatArray()[position];
+            if (Constant.isMyself(userId)){
+                if (TextUtils.isEmpty(seatId)){
+                    isTouristJoinMic =false;
+                    toTouristMic.setText("上麦");
+                }else {
+                    isTouristJoinMic =true;
+                    toTouristMic.setText("下麦");
+                }
             }
             mSeatAdapter.notifyItemChanged(position);
         });
@@ -1052,89 +1017,54 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
                 addMessage(messageListBean);
             }
         });
-
     }
 
-    private void playTimer() {
-        if (timeTimer == null) {
-            timeTimer = new Timer(true);
-            timeTimer.schedule(new TimerTask() {
-                public void run() {
-                    Message message = new Message();
-                    message.what = WIFI_UPGRADE_TIME;
-                    mHandler.sendMessage(message);
-                }
-            }, 1000, 1000);
-        }
-    }
-
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what){
-                case WIFI_UPGRADE_TIME:
-                    setNetWIFIStateChange();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-
-    private void setNetWIFIStateChange(){
-        int state = NetUtils.getNetworkWifiLevel(ChatActivity.this);
-        switch (state){
-            case 0:  //无网络或者手机数据
-                //暂时使用手机网络设置成..
-                mChatSourceImg.setBackgroundResource(R.drawable.source_light_green);
-                mChatSourceVal.setText("30ms");
-                mChatSourceVal.setTextColor(getResources().getColor(R.color.source_light_green));
-                break;
-            case 1: //最强
+    @Override
+    public void onNetWorkDelayChanges(int rtt) {
+        runOnUiThread(()->{
+            if (rtt<NET_WORK_RTT_SUPER){
                 mChatSourceImg.setBackgroundResource(R.drawable.source_green);
-                mChatSourceVal.setText("10ms");
                 mChatSourceVal.setTextColor(getResources().getColor(R.color.source_green));
-                break;
-            case 2: // 强
+            }else if (rtt<NET_WORK_RTT_WELL){
                 mChatSourceImg.setBackgroundResource(R.drawable.source_light_green);
-                mChatSourceVal.setText("30ms");
                 mChatSourceVal.setTextColor(getResources().getColor(R.color.source_light_green));
-                break;
-            case 3: //良好
+            }else if (rtt<NET_WORK_RTT_GOOD){
                 mChatSourceImg.setBackgroundResource(R.drawable.source_yellow);
-                mChatSourceVal.setText("40ms");
                 mChatSourceVal.setTextColor(getResources().getColor(R.color.source_yellow));
-                break;
-            case 4: //微弱
+            }else if (rtt<NET_WORK_RTT_BAD){
                 mChatSourceImg.setBackgroundResource(R.drawable.source_orange);
-                mChatSourceVal.setText("60ms");
-                mChatSourceVal.setTextColor(getResources().getColor(R.color.select_man_color));
-                break;
-            case 5: // 弱
+                mChatSourceVal.setTextColor(getResources().getColor(R.color.source_orange));
+            }else{
                 mChatSourceImg.setBackgroundResource(R.drawable.source_red);
-                mChatSourceVal.setText("100ms");
                 mChatSourceVal.setTextColor(getResources().getColor(R.color.source_red));
-                break;
-            default:
-                break;
-        }
+            }
+            if (rtt==0){
+                mChatSourceVal.setText(10+"ms");
+            }else {
+                mChatSourceVal.setText(rtt+"ms");
+            }
+
+        });
     }
 
     public void addMessage(MessageListBean bean){
-        Log.i(TAG, "addMessage: bean ="+bean.toString());
         messageAdapter.addData(bean);
         msgLayoutManager.scrollToPositionWithOffset(messageAdapter.getItemCount() - 1, Integer.MIN_VALUE);
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        exit();
+    }
+    private void exit(){
+        SpUtil.putInt("musicVal",40);
+        SpUtil.putInt("volumeVal",60);
+        SpUtil.putInt("earVal",0);
+        Constant.isEffectOpen =false;
         mManager.getRtcManager().stopAudioMixing();
         mPlayMusic.clearAnimation();
         mMusicAnimation.cancel();
         mManager.leaveChannel();
-        timeTimer.cancel();
-        timeTimer = null;
     }
 
     private void closeMusic(String name, String state){
@@ -1158,22 +1088,21 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
 //            giftList.add(new GiftBean(fromUserId,toUserId,giftId));
         }else {
             rlGift.setVisibility(View.VISIBLE);
-            Member toMember =mChannelData.getMember(toUserId);
-            Member fromMember =mChannelData.getMember(fromUserId);
-            Log.i(TAG, "processChannelMessage: fromUserId ="+fromUserId+",toUserId ="+toUserId);
+            String toName =mChannelData.getName(toUserId);
+            String fromName =mChannelData.getName(fromUserId);
             if (mChannelData.isAnchor(fromUserId)){
-                tvGiftTip.setText("主播"+"赠送"+(TextUtils.isEmpty(toUserId) ? "所有人":toMember.getName())+"一个"+giftNameArray[giftId]);
+                setGiftText("主播",toUserId,toName,giftId);
             }else  if (mChannelData.isAnchor(toUserId)){
-                if (fromMember !=null){
-                    tvGiftTip.setText(fromMember.getName()+"赠送"+(TextUtils.isEmpty(toUserId) ? "所有人":"主播")+"一个"+giftNameArray[giftId]);
+                if (fromName !=null){
+                    setGiftText(fromName,toUserId,"主播",giftId);
                 }else {
-                    tvGiftTip.setText(fromUserId+"赠送"+(TextUtils.isEmpty(toUserId) ? "所有人":"主播")+"一个"+giftNameArray[giftId]);
+                    setGiftText(fromUserId,toUserId,"主播",giftId);
                 }
             }else {
-                if (fromMember !=null){
-                    tvGiftTip.setText(fromMember.getName()+"赠送"+(TextUtils.isEmpty(toUserId) ? "所有人":toMember.getName())+"一个"+giftNameArray[giftId]);
+                if (fromName !=null){
+                    setGiftText(fromName,toUserId,toName,giftId);
                 }else {
-                    tvGiftTip.setText(fromUserId+"赠送"+(TextUtils.isEmpty(toUserId) ? "所有人":toMember.getName())+"一个"+giftNameArray[giftId]);
+                    setGiftText(fromUserId,toUserId,toName,giftId);
                 }
             }
 
@@ -1208,5 +1137,9 @@ public class ChatActivity extends AppCompatActivity implements ChatRoomEventList
             });
             animatorSet.start();
         }
+    }
+
+    private void setGiftText(String name,String toUserId,String toName,int giftId){
+        tvGiftTip.setText(name+"赠送"+(TextUtils.isEmpty(toUserId)? "所有人":toName)+"一个"+giftNameArray[giftId]);
     }
 }

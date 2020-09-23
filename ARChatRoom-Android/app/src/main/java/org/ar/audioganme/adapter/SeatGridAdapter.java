@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.ar.audioganme.R;
 import org.ar.audioganme.manager.ChatRoomManager;
 import org.ar.audioganme.model.ChannelData;
+import org.ar.audioganme.model.Member;
 import org.ar.audioganme.model.Seat;
 import org.ar.audioganme.util.AlertUtil;
 import org.ar.audioganme.weight.SpreadView;
@@ -65,26 +66,45 @@ public class SeatGridAdapter extends RecyclerView.Adapter<SeatGridAdapter.ViewHo
         String[] names =mContext.getResources().getStringArray(R.array.tourist_name);
         holder.tv_name.setText(names[position]);
         String seatId =mChannelData.getSeatArray()[position];
+        Member member =mChannelData.getMember(seatId);
         Log.i(TAG, "onBindViewHolder: position ="+position+",SeatId ="+seatId);
         if ("1".equals(mChannelData.getIsMicLock())){
             if(!TextUtils.isEmpty(seatId)){
                 if (mChannelData.isUserOnline(seatId)){
-                    AlertUtil.setAvatar(mContext,mChannelData.getMemberAvatar(seatId),holder.iv_avatar);
-                    holder.iv_mute.setVisibility(mChannelData.isUserMuted(seatId)?View.VISIBLE:View.GONE);
+                    AlertUtil.showAvatar(member.getAvatarAddr(),holder.iv_avatar);
+                    holder.tv_name.setText(member.getName());
+                    holder.iv_sex.setVisibility(View.VISIBLE);
+                    if (member.getGender() ==0){
+                        holder.iv_sex.setImageResource(R.drawable.man);
+                    }else {
+                        holder.iv_sex.setImageResource(R.drawable.girl);
+                    }
+                    holder.iv_mute.setVisibility(mChannelData.isUserMuted(seatId) ? View.VISIBLE:View.GONE);
+                    holder.iv_join.setVisibility(View.GONE);
+
                 }else {
                     holder.iv_avatar.setImageResource(R.drawable.shape_circle_bg);
                     holder.iv_mute.setVisibility(View.GONE);
+                    holder.iv_sex.setVisibility(View.GONE);
                 }
             }else {
-                holder.iv_avatar.setImageResource(R.drawable.shape_circle_bg);
+                holder.iv_avatar.setImageResource(R.drawable.shape_cirlcle_lock_bg);
                 holder.iv_mute.setVisibility(View.GONE);
+                holder.iv_join.setVisibility(View.VISIBLE);
+                holder.iv_sex.setVisibility(View.GONE);
+                holder.iv_join.setImageResource(R.drawable.mic_lock);
             }
-            holder.iv_join.setImageResource(R.drawable.mic_lock);
         }else {
             if(!TextUtils.isEmpty(seatId)){
                 if (mChannelData.isUserOnline(seatId)){
-                    Log.d(TAG, "onBindViewHolder: avatar ="+mChannelData.getMemberAvatar(seatId));
-                    AlertUtil.setAvatar(mContext,mChannelData.getMemberAvatar(seatId),holder.iv_avatar);
+                    AlertUtil.showAvatar(mChannelData.getMemberAvatar(seatId),holder.iv_avatar);
+                    holder.tv_name.setText(member.getName());
+                    holder.iv_sex.setVisibility(View.VISIBLE);
+                    if (member.getGender() ==0){
+                        holder.iv_sex.setImageResource(R.drawable.man);
+                    }else {
+                        holder.iv_sex.setImageResource(R.drawable.girl);
+                    }
                     holder.iv_join.setVisibility(View.GONE);
                     holder.iv_mute.setVisibility(mChannelData.isUserMuted(seatId)?View.VISIBLE:View.GONE);
                 }else {
@@ -92,12 +112,14 @@ public class SeatGridAdapter extends RecyclerView.Adapter<SeatGridAdapter.ViewHo
                     holder.iv_join.setImageResource(R.drawable.join_mic);
                     holder.iv_join.setVisibility(View.VISIBLE);
                     holder.iv_mute.setVisibility(View.GONE);
+                    holder.iv_sex.setVisibility(View.GONE);
                 }
             }else {
                 holder.iv_avatar.setImageResource(R.drawable.shape_circle_bg);
                 holder.iv_join.setImageResource(R.drawable.join_mic);
                 holder.iv_join.setVisibility(View.VISIBLE);
                 holder.iv_mute.setVisibility(View.GONE);
+                holder.iv_sex.setVisibility(View.GONE);
             }
         }
 
@@ -128,7 +150,7 @@ public class SeatGridAdapter extends RecyclerView.Adapter<SeatGridAdapter.ViewHo
         RelativeLayout rl_tourist;
         SpreadView view_anim;
         CircleImageView iv_avatar;
-        ImageView iv_mute,iv_join;
+        ImageView iv_mute,iv_join,iv_sex;
         TextView tv_name;
         ViewHolder(View view) {
             super(view);
@@ -139,6 +161,7 @@ public class SeatGridAdapter extends RecyclerView.Adapter<SeatGridAdapter.ViewHo
             iv_mute =view.findViewById(R.id.tourist_mute);
             iv_join =view.findViewById(R.id.tourist_join);
             tv_name =view.findViewById(R.id.tourist_name);
+            iv_sex =view.findViewById(R.id.tourist_sex);
         }
     }
 

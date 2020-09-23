@@ -8,6 +8,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -123,7 +124,6 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
                 e.printStackTrace();
             }
         }
-
     }
 
     @Override
@@ -247,6 +247,8 @@ public class PlayMusicActivity extends AppCompatActivity implements View.OnClick
             default:
                 break;
         }
+        int  musicVal = SpUtil.getInt("musicVal",40);
+        chatRoomManager.getRtcManager().adjustAudioMixingVolume(musicVal);
     }
 
     private void setChannelMusicAttr(String name,String state){

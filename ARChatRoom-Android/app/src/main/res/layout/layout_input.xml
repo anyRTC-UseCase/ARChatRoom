@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_53"
+    android:background="@color/pwd_color">
+
+    <EditText
+        android:id="@+id/ed_input"
+        android:layout_width="@dimen/dp_283"
+        android:layout_height="@dimen/dp_38"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_centerVertical="true"
+        android:inputType="number"
+        android:paddingLeft="@dimen/dp_5"
+        android:background="@drawable/shape_pwd_bg"/>
+
+    <Button
+        android:id="@+id/btn_confirm"
+        android:layout_width="@dimen/dp_63"
+        android:layout_height="@dimen/dp_38"
+        android:text="确定"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dp_10"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_12"
+        android:background="@drawable/selector_pwd_bg"/>
+
+</RelativeLayout>

@@ -53,7 +53,7 @@ public class MemberUtil {
         }else {
            images =App.instance.getResources().getStringArray(R.array.avatar_woman);
         }
-        int index = new Random().nextInt(images.length - 1);
+        int index = new Random().nextInt(images.length);
         avatarAdrr =images[index];
         SpUtil.putString("avatarAdrr",avatarAdrr);
         return avatarAdrr;
@@ -67,31 +67,19 @@ public class MemberUtil {
         return avatarAdrr;
     }
 
-    public static int getAvatarIndex(Member member){
-        String[] avatarRes;
-        if (member.getGender() ==0){
-            avatarRes =App.instance.getResources().getStringArray(R.array.avatar_man);
-        }else {
-            avatarRes =App.instance.getResources().getStringArray(R.array.avatar_woman);
-        }
+    public static int getAvatarIndex(String avatarAddr){
+        String[] avatarRes =App.instance.getResources().getStringArray(R.array.avatar);
         for (int i = 0; i <avatarRes.length; i++) {
-            if (avatarRes[i].equals(member.getAvatarAddr())){
+            if (avatarRes[i].equals(avatarAddr)){
                 return i;
             }
         }
         return 0;
     }
 
-
-    public static int getAvatarResId(ChannelData channelData) {
-        TypedArray images;
-        Member member =channelData.getMember(channelData.getAnchorId());
-        if (member.getGender() ==0){
-            images = App.instance.getResources().obtainTypedArray(R.array.random_avatar_images_man);
-        }else {
-            images = App.instance.getResources().obtainTypedArray(R.array.random_avatar_images_woman);
-        }
-        int resId = images.getResourceId(getAvatarIndex(member), R.drawable.ic_unkown);
+    public static int getAvatarResId(String avatarAddr) {
+        TypedArray images = App.instance.getResources().obtainTypedArray(R.array.random_avatar_images);
+        int resId = images.getResourceId(getAvatarIndex(avatarAddr), R.drawable.ic_unkown);
         images.recycle();
         return resId;
     }

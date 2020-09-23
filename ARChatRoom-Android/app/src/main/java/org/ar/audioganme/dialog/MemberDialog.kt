@@ -79,7 +79,7 @@ class MemberDialog : DialogFragment(){
 
     private suspend fun getUserAttr(userId:String) = suspendCoroutine<List<RtmAttribute>> {
         continuation ->
-        ChatRoomManager.instance(activity).rtmManager.getmRtmClient().getUserAttributes(userId,object :ResultCallback<List<RtmAttribute>>{
+        ChatRoomManager.instance(activity).rtmManager.getRtmClient().getUserAttributes(userId,object :ResultCallback<List<RtmAttribute>>{
             override fun onSuccess(var1: List<RtmAttribute>?) {
                 continuation.resume(var1 as ArrayList)
             }

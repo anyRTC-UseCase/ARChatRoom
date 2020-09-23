@@ -72,11 +72,15 @@ public class AlertUtil {
     }
 
     public static void setAvatar(Context context, String addr, ImageView imageView){
-        Log.d("setAvatar", "setAvatar: addr ="+addr);
         Glide.with(context)
                 .load(addr)
                 .error(R.drawable.ic_unkown)
                 .into(imageView);
+    }
+
+    public static void showAvatar(String addr, ImageView imageView){
+        int resId =MemberUtil.getAvatarResId(addr);
+        imageView.setImageResource(resId);
     }
 
     /**
