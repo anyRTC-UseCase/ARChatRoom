@@ -16,7 +16,7 @@ class ARFansCell: UITableViewCell {
     
     func updateFansCell(userModel: ARChatUserModel) {
         nameLabel?.text = userModel.name
-        headImageView.sd_setImage(with: NSURL(string: userModel.head!) as URL?, placeholderImage: UIImage(named: ""))
+        headImageView.sd_setImage(with: NSURL(string: userModel.head!) as URL?, placeholderImage: UIImage(named: "icon_head"))
         var imageName = ""
         userModel.sex! ? (imageName = "icon_female") : (imageName = "icon_male")
         sexImageView.image = UIImage(named: imageName)

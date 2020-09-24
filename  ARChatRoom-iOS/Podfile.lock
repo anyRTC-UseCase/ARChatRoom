@@ -4,12 +4,14 @@ PODS:
     - SDWebImage/Core (= 3.7.6)
   - SDWebImage/Core (3.7.6)
   - SnapKit (4.2.0)
+  - TTTAttributedLabel (2.0.0)
   - XHToast (1.4.0)
 
 DEPENDENCIES:
   - IQKeyboardManager
   - SDWebImage (~> 3.7.3)
   - SnapKit
+  - TTTAttributedLabel
   - XHToast (~> 1.4.0)
 
 SPEC REPOS:
@@ -17,14 +19,16 @@ SPEC REPOS:
     - IQKeyboardManager
     - SDWebImage
     - SnapKit
+    - TTTAttributedLabel
     - XHToast
 
 SPEC CHECKSUMS:
   IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
+  TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
   XHToast: 3b354766d56d9df8fef8e64387bbd25c90d71a86
 
-PODFILE CHECKSUM: 2b462e0d7f14c5f85ac0b3e42a4bbdeb29817273
+PODFILE CHECKSUM: 3fe57ea16202b71f065d011418637c0f5d264012
 
 COCOAPODS: 1.9.3

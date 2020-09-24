@@ -83,36 +83,27 @@ class ARInfoDataViewController: UIViewController, UIGestureRecognizerDelegate {
             //禁麦
             let arr: NSMutableArray = NSMutableArray()
             if (chatModel!.muteMicList != nil) {
-                [arr.addObjects(from: chatModel!.muteMicList as! [Any])]
+                arr.addObjects(from: chatModel!.muteMicList as! [Any])
             }
             sender.isSelected ? (arr.add(userModel.uid as Any)): (arr.remove(userModel.uid as Any))
-            let channelAttribute: ARtmChannelAttribute = ARtmChannelAttribute()
-            channelAttribute.key = "MuteMicList"
-            channelAttribute.value = getJSONStringFromArray(array: arr)
-            addOrUpdateChannel(attribute: channelAttribute)
+            addOrUpdateChannel(key: "MuteMicList", value: getJSONStringFromArray(array: arr))
         } else if (sender.tag == 52) {
             //禁言
             let arr: NSMutableArray = NSMutableArray()
             if (chatModel!.muteInputList != nil) {
-                [arr.addObjects(from: chatModel!.muteInputList as! [Any])]
+                arr.addObjects(from: chatModel!.muteInputList as! [Any])
             }
             sender.isSelected ? (arr.add(userModel.uid as Any)): (arr.remove(userModel.uid as Any))
-            let channelAttribute: ARtmChannelAttribute = ARtmChannelAttribute()
-            channelAttribute.key = "MuteInputList"
-            channelAttribute.value = getJSONStringFromArray(array: arr)
-            addOrUpdateChannel(attribute: channelAttribute)
+            addOrUpdateChannel(key: "MuteInputList", value: getJSONStringFromArray(array: arr))
         } else if (sender.tag == 53) {
             //请出
-            
+            XHToast.showCenter(withText: "敬请期待")
         } else if (sender.tag == 54) {
             //转交主持
-            let channelAttribute: ARtmChannelAttribute = ARtmChannelAttribute()
-            channelAttribute.key = "host"
-            channelAttribute.value = userModel.uid!
-            addOrUpdateChannel(attribute: channelAttribute)
+            addOrUpdateChannel(key: "host", value: userModel.uid!)
         } else if (sender.tag == 55) {
             //送礼
-            NotificationCenter.default.post(name: NSNotification.Name("ARChatNotificationGiftFromUid"), object: self, userInfo: ["gift": userModel.uid as Any])
+            NotificationCenter.default.post(name: UIResponder.chatNotificationGiftFromUid, object: self, userInfo: ["giftUid": userModel.uid as Any])
         }
         self.dismiss(animated: true, completion: nil)
     }

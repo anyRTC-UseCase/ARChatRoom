@@ -12,6 +12,11 @@ class ARGiftViewController: UIViewController, UIGestureRecognizerDelegate {
 
     @IBOutlet weak var stackView0: UIStackView!
     @IBOutlet weak var stackView1: UIStackView!
+    @IBOutlet weak var giftFromUidView: UIView!
+    @IBOutlet weak var headImageView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    
+    var channelUserModel: ARChatUserModel?
     
     var giftList: NSMutableArray! = NSMutableArray()
     /** 礼物标识 */
@@ -34,7 +39,12 @@ class ARGiftViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBAction func didClickGivingButton(_ sender: UIButton) {
-        NotificationCenter.default.post(name: NSNotification.Name("ARChatNotificationGift"), object: self, userInfo: ["gift": String(index)])
+        let dic: NSMutableDictionary = ["gift": String(index)]
+        if channelUserModel != nil {
+            dic.setValue(channelUserModel?.uid, forKey: "uid")
+            dic.setValue(channelUserModel?.name, forKey: "name")
+        }
+        NotificationCenter.default.post(name: UIResponder.chatNotificationGift, object: self, userInfo: dic as? [AnyHashable : Any])
         self.dismiss(animated: false, completion: nil)
     }
     
@@ -57,6 +67,18 @@ class ARGiftViewController: UIViewController, UIGestureRecognizerDelegate {
             return true
         } else {
             return false
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if channelUserModel != nil {
+            giftFromUidView.isHidden = false
+            headImageView.sd_setImage(with: NSURL(string: channelUserModel!.head!) as URL?, placeholderImage: UIImage(named: "icon_add"))
+            
+            var imageName = ""
+            channelUserModel!.sex! ? (imageName = "icon_female") : (imageName = "icon_male")
+            nameLabel.attributedText = getAttributedString(text: channelUserModel!.name!, image: UIImage(named: imageName)!, index: channelUserModel!.name!.count)
         }
     }
 }

@@ -342,6 +342,14 @@
 * -----------------------------------------------------------------------------
 */
 
+/** 本地音乐文件播放已结束回调
+
+本地用户调用 startAudioMixing 播放音乐文件音乐结束后，会触发该回调。如果调用 startAudioMixing 失败，会在 didOccurWarning 回调里，返回警告代码 ARWarningCodeAudioMixingOpenError。
+
+@param engine  ARtcEngineKit 对象。
+*/
+- (void)rtcEngineLocalAudioMixingDidFinish:(ARtcEngineKit *_Nonnull)engine;
+
 /** 本地音效文件播放已结束回调
 
  当调用 playEffect 播放音效结束后，会触发该回调。

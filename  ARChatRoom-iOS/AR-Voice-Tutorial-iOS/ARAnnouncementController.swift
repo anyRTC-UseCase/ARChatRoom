@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ARAnnouncementController: UIViewController, UIGestureRecognizerDelegate{
+class ARAnnouncementController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var announcementTextView: UITextView!
     

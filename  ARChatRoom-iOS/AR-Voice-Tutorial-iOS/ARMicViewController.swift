@@ -43,7 +43,7 @@ class ARMicViewController: UIViewController,UIGestureRecognizerDelegate {
         tap.addTarget(self, action: #selector(didClickCloseButton))
         tap.delegate = self
         self.view.addGestureRecognizer(tap)
-        (chatModel.waitModelList.count == 0) ? (noMicLabel.isHidden = false): (noMicLabel.isHidden = true)
+        updateUI()
         tableView.tableFooterView = UIView()
         tableView.separatorStyle = .none
         if !hoster {
@@ -56,8 +56,38 @@ class ARMicViewController: UIViewController,UIGestureRecognizerDelegate {
     @IBAction func didClickMicButton(_ sender: Any) {
         if hoster {
             //快速排麦
-            
-            deleteChannel(keys: ["waritinglist"])
+            if chatModel.waitModelList.count != 0 {
+                let arr: NSMutableArray = chatModel.waitModelList
+                for index in 1...8 {
+                    let key: String! = String(format: "seat%d", index)
+                    let uid: String? = chatModel.seatDic.object(forKey: key as Any) as? String
+                    if isBlank(text: uid) {
+                        if arr.count != 0 {
+                            let userModel: ARChatUserModel = arr[0] as! ARChatUserModel
+                            let dic: NSDictionary! = ["cmd": "acceptLine","seat": String(format: "%d", index)]
+                             let message: ARtmMessage = ARtmMessage.init(text: getJSONStringFromDictionary(dictionary: dic))
+                             let options: ARtmSendMessageOptions = ARtmSendMessageOptions()
+                             ARVoiceRtm.rtmKit?.send(message, toPeer: userModel.uid!, sendMessageOptions: options, completion: { (errorCode) in
+                                 
+                             })
+                            arr.remove(userModel)
+                        }
+                        
+                        if index == 8 && arr.count != 0 {
+                            for object in arr {
+                                let userModel: ARChatUserModel = object as! ARChatUserModel
+                                let dic: NSDictionary! = ["cmd": "rejectLine","reason": "拒绝上麦"]
+                                let message: ARtmMessage = ARtmMessage.init(text: getJSONStringFromDictionary(dictionary: dic))
+                                let options: ARtmSendMessageOptions = ARtmSendMessageOptions()
+                                ARVoiceRtm.rtmKit?.send(message, toPeer: userModel.uid!, sendMessageOptions: options, completion: { (errorCode) in
+                                    
+                                })
+                            }
+                        }
+                    }
+                }
+                deleteChannel(keys: ["waitinglist"])
+            }
         } else {
             //取消排麦
             let arr = chatModel.waitList
@@ -67,12 +97,9 @@ class ARMicViewController: UIViewController,UIGestureRecognizerDelegate {
                 if uid == localUserModel.uid {
                     arr.remove(object)
                     if arr.count != 0 {
-                        let channelAttribute: ARtmChannelAttribute = ARtmChannelAttribute()
-                        channelAttribute.key = "waritinglist"
-                        channelAttribute.value = getJSONStringFromArray(array: arr)
-                        addOrUpdateChannel(attribute: channelAttribute)
+                        addOrUpdateChannel(key: "waitinglist", value: getJSONStringFromArray(array: arr))
                     } else {
-                        deleteChannel(keys: ["waritinglist"])
+                        deleteChannel(keys: ["waitinglist"])
                     }
                 }
             }
@@ -96,10 +123,20 @@ class ARMicViewController: UIViewController,UIGestureRecognizerDelegate {
     @objc func micRefresh(nofi: Notification) {
         let result: Bool = nofi.userInfo!["micLock"] as! Bool
         if result {
-            (chatModel.waitModelList.count == 0) ? (noMicLabel.isHidden = false): (noMicLabel.isHidden = true)
+            updateUI()
             tableView.reloadData()
         } else {
             self.dismiss(animated: false, completion: nil)
+        }
+    }
+    
+    func updateUI() {
+        if chatModel.waitModelList.count == 0 {
+            noMicLabel.isHidden = false
+            micButton.backgroundColor = UIColor.init(hexString: "#76ADF5")
+        } else {
+            noMicLabel.isHidden = true
+            micButton.backgroundColor = UIColor.init(hexString: "#319FFF")
         }
     }
     

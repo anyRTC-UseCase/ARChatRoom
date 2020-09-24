@@ -11,10 +11,10 @@ import ARtmKit
 
 extension NSObject {
     
-    //RGB转换
-    func RGB(r:CGFloat,g:CGFloat,b:CGFloat) ->UIColor{
+    //RGBA转换
+    func RGBA(r:CGFloat,g:CGFloat,b:CGFloat,a: CGFloat) ->UIColor{
         //
-        return UIColor(red: r/225.0, green: g/225.0, blue: b/225.0, alpha: 1.0)
+        return UIColor(red: r/225.0, green: g/225.0, blue: b/225.0, alpha: a)
     }
     
     func randomCharacter(length : NSInteger) ->String {
@@ -25,6 +25,23 @@ extension NSObject {
             randomStr.append(randomCharacter)
         }
         return randomStr
+    }
+    
+    //更改状态栏背景颜色
+    func changeStatusBarBackColor(color: UIColor!) {
+        if #available(iOS 13.0, *) {
+            let statusBar : UIView = UIView.init(frame: UIApplication.shared.keyWindow?.windowScene?.statusBarManager?.statusBarFrame ?? CGRect.init(x: 0, y: 0, width: ARScreenWidth, height: 20))
+            statusBar.backgroundColor = color
+            UIApplication.shared.keyWindow?.addSubview(statusBar)
+            
+        } else {
+            // Fallback on earlier versions
+            let statusBarWindow : UIView = UIApplication.shared.value(forKey: "statusBarWindow") as! UIView
+            let statusBar : UIView = statusBarWindow.value(forKey: "statusBar") as! UIView
+            if statusBar.responds(to:#selector(setter: UIView.backgroundColor)) {
+                        statusBar.backgroundColor = color
+            }
+        }
     }
     
     //json转字典
@@ -40,14 +57,20 @@ extension NSObject {
     }
     
     //字典转json
-    func getJSONStringFromDictionary(dictionary:NSDictionary) -> String {
-        if (!JSONSerialization.isValidJSONObject(dictionary)) {
-            print("无法解析出JSONString")
-            return ""
-        }
-        let data : NSData! = try? JSONSerialization.data(withJSONObject: dictionary, options: []) as NSData?
-        let JSONString = NSString(data:data as Data,encoding: String.Encoding.utf8.rawValue)
-        return JSONString! as String
+    func getJSONStringFromDictionary(dictionary: NSDictionary) -> String {
+        var result:String = ""
+           do {
+               //如果设置options为JSONSerialization.WritingOptions.prettyPrinted，则打印格式更好阅读
+               let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: JSONSerialization.WritingOptions.init(rawValue: 0))
+
+               if let JSONString = String(data: jsonData, encoding: String.Encoding.utf8) {
+                   result = JSONString
+               }
+               
+           } catch {
+               result = ""
+           }
+           return result
     }
     
     //JSONString转换为数组
@@ -91,41 +114,79 @@ extension NSObject {
         return attri
     }
     
+    //颜色
     public func changeFontColor(totalString: String, subString: String, font: UIFont, textColor: UIColor)-> NSMutableAttributedString {
         let attStr = NSMutableAttributedString.init(string: totalString)
         attStr.addAttributes([NSAttributedString.Key.foregroundColor: textColor, NSAttributedString.Key.font: font], range: NSRange.init(location: totalString.count-subString.count, length: subString.count))
         return attStr
+    }
+    
+    //是否为空
+    func isBlank(text: String?) -> Bool {
+        if text == nil {
+            return true
+        }
+        return text!.isEmpty
+    }
+    
+    //取值
+    func getAttributeValue(text: String?) -> String! {
+        if text == nil || isBlank(text: text){
+            return ""
+        }
+        return text
+    }
+    
+    //创建or获取 录音地址
+    func creatRecordPath() -> String {
+        let manager = FileManager.default
+        let baseUrl = NSHomeDirectory() + "/Library/Caches/Record/"
+        let exist = manager.fileExists(atPath: baseUrl)
+        if !exist {
+            do {
+                try manager.createDirectory(atPath: baseUrl, withIntermediateDirectories: true, attributes: nil)
+                print("Succes to create folder")
+            }
+            catch {
+                print("Error to create folder")
+            }
+        }
+        return baseUrl
     }
 }
 
 var gloabWindow: UIWindow?
 var loadingView: UIView?
 
-extension UIViewController:CAAnimationDelegate{
+extension UIViewController:CAAnimationDelegate {
     
-    func customLoadingView() {
+    func initializeLoadingView() {
         loadingView?.removeFromSuperview()
         loadingView = nil
         //加载loading视图
         loadingView = UIView.init(frame: UIScreen.main.bounds)
-        loadingView!.backgroundColor = UIColor.init(hexString: "#000000")
-        loadingView!.alpha = 0.7
-        self.view.addSubview(loadingView!)
-        
+        loadingView!.backgroundColor = RGBA(r: 0, g: 0, b: 0, a: 0.6)
+        UIApplication.shared.keyWindow?.addSubview(loadingView!)
+    }
+    
+    //加载视图
+    func customLoadingView() {
+        initializeLoadingView()
         let loadingImageView: UIImageView! = UIImageView.init(image: UIImage(named: "icon_loading"))
-        let animation = CABasicAnimation.init(keyPath: "transform.rotation.z")
-        animation.duration = 2.0
-        animation.fromValue = 0.0
-        animation.toValue = Double.pi * 2
-        animation.repeatCount = 6
-        animation.isRemovedOnCompletion = false
-        animation.delegate = self
-        loadingImageView.layer.add(animation, forKey: "LoadingAnimation")
         loadingView?.addSubview(loadingImageView)
         loadingImageView.snp.makeConstraints { (make) in
             make.center.equalTo(loadingView!.snp.center)
             make.width.height.equalTo(51)
         }
+        
+        let animation = CABasicAnimation.init(keyPath: "transform.rotation.z")
+        animation.duration = 2.0
+        animation.fromValue = 0.0
+        animation.toValue = Double.pi * 2
+        animation.repeatCount = 3
+        animation.isRemovedOnCompletion = false
+        animation.delegate = self
+        loadingImageView.layer.add(animation, forKey: "LoadingAnimation")
         
         let label: UILabel = UILabel.init()
         label.text = "连接中"
@@ -138,7 +199,8 @@ extension UIViewController:CAAnimationDelegate{
         })
     }
     
-    func removeLoadingView() {
+    //移除视图
+    @objc func removeLoadingView() {
         loadingView?.removeFromSuperview()
         loadingView = nil
     }
@@ -147,9 +209,62 @@ extension UIViewController:CAAnimationDelegate{
         removeLoadingView()
     }
     
-    func effectOfGift(giftName: String!) {
+    //提示框
+    func promptBoxView(result: Bool!, text: String?) {
+        initializeLoadingView()
+        
+        let backView = UIView.init()
+        backView.backgroundColor = UIColor.white
+        backView.layer.cornerRadius = 8
+        backView.layer.masksToBounds = true
+        loadingView!.addSubview(backView)
+        backView.snp.makeConstraints { (make) in
+            make.centerX.equalTo(loadingView!.snp_centerX)
+            make.centerY.equalTo(loadingView!.snp_centerY)
+            make.width.equalTo(270)
+            make.height.equalTo(191)
+        }
+        
+        var imageName = ""
+        result ? (imageName = "icon_sucess_prompt") : (imageName = "icon_fail_prompt")
+        let promptImageView = UIImageView.init(image: UIImage.init(named: imageName))
+        backView.addSubview(promptImageView)
+        promptImageView.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.centerY.equalTo(backView.snp_centerY).multipliedBy(0.9)
+        }
+        
+        let promptLabel = UILabel()
+        promptLabel.text = text
+        promptLabel.textColor = UIColor.init(hexString: "#606060")
+        promptLabel.font = UIFont(name: "PingFang SC", size: 14)
+        backView.addSubview(promptLabel)
+        promptLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(promptImageView.snp_bottom).offset(22)
+            make.centerX.equalToSuperview()
+        }
+        self.perform(#selector(removeLoadingView), with: nil, afterDelay: 1.0)
+    }
+    
+    //礼物动画
+    func effectOfGift(giftName: String!, text: String!) {
         let backView: UIView = UIView.init(frame: UIScreen.main.bounds)
         self.view.addSubview(backView)
+        
+        let label: UILabel = UILabel.init()
+        label.font = UIFont(name: "PingFang SC", size: 14)
+        label.backgroundColor = UIColor.init(hexString: "#000000")
+        label.textColor = UIColor.white
+        label.text = text
+        label.layer.cornerRadius = 15
+        label.layer.masksToBounds = true
+        backView.addSubview(label)
+        
+        label.snp.makeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.centerY.equalTo(backView.snp_centerY).multipliedBy(0.6)
+            make.height.equalTo(30)
+        }
         
         let imageView: UIImageView = UIImageView.init(frame: CGRect.zero)
         imageView.contentMode = .scaleAspectFit
@@ -190,16 +305,17 @@ extension UIViewController:CAAnimationDelegate{
         //删除频道属性
         let options: ARtmChannelAttributeOptions = ARtmChannelAttributeOptions()
         options.enableNotificationToChannelMembers = true
-        ARVoiceRtm.rtmKit?.deleteChannel(chatModel.channelId!, attributesByKeys: keys as? [String], options: options, completion: { (errorCode) in
-            print("deleteChannel")
-        })
+        ARVoiceRtm.rtmKit?.deleteChannel(chatModel.channelId!, attributesByKeys: keys as? [String], options: options, completion:nil)
     }
     
-    func addOrUpdateChannel(attribute: ARtmChannelAttribute){
+    func addOrUpdateChannel(key: String!, value: String!){
         //添加或更新频道属性
+        let channelAttribute: ARtmChannelAttribute = ARtmChannelAttribute()
+        channelAttribute.key = key
+        channelAttribute.value = value
         let options: ARtmChannelAttributeOptions = ARtmChannelAttributeOptions()
         options.enableNotificationToChannelMembers = true
-        ARVoiceRtm.rtmKit?.addOrUpdateChannel(chatModel.channelId!, attributes: [attribute], options: options, completion: { (errorCode) in
+        ARVoiceRtm.rtmKit?.addOrUpdateChannel(chatModel.channelId!, attributes: [channelAttribute], options: options, completion: { (errorCode) in
             print("addOrUpdateChannel errorCode == %d",errorCode)
         })
     }
@@ -213,12 +329,9 @@ extension UIViewController:CAAnimationDelegate{
             if uid == micUid {
                 arr.remove(object)
                 if arr.count != 0 {
-                    let channelAttribute: ARtmChannelAttribute = ARtmChannelAttribute()
-                    channelAttribute.key = "waritinglist"
-                    channelAttribute.value = getJSONStringFromArray(array: arr)
-                    addOrUpdateChannel(attribute: channelAttribute)
+                    addOrUpdateChannel(key: "waitinglist", value: getJSONStringFromArray(array: arr))
                 } else {
-                    deleteChannel(keys: ["waritinglist"])
+                    deleteChannel(keys: ["waitinglist"])
                 }
             }
         }
@@ -540,19 +653,11 @@ extension UIColor{
     }
 }
 
-
-extension String{
-    
-    /// check string cellection is whiteSpace
-    var isBlank : Bool{
-        return allSatisfy({$0.isWhitespace})
-    }
-}
-
-
-extension Optional where Wrapped == String{
-    var isBlank : Bool{
-        return self?.isBlank ?? true
-    }
+extension UIResponder {
+    static let chatNotificationSound = Notification.Name(rawValue: "chatNotificationSound")
+    static let chatNotificationGift = Notification.Name(rawValue: "chatNotificationGift")
+    static let chatNotificationPassWord = Notification.Name(rawValue: "chatNotificationPassWord")
+    static let chatNotificationGiftFromUid = Notification.Name(rawValue: "chatNotificationGiftFromUid")
+    static let chatNotificationMessageUid = Notification.Name(rawValue: "chatNotificationMessageUid")
 }
 

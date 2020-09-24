@@ -1005,6 +1005,50 @@ __attribute__((visibility("default"))) @interface ARtcEngineKit : NSObject
 
 //MARK: - 音频录制
 
+/**-----------------------------------------------------------------------------
+ * @name 音频录制
+ * -----------------------------------------------------------------------------
+ */
+
+/** 开始客户端录音
+
+SDK 支持通话过程中在客户端进行录音。调用该方法后，你可以录制频道内所有用户的音频，并得到一个包含所有用户声音的录音文件。录音文件格式可以为:
+
+ - .wav: 文件大，音质保真度较高。
+ - .aac: 文件小，音质保真度较低。
+
+**Note**
+
+ - 请确保你在该方法中指定的路径存在并且可写。
+ - 该接口需在 joinChannelByToken 之后调用。如果调用 leaveChannel 时还在录音，录音会自动停止。
+ - 为保证录音效果，当 sampleRate 设为 44100 Hz 或 48000 Hz 时，建议将 quality 设为 ARAudioRecordingQualityMedium 或 ARAudioRecordingQualityHigh 。
+
+ @param filePath 录音文件在本地保存的绝对路径，由用户自行指定，需精确到文件名及格式，例如：/var/mobile/Containers/Data/audio.aac。
+ @param sampleRate 录音采样率（Hz），可以设为以下值：
+
+ - 16000
+ - (Default) 32000
+ - 44100
+ - 48000
+
+ @param quality 录音音质。详见 ARAudioRecordingQuality 。
+
+  @return 0方法调用成功，<0方法调用失败
+ */
+- (int)startAudioRecording:(NSString * _Nonnull)filePath
+                   sampleRate:(NSInteger)sampleRate
+                   quality:(ARAudioRecordingQuality)quality;
+
+/** 停止客户端录音
+
+**Note:**
+
+ 该接口需要在 leaveChannel 之前调用，不然会在调用 leaveChannel 时自动停止。
+
+ @return 0方法调用成功，<0方法调用失败
+ */
+- (int)stopAudioRecording;
+
 //MARK: - 开启声卡采集
 
 //MARK: - 音频其他方法

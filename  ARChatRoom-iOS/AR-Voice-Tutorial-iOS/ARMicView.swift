@@ -13,7 +13,7 @@ enum ARMicStatus {
     case micDefault, micExist, micLock, micExistLock
 }
 
-protocol ARMicDelegate {
+protocol ARMicDelegate: NSObjectProtocol {
     func didClickMicView(index: NSInteger, status: ARMicStatus, userModel: ARChatUserModel?);
 }
 
@@ -43,10 +43,13 @@ class ARMicView: UIView {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var sexImageView: UIImageView!
     @IBOutlet weak var padding: NSLayoutConstraint!
+    @IBOutlet weak var banMicImageView: UIImageView!
     
     var micStatus: ARMicStatus? = .micDefault
     fileprivate let tap = UITapGestureRecognizer()
-    var delegate: ARMicDelegate?
+    weak var delegate: ARMicDelegate?
+    
+    var wavesView: ARWavesAnimationView?
     
     var uid: String? {
         didSet
@@ -66,6 +69,10 @@ class ARMicView: UIView {
                 }
                 if ARMicStatus.micLock == micStatus && self.tag != 0 {
                     lockImageView.isHidden = false
+                }
+                
+                if wavesView != nil {
+                    wavesView!.removeFromSuperview()
                 }
             }
         }
@@ -114,29 +121,21 @@ class ARMicView: UIView {
         }
     }
     
-    var timer: Timer!
+    func banMic(ban: Bool) {
+        banMicImageView.isHidden = !ban
+    }
 
     //音频检测
     public func startAudioAnimation() {
-        if timer == nil {
-            timer = Timer.scheduledTimer(timeInterval: 0.35, target: self, selector: #selector(wavesRippleAnimation), userInfo: nil, repeats: true)
-        }
-    }
-    
-    //水波动画
-    @objc func wavesRippleAnimation() {
-        let wavesView = ARWavesView(frame:micImageView.bounds)
-        wavesView.backgroundColor = UIColor.clear
-        micImageView.addSubview(wavesView)
-        
-        UIView.animate(withDuration: 1, animations: {
-            wavesView.transform = wavesView.transform.scaledBy(x: 3, y: 3)
-            wavesView.alpha = 0
-        }) { (true) in
-            wavesView.removeFromSuperview()
-            if self.timer != nil {
-                self.timer.invalidate()
-                self.timer = nil
+        if wavesView == nil {
+            wavesView = ARWavesAnimationView.init(frame: CGRect.init(x: 0, y: 0, width: 64, height: 64))
+            wavesView!.center = micImageView.center
+            self.insertSubview(wavesView!, at: 0)
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
+                if self.wavesView != nil {
+                    self.wavesView!.removeFromSuperview()
+                    self.wavesView = nil
+                }
             }
         }
     }

@@ -15,7 +15,7 @@ import SnapKit
 
 var rtcKit: ARtcEngineKit!
 
-class ARChatViewController: UIViewController {
+class ARChatViewController: ARBaseViewController {
     
     @IBOutlet weak var stackView0: UIStackView!
     @IBOutlet weak var stackView1: UIStackView!
@@ -25,75 +25,56 @@ class ARChatViewController: UIViewController {
     @IBOutlet weak var channelIdLabel: UILabel!
     @IBOutlet weak var signalButton: UIButton!
     @IBOutlet weak var chatButton: UIButton!
-    
     @IBOutlet weak var musicButton: UIButton!
+    @IBOutlet weak var musicLabel: UILabel!
     @IBOutlet weak var musicView: UIView!
     /** 音频开关 */
     @IBOutlet weak var audioButton: UIButton!
     /** 上下麦 -- 游客 */
     @IBOutlet weak var micButton: UIButton!
-    /** 麦序 */
     @IBOutlet weak var listButton: UIButton!
-    /** 更多 */
     @IBOutlet weak var moreButton: UIButton!
     /** 音效高度 */
     @IBOutlet weak var soundConstraint: NSLayoutConstraint!
-    /** 频道成员 */
-    fileprivate var memberList = NSMutableArray()
-    var keyBoardView: UIView!
-    var confirmButton: UIButton!
+    /** 录音指示器 */
+    @IBOutlet weak var recordIndicator: UIView!
     
-    var chatTextField: UITextField!
+    fileprivate var memberList = NSMutableArray()
     var channelId: String!
     var isHoster: Bool!
     /** 游客正在申请上麦(非自由) */
     var applyMic: Bool = false
+    /** 默认聊天（密码） */
+    var passwordInput: Bool = false
     
     let soundList = ["哈哈哈","起哄","鼓掌","尴尬","乌鸦","哎呀我滴妈"]
     let colorList = ["#CE5850","#F29025","#8252F6","#6AB71C","#03A3C3","#0A6BBE"]
+    let giftNameList = ["棒棒糖","星星","魔术帽","独角兽","王冠","宝箱","跑车","火箭"]
     let giftList = ["icon_lollipop_effect","icon_stars_effect","icon_hats_effect","icon_unicorn_effect","icon_crown_effect","icon_chest_effect","icon_car_effect","icon_rockets_effect"]
     
     weak var logVC: LogViewController?
     var micArr = NSMutableArray()
     fileprivate var rtmChannel: ARtmChannel!
+    /** 悬浮窗 */
+    lazy var floatingView: ARFloatingView! = {
+        let floatingView = ARFloatingView.init(frame: CGRect.zero)
+        floatingView.clickDragViewBlock = { [weak self] (dragView: WMDragView?) ->() in
+            self?.view.isHidden = false
+            StatusBarTextColor = true
+            self?.setNeedsStatusBarAppearanceUpdate()
+            floatingView.removeFromSuperview()
+        }
+        floatingView.roomLabel.text = chatModel.roomName
+        floatingView.closeButton.addTarget(self, action: #selector(self.endChatRoom), for: .touchUpInside)
+        return floatingView
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        UIApplication.shared.isIdleTimerDisabled = true
-        announcementButton.layer.borderColor = UIColor.red.cgColor
-        onlineButton.layer.borderColor = UIColor.red.cgColor
-        channelId = chatModel.channelId
-        channelIdLabel.text = String(format: "ID:%@",channelId)
-        chatNameButton.setTitle(chatModel.roomName, for: .normal)
-        chatButton.contentHorizontalAlignment = .left
-        musicView.layer.borderColor = UIColor.lightGray.cgColor
-        self.view.addSubview(getInputAccessoryView())
-        
+        initializeUI()
         initializeEngine()
-        initializeHost()
-        
-        for i in 1 ..< 9 {
-            let micView: ARMicView = ARMicView.videoView()
-            micView.tag = i
-            micView.delegate = self
-            micView.titleLabel.text = String(i) + "号麦位"
-            micView.uid = chatModel.seatDic.object(forKey: String(format: "seat%d", i)) as? String
-            (i < 5) ? (stackView0.addArrangedSubview(micView)) : (stackView1.addArrangedSubview(micView))
-            micArr.add(micView)
-        }
-        
-        let messageModel: ARLogModel = ARLogModel()
-        messageModel.contentType = .warning
-        messageModel.content = "系统：官方倡导绿色交友，并24小时对互动房间进行巡查，如果发现低俗、骂人、人身攻击等违规行为。官方将进行封房封号处理"
-        self.logVC?.log(logModel: messageModel)
-        
-        NotificationCenter.default.addObserver(self,selector:#selector(keyboardChange(notify:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self,selector:#selector(keyboardChange(notify:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(soundEffect), name: NSNotification.Name(rawValue:"ARChatNotificationSound"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(sendoutGift), name: NSNotification.Name(rawValue:"ARChatNotificationGift"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(setupPassword), name: NSNotification.Name(rawValue:"ARChatNotificationPassWord"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(sendoutGiftFromUid), name: NSNotification.Name(rawValue:"ARChatNotificationGiftFromUid"), object: nil)
+        addObserveNotification()
     }
     
     func initializeEngine() {
@@ -103,59 +84,40 @@ class ARChatViewController: UIViewController {
         if  isHoster {
             rtcKit.setClientRole(.broadcaster)
         }
-        
+        rtcKit.setAudioProfile(.musicHighQuality, scenario: .gameStreaming)
         //加入房间
         rtcKit.joinChannel(byToken: "", channelId: channelId!, uid: localUserModel.uid) {(channel, uid, elapsed) -> Void in
             print("joinChannel")
         }
+        rtcKit.enable(inEarMonitoring: true)
         //启用说话者音量提示
         rtcKit.enableAudioVolumeIndication(200, smooth: 3, report_vad: true)
         
         ARVoiceRtm.rtmKit?.aRtmDelegate = self
         //创建rtm频道
         rtmChannel = ARVoiceRtm.rtmKit?.createChannel(withId: channelId, delegate: self)
-        rtmChannel.join { (errorCode) in
-            print("join channel")
-            self.getChannelMembers()
-        }
-    }
-    
-    func initializeHost() {
-        let micView: ARMicView = ARMicView.videoView()
-        micView.titleLabel.text = "主持麦"
-        micView.delegate = self
-        self.view.addSubview(micView)
-        micView.snp.makeConstraints { (make) in
-            make.top.equalTo(onlineButton.snp.bottom).offset(5)
-            make.width.equalTo(64)
-            make.height.equalTo(82)
-            make.centerX.equalTo(self.view.snp.centerX)
-        }
-        micArr.insert(micView, at: 0)
-        
-        if isHoster {
-            //主持人上麦
-            let channelAttribute: ARtmChannelAttribute = ARtmChannelAttribute()
-            channelAttribute.key = "seat0"
-            channelAttribute.value = localUserModel!.uid!
-            addOrUpdateChannel(attribute: channelAttribute)
-            chatModel.currentMic = 0
+        if (rtmChannel != nil) {
+            rtmChannel.join { [weak self] (errorCode) in
+                print("join channel")
+                self?.getChannelMembers()
+            }
         }
     }
     
     func getChannelMembers() {
-        rtmChannel.getMembersWithCompletion { (members, errorCode) in
+        rtmChannel.getMembersWithCompletion { [weak self] (members, errorCode) in
             if members?.count != 0 {
                 for object in members! {
                     let member: ARtmMember = object
-                    self.getUserAllAttribute(uid: member.uid)
+                    self?.getUserAllAttribute(uid: member.uid, exist: true)
                 }
             }
         }
     }
     
-    func getUserAllAttribute(uid: String!) {
-        ARVoiceRtm.rtmKit?.getUserAllAttributes(uid, completion:{(attributes, uid, errorCode) in
+    func getUserAllAttribute(uid: String!, exist: Bool) {
+        //获取指定用户的全部属性
+        ARVoiceRtm.rtmKit?.getUserAllAttributes(uid, completion:{[weak self] (attributes, uid, errorCode) in
             let chatUserModel = ARChatUserModel()
             chatUserModel.uid = uid
             for attribute in attributes! {
@@ -171,9 +133,14 @@ class ARChatViewController: UIViewController {
                     chatUserModel.head = attribute.value
                }
             }
-            self.memberList.add(chatUserModel)
+            self?.memberList.add(chatUserModel)
             
-            for (_,object) in self.micArr.enumerated() {
+            if !exist {
+                let userModel: ARChatUserModel? = self?.getUserModelFromUid(uid: uid)
+                self?.logVC?.log(logModel: ARLogModel.createMessageMode(type: .join, text: "", micLocation: "", micState: false, record: false, password: false, welcom: "", join: true, fromUid: uid, fromName: userModel?.name, toUid: "", toName: "", giftName: ""))
+            }
+            
+            for object in self!.micArr {
                 if object is ARMicView {
                     let micView: ARMicView = object as! ARMicView
                     if micView.uid ==  chatUserModel.uid {
@@ -191,65 +158,72 @@ class ARChatViewController: UIViewController {
         })
     }
     
-    func getInputAccessoryView() -> UIView {
-        keyBoardView = UIView.init(frame: CGRect.init(x: 0, y: ARScreenHeight, width: ARScreenWidth, height: 53))
-        keyBoardView.backgroundColor = UIColor.init(red: 247/255, green: 247/255, blue: 247/255, alpha: 1)
+    func initializeUI() {
+        UIApplication.shared.isIdleTimerDisabled = true
+        announcementButton.layer.borderColor = UIColor.red.cgColor
+        onlineButton.layer.borderColor = UIColor.red.cgColor
+        channelId = chatModel.channelId
+        channelIdLabel.text = String(format: "ID:%@",channelId)
+        chatNameButton.setTitle(chatModel.roomName, for: .normal)
+        chatButton.contentHorizontalAlignment = .left
+        chatNameButton.contentHorizontalAlignment = .left
+        musicView.layer.borderColor = UIColor.lightGray.cgColor
+        for i in 0 ..< 9 {
+            let micView: ARMicView = ARMicView.videoView()
+            micView.tag = i
+            micView.delegate = self
+            if i == 0 {
+                micView.titleLabel.text = "主持麦"
+                self.view.addSubview(micView)
+                micView.snp.makeConstraints { (make) in
+                    make.top.equalTo(onlineButton.snp.bottom).offset(5)
+                    make.width.equalTo(64)
+                    make.height.equalTo(82)
+                    make.centerX.equalTo(self.view.snp.centerX)
+                }
+            } else {
+                micView.titleLabel.text = String(i) + "号麦位"
+                micView.uid = chatModel.seatDic.object(forKey: String(format: "seat%d", i)) as? String
+                (i < 5) ? (stackView0.addArrangedSubview(micView)) : (stackView1.addArrangedSubview(micView))
+            }
+            micArr.add(micView)
+        }
         
-        chatTextField = UITextField.init(frame: CGRect.init(x: 10, y: 8, width: ARScreenWidth - 93, height: 38));
+        if isHoster {
+            //主持人上麦
+            addOrUpdateChannel(key: "seat0", value: localUserModel!.uid!)
+            chatModel.currentMic = 0
+        }
+        
+        let messageModel: ARLogModel = ARLogModel()
+        messageModel.contentType = .warn
+        messageModel.content = "系统：官方倡导绿色交友，并24小时对互动房间进行巡查，如果发现低俗、骂人、人身攻击等违规行为。官方将进行封房封号处理"
+        self.logVC?.log(logModel: messageModel)
+        
         chatTextField.placeholder = "聊点什么吧"
-        chatTextField.font = UIFont.systemFont(ofSize: 14)
-        chatTextField.layer.masksToBounds = true
-        chatTextField.layer.cornerRadius = 5
-        chatTextField.returnKeyType = .send
-        chatTextField.backgroundColor = UIColor.white
         chatTextField.delegate = self
         chatTextField.addTarget(self, action: #selector(chatTextFieldLimit), for: .editingChanged)
-        keyBoardView.addSubview(chatTextField)
-        
-        confirmButton = UIButton.init(type: .custom)
-        confirmButton.frame = CGRect.init(x: ARScreenWidth - 73, y: 8, width: 63, height: 38)
-        confirmButton.setTitleColor(UIColor.white, for: .normal)
-        confirmButton.backgroundColor = UIColor.init(red: 64/255, green: 163/255, blue: 251/255, alpha: 1)
-        confirmButton.layer.masksToBounds = true
-        confirmButton.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-        confirmButton.layer.cornerRadius = 5
-        confirmButton.alpha = 0.3
-        confirmButton.setTitle("确定", for:.normal)
         confirmButton.addTarget(self, action: #selector(didSendChatTextField), for: .touchUpInside)
-        keyBoardView.addSubview(confirmButton)
-        return keyBoardView
     }
     
-    @objc func keyboardChange(notify:NSNotification){
-        //时间
-        let duration : Double = notify.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
-        if notify.name == UIResponder.keyboardWillShowNotification {
-            //键盘高度
-            let keyboardY : CGFloat = (notify.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue.size.height
-            let high = UIScreen.main.bounds.size.height - keyboardY - 53
-            
-            UIView.animate(withDuration: duration) {
-                self.keyBoardView.frame = CGRect(x: 0, y: high, width: ARScreenWidth, height: 53)
-                self.view.layoutIfNeeded()
-            }
-        } else if notify.name == UIResponder.keyboardWillHideNotification {
-            
-            UIView.animate(withDuration: duration, animations: {
-                self.keyBoardView.frame = CGRect(x: 0, y: ARScreenHeight, width: ARScreenWidth, height: 53)
-                self.view.layoutIfNeeded()
-            })
-        }
+    func addObserveNotification() {
+        //通知
+        NotificationCenter.default.addObserver(self, selector: #selector(soundEffect), name: UIResponder.chatNotificationSound, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(sendoutGift), name: UIResponder.chatNotificationGift, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(setupPassword), name: UIResponder.chatNotificationPassWord, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(sendoutGiftFromUid), name: UIResponder.chatNotificationGiftFromUid, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(clickMessageFromUid), name: UIResponder.chatNotificationMessageUid, object: nil)
     }
     
     @objc func didSendChatTextField() {
-        
-        if chatTextField.text?.count != 0 {
-            if PasswordInput {
+        if !isBlank(text: chatTextField.text) {
+            if passwordInput {
                 //设置密码
-                let channelAttribute: ARtmChannelAttribute = ARtmChannelAttribute()
-                channelAttribute.key = "isLock"
-                channelAttribute.value = chatTextField.text!
-                addOrUpdateChannel(attribute: channelAttribute)
+                if chatTextField.text?.count != 4 {
+                    XHToast.showCenter(withText: "请输入4位数字密码")
+                    return
+                }
+                addOrUpdateChannel(key: "isLock", value: chatTextField.text!)
             } else {
                 addChannelMessageLog(uid: localUserModel.uid, content: chatTextField.text)
                 let dic: NSDictionary! = ["cmd": "msg","content": chatTextField.text as Any]
@@ -261,16 +235,8 @@ class ARChatViewController: UIViewController {
     }
     
     func addChannelMessageLog(uid:String!, content: String!) {
-        let messageModel: ARLogModel = ARLogModel()
-        messageModel.contentType = .info
-        messageModel.content = content
-        for object in memberList {
-            let userModel: ARChatUserModel? = object as? ARChatUserModel
-            if userModel?.uid == uid {
-                messageModel.userModel = userModel
-            }
-        }
-        self.logVC?.log(logModel: messageModel)
+        let userModel: ARChatUserModel? = getUserModelFromUid(uid: uid)
+        self.logVC?.log(logModel: ARLogModel.createMessageMode(type: .info, text: content, micLocation: "", micState: false, record: false, password: false, welcom: "", join: false, fromUid: uid, fromName: userModel?.name, toUid: "", toName: "", giftName: ""))
     }
     
     func sendChannelMessage(value: String!) {
@@ -278,16 +244,16 @@ class ARChatViewController: UIViewController {
         let options: ARtmSendMessageOptions = ARtmSendMessageOptions()
         //发送频道消息
         rtmChannel.send(rtmMessage, sendMessageOptions: options) { (errorCode) in
-            
+            print("Send Channel Message")
         }
     }
 
     @objc func chatTextFieldLimit() {
-        if chatTextField.text?.count == 0 {
+        if isBlank(text: chatTextField.text) {
             confirmButton.alpha = 0.3
         } else {
             confirmButton.alpha = 1.0
-            if PasswordInput {
+            if passwordInput {
                 //限制4位数字
                 if chatTextField.text!.count > 4 {
                     let str: String = chatTextField.text!
@@ -301,30 +267,14 @@ class ARChatViewController: UIViewController {
         sender.isSelected.toggle()
         if sender.tag == 50 {
             //最小化
-//            gloabWindow?.isHidden = true
+            StatusBarTextColor = false
+            setNeedsStatusBarAppearanceUpdate()
             self.view.isHidden = true
             let delegate  = UIApplication.shared.delegate as! AppDelegate
-            let floatingView = ARFloatingView.init(frame: CGRect.zero)
-            floatingView.clickDragViewBlock = { (dragView: WMDragView?) ->() in
-                self.view.isHidden = false
-                floatingView.removeFromSuperview()
-            }
             delegate.window?.addSubview(floatingView)
         } else if (sender.tag == 51) {
             //关闭
-            UIApplication.shared.isIdleTimerDisabled = false
-            deleteChannel(keys: [String(format: "seat%d", chatModel.currentMic)])
-            rtcKit.stopAudioMixing()
-            rtcKit.leaveChannel(nil)
-            ARtcEngineKit.destroy()
-            
-            rtmChannel.leave(completion: nil)
-            ARVoiceRtm.rtmKit?.destroyChannel(withId: channelId)
-            
-            //dismissGloabWindow()
-            self.willMove(toParent: nil)
-            self.view.removeFromSuperview()
-            self.removeFromParent()
+            endChatRoom()
         } else if (sender.tag == 52) {
             //音乐 -- 主持人
             if isHoster {
@@ -333,9 +283,18 @@ class ARChatViewController: UIViewController {
                 //let vc: ARMusicViewController = nav.viewControllers[0] as! ARMusicViewController
                 nav.modalPresentationStyle = .fullScreen
                 self.present(nav, animated: true, completion: nil)
+            } else {
+                promptBoxView(result: false, text: "只有主持人才可以")
             }
         } else if (sender.tag == 53) {
             //音频
+            if chatModel.muteMicList != nil {
+                if chatModel.muteMicList.contains(localUserModel.uid!) {
+                    sender.isSelected = true
+                    XHToast.showCenter(withText: "您已被主持人禁麦")
+                    return
+                }
+            }
             rtcKit.muteLocalAudioStream(sender.isSelected)
         } else if (sender.tag == 54) {
             //上下麦 -- 游客
@@ -361,12 +320,9 @@ class ARChatViewController: UIViewController {
                     for (index,object) in micArr.enumerated() {
                         if object is ARMicView {
                             let micView: ARMicView = object as! ARMicView
-                            if micView.uid?.count == 0 {
+                            if isBlank(text: micView.uid) && index != 0 {
                                 chatModel.currentMic = index
-                                let channelAttribute: ARtmChannelAttribute = ARtmChannelAttribute()
-                                channelAttribute.key = String(format: "seat%d", index)
-                                channelAttribute.value = localUserModel!.uid!
-                                addOrUpdateChannel(attribute: channelAttribute)
+                                addOrUpdateChannel(key: String(format: "seat%d", index), value: localUserModel!.uid!)
                                 rtcKit.setClientRole(.broadcaster)
                                 self.audioButton.isHidden = false
                                 self.micButton.isSelected = true
@@ -378,21 +334,28 @@ class ARChatViewController: UIViewController {
                     }
                 }
             }
-        } else if (sender.tag == 55) {
-            // 麦序 -- 主持人、游客
-            
-        } else if (sender.tag == 56) {
-            //更多 -- 主持人
-
-        } else if (sender.tag == 57) {
-            //礼物
-            
-        } else if (sender.tag == 58) {
+        }  else if (sender.tag == 58) {
             //聊天
-            chatTextField.becomeFirstResponder()
+            if chatButton.titleLabel?.text != "禁言中" {
+                chatTextField.becomeFirstResponder()
+            }
         }
     }
     
+    //通过uid获取个人属性
+    func getUserModelFromUid(uid: String?) -> ARChatUserModel? {
+        for object in self.memberList {
+          if object is ARChatUserModel {
+              let userModel: ARChatUserModel = object as! ARChatUserModel
+              if userModel.uid == uid {
+                  return userModel
+              }
+          }
+        }
+        return nil
+    }
+    
+    //非自由模式申请上麦
     func applyLockMic(value: String!) {
         applyMic = true
         let arr = chatModel.waitList
@@ -408,10 +371,7 @@ class ARChatViewController: UIViewController {
         
         let dic = ["userid": localUserModel.uid, "seat": value]
         arr.add(dic)
-        let channelAttribute: ARtmChannelAttribute = ARtmChannelAttribute()
-        channelAttribute.key = "waritinglist"
-        channelAttribute.value = getJSONStringFromArray(array: arr)
-        addOrUpdateChannel(attribute: channelAttribute)
+        addOrUpdateChannel(key: "waitinglist", value: getJSONStringFromArray(array: arr))
         micButton.isSelected = false
         micButton.isHidden = true
         listButton.isHidden = false
@@ -419,18 +379,33 @@ class ARChatViewController: UIViewController {
     
     @objc func sendoutGift(nofi: Notification) {
         let result: String = nofi.userInfo!["gift"] as! String
-        effectOfGift(giftName: giftList[Int(result)!])
-        
-        let dic: NSDictionary! = ["cmd": "gift", "giftId": result, "userId": ""]
+        var uid: String? = nofi.userInfo!["uid"] as? String
+        var name: String? =  nofi.userInfo!["name"] as? String
+        (uid == nil) ? uid = "" : nil
+        (name == nil) ? name = "" : nil
+        let dic: NSDictionary! = ["cmd": "gift", "giftId": result, "userId": uid as Any]
         sendChannelMessage(value: getJSONStringFromDictionary(dictionary: dic))
+        //礼物消息
+        self.logVC?.log(logModel: ARLogModel.createMessageMode(type: .gift, text: "", micLocation: "", micState: false, record: false, password: false, welcom: "", join: false, fromUid: localUserModel.uid, fromName: localUserModel.name, toUid: uid, toName: name, giftName: giftNameList[Int(result)!]))
+        
+        if isBlank(text: uid) {
+            effectOfGift(giftName: giftList[Int(result)!],text: String(format: "%@ 给麦上所有人送上了 %@",localUserModel.name!, giftNameList[Int(result)!]))
+        } else {
+            effectOfGift(giftName: giftList[Int(result)!],text: String(format: "%@ 给 %@ 送上了 %@",localUserModel.name!,name!, giftNameList[Int(result)!]))
+        }
     }
     
     @objc func sendoutGiftFromUid(nofi: Notification)  {
-        
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
-            let uid: String? = nofi.userInfo!["gift"] as? String
+            let giftUid: String? = nofi.userInfo!["giftUid"] as? String
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc: ARGiftViewController = storyboard.instantiateViewController(withIdentifier: "ARChat_Gift") as! ARGiftViewController
+            
+            let userModel: ARChatUserModel? = self.getUserModelFromUid(uid: giftUid)
+            if userModel != nil {
+                vc.channelUserModel = userModel
+            }
+
             vc.modalPresentationStyle = .overCurrentContext
             self.present(vc, animated: true, completion: nil)
         }
@@ -439,19 +414,16 @@ class ARChatViewController: UIViewController {
     @objc func soundEffect(nofi: Notification) {
         let result: Bool = nofi.userInfo!["open"] as! Bool
         chatModel.sound = result
-        if result {
-            soundConstraint.constant = 40.0
-        } else {
-            soundConstraint.constant = 0.0
-        }
+        result ? (soundConstraint.constant = 40.0) : (soundConstraint.constant = 0)
     }
     
     @objc func setupPassword(nofi: Notification) {
         let result: Bool = nofi.userInfo!["state"] as! Bool
         if result {
-            PasswordInput = true
+            passwordInput = true
             chatTextField.text = ""
             chatTextField.keyboardType = .numberPad
+            chatTextField.isSecureTextEntry = true
             chatTextField.placeholder = "请输入4位数字密码"
             chatTextField.becomeFirstResponder()
         } else {
@@ -459,6 +431,42 @@ class ARChatViewController: UIViewController {
             deleteChannel(keys: ["isLock"])
             XHToast.showCenter(withText: "取消密码成功")
         }
+    }
+    
+    @objc func clickMessageFromUid(nofi: Notification) {
+        let uid: String? = nofi.userInfo!["uid"] as? String
+        
+        let channelUserModel: ARChatUserModel? = getUserModelFromUid(uid: uid)
+        if channelUserModel != nil {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc: ARInfoDataViewController = storyboard.instantiateViewController(withIdentifier: "ARChat_InfoData") as! ARInfoDataViewController
+            isHoster ? (vc.state = ARInfoDataState.none) : ((vc.state = ARInfoDataState.audience))
+            vc.modalPresentationStyle = .overCurrentContext
+            isHoster ? (vc.state = .noMic) : (vc.state = .audience)
+            vc.userModel = channelUserModel
+            self.present(vc, animated: true, completion: nil)
+        } else {
+            promptBoxView(result: false, text: "对方已退出频道")
+        }
+    }
+    
+    @objc func endChatRoom() {
+        //离开房间
+        UIApplication.shared.isIdleTimerDisabled = false
+        deleteChannel(keys: [String(format: "seat%d", chatModel.currentMic)])
+        rtmChannel.leave(completion: nil)
+        ARVoiceRtm.rtmKit?.destroyChannel(withId: channelId)
+        //释放rtc资源
+        rtcKit.stopAudioMixing()
+        rtcKit.leaveChannel(nil)
+        ARtcEngineKit.destroy()
+
+        StatusBarTextColor = false
+        self.setNeedsStatusBarAppearanceUpdate()
+        floatingView.removeFromSuperview()
+        self.willMove(toParent: nil)
+        self.view.removeFromSuperview()
+        self.removeFromParent()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -526,19 +534,25 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
         signalButton.setImage(UIImage(named:signal), for: .normal)
     }
     
+    func rtcEngineLocalAudioMixingDidFinish(_ engine: ARtcEngineKit) {
+        //本地音乐文件播放已结束回调
+        deleteChannel(keys: ["music"])
+    }
+    
     func rtcEngine(_ engine: ARtcEngineKit, reportAudioVolumeIndicationOfSpeakers speakers: [ARtcAudioVolumeInfo], totalVolume: Int) {
         //提示频道内谁正在说话、说话者音量及本地用户是否在说话的回调
         for object in speakers {
             let volumeInfo: ARtcAudioVolumeInfo! = object
             if (volumeInfo.uid == "0" && totalVolume > 0) {
                 let micView: ARMicView! = (micArr[0] as! ARMicView)
-                if micView.uid?.count != 0 {
+                if !isBlank(text: micView.uid) {
                     micView.startAudioAnimation()
                 }
             } else {
                 for videoView in micArr {
                     let micView: ARMicView! = videoView as? ARMicView
                     if micView.uid == volumeInfo.uid {
+                        print(micView.uid! + "======" + volumeInfo.uid)
                         micView.startAudioAnimation()
                     }
                 }
@@ -548,6 +562,7 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
     
     func rtmKit(_ kit: ARtmKit, connectionStateChanged state: ARtmConnectionState, reason: ARtmConnectionChangeReason) {
         //rtm连接状态改变
+        
     }
     
     func rtmKit(_ kit: ARtmKit, messageReceived message: ARtmMessage, fromPeer peerId: String) {
@@ -560,23 +575,17 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
             let result: Int! = Int(seat)
             if result > 0 && result < 9 {
                 let micView: ARMicView! = (micArr[result] as! ARMicView)
-                if micView.uid?.count != 0 && micView.uid != nil {
+                if !isBlank(text: micView.uid) {
                     //麦位被占，检查空麦位
                     for i in 1...9 {
                         let videoView: ARMicView! = (micArr[i] as! ARMicView)
-                        if videoView.uid!.count == 0 {
-                            let channelAttribute: ARtmChannelAttribute = ARtmChannelAttribute()
-                            channelAttribute.key = String(format: "seat%d", i)
-                            channelAttribute.value = localUserModel!.uid!
-                            addOrUpdateChannel(attribute: channelAttribute)
+                        if isBlank(text: videoView.uid) {
+                            addOrUpdateChannel(key: String(format: "seat%d", i), value: localUserModel!.uid!)
                             chatModel.currentMic = result
                         }
                     }
                 } else {
-                    let channelAttribute: ARtmChannelAttribute = ARtmChannelAttribute()
-                    channelAttribute.key = String(format: "seat%d", result)
-                    channelAttribute.value = localUserModel!.uid!
-                    addOrUpdateChannel(attribute: channelAttribute)
+                    addOrUpdateChannel(key: String(format: "seat%d", result), value: localUserModel!.uid!)
                     chatModel.currentMic = result
                 }
             }
@@ -587,20 +596,15 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
     
     func channel(_ channel: ARtmChannel, memberJoined member: ARtmMember) {
         //远端用户加入频道回调
-        getUserAllAttribute(uid: member.uid)
+        getUserAllAttribute(uid: member.uid, exist: false)
     }
     
     func channel(_ channel: ARtmChannel, memberLeft member: ARtmMember) {
         //频道成员离开频道回调
-        for object in memberList {
-            if object is ARChatUserModel {
-                let userModel: ARChatUserModel = object as! ARChatUserModel
-                if userModel.uid == member.uid {
-                    memberList.remove(userModel)
-                }
-            }
-        }
+        let userModel: ARChatUserModel? = getUserModelFromUid(uid: member.uid)
+        self.logVC?.log(logModel: ARLogModel.createMessageMode(type: .join, text: "", micLocation: "", micState: false, record: false, password: false, welcom: "", join: false, fromUid: member.uid, fromName: userModel?.name, toUid: "", toName: "", giftName: ""))
         
+        memberList.remove(getUserModelFromUid(uid: member.uid) as Any)
         for (_,object) in self.micArr.enumerated() {
             if object is ARMicView {
                 let micView: ARMicView = object as! ARMicView
@@ -621,7 +625,25 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
             addChannelMessageLog(uid: member.uid, content: content)
         } else if (value == "gift") {
             let result: String = dic.object(forKey: "giftId") as! String
-            effectOfGift(giftName: giftList[Int(result)!])
+            //礼物消息
+            let uid: String? = dic.object(forKey: "userId") as? String
+            var toUid: String? = ""
+            var toName: String = ""
+            if !isBlank(text: uid) {
+                let chatUserModel: ARChatUserModel? = getUserModelFromUid(uid: uid)
+                toUid = uid
+                if chatUserModel != nil {
+                    toName = chatUserModel!.name!
+                }
+            }
+            let fromUserModel: ARChatUserModel! = getUserModelFromUid(uid: member.uid)
+            self.logVC?.log(logModel: ARLogModel.createMessageMode(type: .gift, text: "", micLocation: "", micState: false, record: false, password: false, welcom: "", join: false, fromUid: member.uid, fromName: fromUserModel.name, toUid: toUid, toName: toName, giftName: giftNameList[Int(result)!]))
+            
+            if isBlank(text: uid) {
+                effectOfGift(giftName: giftList[Int(result)!],text: String(format: " %@ 给麦上所有人送上了 %@ ",fromUserModel.name!, giftNameList[Int(result)!]))
+            } else {
+                effectOfGift(giftName: giftList[Int(result)!],text: String(format: " %@ 给 %@ 送上了 %@ ",fromUserModel.name!,toName, giftNameList[Int(result)!]))
+            }
         }
     }
     
@@ -632,6 +654,20 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
             for attribute in attributes {
                dic.setValue(attribute.value, forKey: attribute.key)
             }
+            
+            //欢迎语
+            let welcome: String? = dic.object(forKey: "welecomeTip") as? String
+            if welcome != nil && welcome != chatModel.welcome {
+                self.logVC?.log(logModel: ARLogModel.createMessageMode(type: .welcom, text: "", micLocation: "", micState: false, record: false, password: false, welcom: welcome, join: false, fromUid: "", fromName: "", toUid: "", toName: "", giftName: ""))
+            }
+            chatModel.welcome = dic.object(forKey: "welecomeTip") as? String
+            
+            //公告
+            let notice: String? = dic.object(forKey: "notice") as? String
+            if notice != chatModel.announcement {
+                self.logVC?.log(logModel: ARLogModel.createMessageMode(type: .warn, text: "主持人 修改了房间公告", micLocation: "", micState: false, record: false, password: false, welcom: "", join: false, fromUid: "", fromName: "", toUid: "", toName: "", giftName: ""))
+            }
+            chatModel.announcement = notice
             
             let host: String? = dic.object(forKey: "host") as? String
             if isHoster {
@@ -652,22 +688,17 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
                     micButton.isHidden = true
                     isHoster = true
                     
-                    let channelAttribute: ARtmChannelAttribute = ARtmChannelAttribute()
-                    channelAttribute.key = "seat0"
-                    channelAttribute.value = localUserModel!.uid!
-                    addOrUpdateChannel(attribute: channelAttribute)
+                    addOrUpdateChannel(key: "seat0", value: localUserModel!.uid!)
                     chatModel.currentMic = 0
                 }
             }
-            
-            chatModel.isLock = dic.object(forKey: "isLock") as? String
             
             if (dic.object(forKey: "isMicLock") as? String) == "1" {
                 chatModel.isMicLock = true
                 micLock(lock: true)
                 isHoster || applyMic ? (listButton.isHidden = false) : (listButton.isHidden = true)
                 
-                let waitMic = dic.object(forKey: "waritinglist") as? String
+                let waitMic = dic.object(forKey: "waitinglist") as? String
                 if waitMic?.count != 0 && waitMic != nil {
                     let arr = NSMutableArray()
                     arr.addObjects(from: getArrayFromJSONString(jsonString: waitMic!) as! [Any])
@@ -686,16 +717,11 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
                                 waitMic = true
                             }
                             
-                            for model in memberList {
-                                if model is ARChatUserModel {
-                                    let chatUserModel: ARChatUserModel = model as! ARChatUserModel
-                                    if chatUserModel.uid == userModel.uid {
-                                        userModel.name = chatUserModel.name
-                                        userModel.head = chatUserModel.head
-                                        userModel.sex = chatUserModel.sex
-                                        break
-                                    }
-                                }
+                            let chatUserModel: ARChatUserModel? = getUserModelFromUid(uid: userModel.uid)
+                            if chatUserModel != nil {
+                                userModel.name = chatUserModel!.name
+                                userModel.head = chatUserModel!.head
+                                userModel.sex = chatUserModel!.sex
                             }
                             modelArr.add(userModel)
                         }
@@ -729,8 +755,7 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
                 micLock(lock: false)
                 listButton.isHidden = true
                 if isHoster {
-                    //清空麦序
-                    deleteChannel(keys: ["waritinglist"])
+                    deleteChannel(keys: ["waitinglist"])
                 } else {
                     micButton.isHidden = false
                 }
@@ -740,20 +765,68 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
             }
             
             if topViewController() is ARMicViewController {
-                //刷新麦序
                 NotificationCenter.default.post(name: NSNotification.Name("ARChatNotificationMicRefresh"), object: self, userInfo: ["micLock": NSNumber.init(value: chatModel.isMicLock!)])
             }
             
-            chatModel.roomName = dic.object(forKey: "roomName") as? String
+            let password: String? = dic.object(forKey: "isLock") as? String
+            if chatModel.isLock == nil && password != nil {
+                promptBoxView(result: true, text: "更新成功")
+                self.logVC?.log(logModel: ARLogModel.createMessageMode(type: .password, text: "", micLocation: "", micState: false, record: false, password: true, welcom: "", join: false, fromUid: "", fromName: "", toUid: "", toName: "", giftName: ""))
+            } else {
+                if chatModel.isLock != nil && password == nil {
+                self.logVC?.log(logModel: ARLogModel.createMessageMode(type: .password, text: "", micLocation: "", micState: false, record: false, password: false, welcom: "", join: false, fromUid: "", fromName: "", toUid: "", toName: "", giftName: ""))
+                }
+            }
+            
+            //录音
+            let record: String? = dic.object(forKey: "record") as? String
+            if record == "1" {
+                if chatModel.record == false {
+                    let animation = CABasicAnimation.init(keyPath: "backgroundColor")
+                    animation.duration = 1.0
+                    animation.fromValue = UIColor.white.cgColor
+                    animation.toValue = UIColor.red.cgColor
+                    animation.repeatCount = MAXFLOAT
+                    animation.isRemovedOnCompletion = false
+                    recordIndicator.layer.add(animation, forKey: "CABasicAnimation")
+                    //开启录音提示
+                    let channelUserModel: ARChatUserModel? = getUserModelFromUid(uid: host)
+                    self.logVC?.log(logModel: ARLogModel.createMessageMode(type: .record, text: "", micLocation: "", micState: false, record: true, password: false, welcom: "", join: false, fromUid: channelUserModel?.uid, fromName: channelUserModel?.name, toUid: "", toName: "", giftName: ""))
+                }
+                self.recordIndicator.isHidden = false
+                chatModel.record = true
+            } else {
+                if chatModel.record {
+                    recordIndicator.layer.removeAnimation(forKey: "CABasicAnimation")
+                    //关闭录音提示
+                    let channelUserModel: ARChatUserModel? = getUserModelFromUid(uid: host)
+                    self.logVC?.log(logModel: ARLogModel.createMessageMode(type: .record, text: "", micLocation: "", micState: false, record: false, password: false, welcom: "", join: false, fromUid: channelUserModel?.uid, fromName: channelUserModel?.name, toUid: "", toName: "", giftName: ""))
+                }
+                self.recordIndicator.isHidden = true
+                chatModel.record = false
+            }
+            
+            let roomName: String? = dic.object(forKey: "roomName") as? String
+            if chatModel.roomName != roomName && !isBlank(text: chatModel.roomName){
+                self.logVC?.log(logModel: ARLogModel.createMessageMode(type: .warn, text: "主持人 修改了房间名称", micLocation: "", micState: false, record: false, password: false, welcom: "", join: false, fromUid: "", fromName: "", toUid: "", toName: "", giftName: ""))
+            }
+            chatModel.roomName = roomName
+            self.view.isHidden ? (floatingView.roomLabel.text = chatModel.roomName) : nil
+            
+            chatModel.isLock = password
             chatNameButton.setTitle(chatModel.roomName, for: .normal)
+            if chatModel.isLock != nil {
+                chatNameButton.setImage(UIImage(named: "icon_lock_room"), for: .normal)
+            } else {
+                chatNameButton.setImage(nil, for: .normal)
+            }
             
-            chatModel.announcement = dic.object(forKey: "notice") as? String
-            chatModel.welcome = dic.object(forKey: "welecomeTip") as? String
-            
+            //音乐
             let musicValue = dic.object(forKey: "music") as? String
-            if musicValue?.count != 0 && musicValue != nil {
+            if !isBlank(text: musicValue) {
                 chatModel.musicDic = getDictionaryFromJSONString(jsonString: musicValue!) as? NSMutableDictionary
                 let musicState: String? = chatModel.musicDic.object(forKey: "state") as? String
+                musicLabel.text = chatModel.musicDic.object(forKey: "name") as? String
                 musicButton.layer.removeAnimation(forKey: "CABasicAnimation")
                 if musicState == "open" {
                     let animation = CABasicAnimation.init(keyPath: "transform.rotation.z")
@@ -763,30 +836,77 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
                     animation.repeatCount = MAXFLOAT
                     animation.isRemovedOnCompletion = false
                     musicButton.layer.add(animation, forKey: "CABasicAnimation")
+                } else {
+                    musicLabel.text = ""
+                }
+            }
+            
+            //禁麦
+            let value0: String? = dic.object(forKey: "MuteMicList") as? String
+            if value0 != nil {
+                chatModel.muteMicList = getArrayFromJSONString(jsonString: value0!)
+                if chatModel.muteMicList.contains(localUserModel.uid!) && chatModel.currentMic != 9 {
+                    rtcKit.muteLocalAudioStream(true)
+                    audioButton.isSelected = true
+                }
+            }
+            
+            //禁言
+            chatButton.contentHorizontalAlignment = .left
+            chatButton.setTitle("聊点是什么吧", for: .normal)
+            let value1: String? = dic.object(forKey: "MuteInputList") as? String
+            if value1 != nil {
+                chatModel.muteInputList = getArrayFromJSONString(jsonString: value1!)
+                if chatModel.muteInputList.contains(localUserModel.uid!) {
+                    chatButton.setTitle("禁言中", for: .normal)
+                    chatButton.contentHorizontalAlignment = .center
                 }
             }
             
             chatModel.currentMic = 9
             for index in 0...8 {
                 let key: String! = String(format: "seat%d", index)
+                var oldUid: String? = chatModel.seatDic.object(forKey: key as Any) as? String
+                (oldUid == nil) ? (oldUid = "") : nil
                 var uid: String? = dic.object(forKey: key as Any) as? String
                 (uid == nil) ? (uid = "") : nil
-                chatModel.seatDic.setValue(uid, forKey: key)
                 
+                if isBlank(text: oldUid) && !isBlank(text: uid){
+                    //上麦
+                    let channelUserModel: ARChatUserModel? = getUserModelFromUid(uid: uid)
+                    if channelUserModel != nil {
+                        self.logVC?.log(logModel: ARLogModel.createMessageMode(type: .mic, text: "", micLocation: String(index), micState: true, record: false, password: false, welcom: "", join: false, fromUid: uid, fromName: channelUserModel?.name, toUid: uid, toName: "", giftName: ""))
+                    }
+                } else {
+                    if !isBlank(text: oldUid) && isBlank(text: uid) {
+                        //下麦
+                        let channelUserModel: ARChatUserModel? = getUserModelFromUid(uid: oldUid)
+                        if channelUserModel != nil {
+                        self.logVC?.log(logModel: ARLogModel.createMessageMode(type: .mic, text: "", micLocation: String(index), micState: false, record: false, password: false, welcom: "", join: false, fromUid: uid, fromName: channelUserModel?.name, toUid: uid, toName: "", giftName: ""))
+                        }
+                    }
+                }
+                
+                chatModel.seatDic.setValue(uid, forKey: key)
                 let micView: ARMicView = micArr[index] as! ARMicView
                 micView.uid = uid
                 if uid == localUserModel.uid {
                     chatModel.currentMic = index
                 }
                 
-                for object in memberList {
-                    if object is ARChatUserModel {
-                        let chatUserModel: ARChatUserModel = object as! ARChatUserModel
-                        if micView.uid == chatUserModel.uid {
-                            micView.chatUserModel = chatUserModel
-                            break
+                //禁麦状态
+                micView.banMic(ban: false)
+                if uid != nil {
+                    if chatModel.muteMicList != nil {
+                        if chatModel.muteMicList.contains(uid as Any) {
+                            micView.banMic(ban: true)
                         }
                     }
+                }
+                
+                let chatUserModel: ARChatUserModel? = getUserModelFromUid(uid: uid)
+                if chatUserModel != nil {
+                    micView.chatUserModel = chatUserModel
                 }
             }
             
@@ -799,28 +919,6 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
                 self.audioButton.isHidden = false
                 self.micButton.isSelected = true
             }
-            
-            let value0: String? = dic.object(forKey: "MuteMicList") as? String
-            if value0 != nil {
-                chatModel.muteMicList = getArrayFromJSONString(jsonString: value0!)
-                if chatModel.muteMicList.contains(localUserModel.uid!) && chatModel.currentMic != 9 {
-                    rtcKit.muteLocalAudioStream(true)
-                    audioButton.isSelected = true
-                    audioButton.isUserInteractionEnabled = false
-                } else {
-                    audioButton.isUserInteractionEnabled = true
-                }
-            }
-            
-            let value1: String? = dic.object(forKey: "MuteInputList") as? String
-            if value1 != nil {
-                chatModel.muteInputList = getArrayFromJSONString(jsonString: value1!)
-                if chatModel.muteInputList.contains(localUserModel.uid!) {
-                    chatButton.isUserInteractionEnabled = false
-                } else {
-                    chatButton.isUserInteractionEnabled = true
-                }
-            }
        }
     }
     
@@ -830,12 +928,11 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
     }
 }
 
-extension ARChatViewController: UITextFieldDelegate, ARMicDelegate{
-    
+extension ARChatViewController: UITextFieldDelegate, ARMicDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField.text?.count != 0 {
+        if !isBlank(text: textField.text) {
             textField.resignFirstResponder()
-            if !PasswordInput {
+            if !passwordInput {
                 addChannelMessageLog(uid: localUserModel.uid, content: chatTextField.text)
                 let dic: NSDictionary! = ["cmd": "msg","content": chatTextField.text as Any]
                 sendChannelMessage(value: getJSONStringFromDictionary(dictionary: dic))
@@ -846,11 +943,11 @@ extension ARChatViewController: UITextFieldDelegate, ARMicDelegate{
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        PasswordInput = false
+        passwordInput = false
         chatTextField.placeholder = "聊点什么吧"
         chatTextField.keyboardType = .default
+        chatTextField.isSecureTextEntry = false
     }
-    
     
     func micLock(lock: Bool) {
         //上麦模式
@@ -863,11 +960,11 @@ extension ARChatViewController: UITextFieldDelegate, ARMicDelegate{
                 
                 if lock {
                     micView.micStatus = .micLock
-                    if micView.uid?.count != 0 && micView.uid != nil {
+                    if !isBlank(text: micView.uid) {
                         micView.lockImageView.isHidden = true
                     }
                 } else {
-                    if micView.uid?.count != 0 && micView.uid != nil {
+                    if !isBlank(text: micView.uid) {
                         micView.micStatus = .micExist
                     } else {
                         micView.micStatus = .micDefault
@@ -889,18 +986,15 @@ extension ARChatViewController: UITextFieldDelegate, ARMicDelegate{
                     }
                     
                     chatModel.currentMic = index
-                    let channelAttribute: ARtmChannelAttribute = ARtmChannelAttribute()
-                    channelAttribute.key = String(format: "seat%d", index)
-                    channelAttribute.value = localUserModel!.uid!
-                    addOrUpdateChannel(attribute: channelAttribute)
+                    addOrUpdateChannel(key: String(format: "seat%d", index), value: localUserModel!.uid!)
                     
                     let micView: ARMicView = micArr[index] as! ARMicView
                     micView.uid = localUserModel.uid!
                 } else {
-                    XHToast.showCenter(withText: "游客不能上主持人麦位")
+                    promptBoxView(result: false, text: "游客不能上主持人麦位")
                 }
             } else {
-               XHToast.showCenter(withText: "主持人不能切换麦位")
+               promptBoxView(result: false, text: "主持人不能更改麦位")
             }
         } else if (status == .micExist || status == .micExistLock) {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -919,7 +1013,7 @@ extension ARChatViewController: UITextFieldDelegate, ARMicDelegate{
                     }
                 }
             } else {
-                XHToast.showCenter(withText: "主持人不能切换麦位")
+                promptBoxView(result: false, text: "主持人不能更改麦位")
             }
         }
     }
@@ -933,7 +1027,11 @@ extension ARChatViewController:UICollectionViewDataSource,UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize.init(width: 84, height: 40)
+        let str = soundList[indexPath.row]
+        let dic = [NSAttributedString.Key.font: UIFont(name: "PingFang SC", size: 14)]
+        let size = CGSize(width: CGFloat(MAXFLOAT), height: 40)
+        let width = str.boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: dic as [NSAttributedString.Key : Any], context: nil).size.width
+        return CGSize(width: width + 60, height: 40)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -958,5 +1056,4 @@ class ARChatSoundCell: UICollectionViewCell {
     func updateSoundCell(soundName: String!) {
         soundLabel.attributedText = getAttributedString(text: soundName, image: UIImage(named: "icon_volatility")!, index: soundName.count)
     }
-    
 }

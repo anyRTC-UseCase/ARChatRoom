@@ -11,7 +11,7 @@ import UIKit
 class ARFloatingView: WMDragView {
     
     var backView: UIView!
-    var headImageView: UIView!
+    var headImageView: UIImageView!
     var roomLabel: UILabel!
     var closeButton: UIButton!
     

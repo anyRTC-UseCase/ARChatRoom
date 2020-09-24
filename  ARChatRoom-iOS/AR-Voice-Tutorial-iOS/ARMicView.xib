@@ -49,6 +49,13 @@
                         <constraint firstAttribute="width" constant="12" id="DyH-Pm-N8T"/>
                     </constraints>
                 </imageView>
+                <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_ban_mic" translatesAutoresizingMaskIntoConstraints="NO" id="RQd-7V-GZj">
+                    <rect key="frame" x="50" y="50" width="14" height="14"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="14" id="Amz-RL-zQo"/>
+                        <constraint firstAttribute="width" constant="14" id="VjQ-o9-fJ3"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
@@ -61,14 +68,17 @@
                 <constraint firstItem="0nc-WV-z2B" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Uzl-a0-cGX"/>
                 <constraint firstItem="qRq-Jh-CJQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="VKd-2e-rtg"/>
                 <constraint firstItem="T32-PG-WSV" firstAttribute="centerY" secondItem="bMi-4y-PpJ" secondAttribute="centerY" id="Ybn-fn-nrp"/>
+                <constraint firstItem="RQd-7V-GZj" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="f3m-X4-mur"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="T32-PG-WSV" secondAttribute="trailing" constant="-10" id="pVW-CE-or4"/>
                 <constraint firstItem="qRq-Jh-CJQ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="rkA-2M-7zR"/>
+                <constraint firstItem="RQd-7V-GZj" firstAttribute="top" secondItem="qRq-Jh-CJQ" secondAttribute="bottom" constant="-14" id="vY7-Ey-k4b"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
+                <outlet property="banMicImageView" destination="RQd-7V-GZj" id="fyh-TC-4pc"/>
                 <outlet property="lockImageView" destination="0nc-WV-z2B" id="VIk-pZ-rKf"/>
                 <outlet property="micImageView" destination="qRq-Jh-CJQ" id="ZfJ-cB-QkV"/>
                 <outlet property="padding" destination="U5D-Gp-ZJX" id="Txe-eC-nqn"/>
@@ -80,6 +90,7 @@
     </objects>
     <resources>
         <image name="icon_add" width="65" height="65"/>
+        <image name="icon_ban_mic" width="14" height="14"/>
         <image name="icon_lock" width="65" height="65"/>
         <image name="icon_male" width="10" height="10"/>
     </resources>

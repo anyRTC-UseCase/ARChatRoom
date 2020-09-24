@@ -25,32 +25,36 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5gA-At-zvg">
-                                            <rect key="frame" x="0.0" y="0.0" width="402" height="47"/>
+                                            <rect key="frame" x="0.0" y="3" width="52" height="50"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wOs-xc-pFh" customClass="TTTAttributedLabel">
+                                                    <rect key="frame" x="8" y="3" width="36" height="44"/>
+                                                    <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                             <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstItem="wOs-xc-pFh" firstAttribute="leading" secondItem="5gA-At-zvg" secondAttribute="leading" constant="8" id="Hiq-nw-lBe"/>
+                                                <constraint firstItem="wOs-xc-pFh" firstAttribute="top" secondItem="5gA-At-zvg" secondAttribute="top" constant="3" id="inK-cA-aKw"/>
+                                                <constraint firstAttribute="bottom" secondItem="wOs-xc-pFh" secondAttribute="bottom" constant="3" id="lKn-vf-prS"/>
+                                                <constraint firstAttribute="trailing" secondItem="wOs-xc-pFh" secondAttribute="trailing" constant="8" id="yBT-KK-AtH"/>
+                                            </constraints>
                                         </view>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wOs-xc-pFh">
-                                            <rect key="frame" x="12" y="3" width="390" height="41"/>
-                                            <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
-                                        <constraint firstItem="wOs-xc-pFh" firstAttribute="top" secondItem="Dco-TQ-g87" secondAttribute="top" constant="3" id="3VP-cU-4zH"/>
-                                        <constraint firstItem="5gA-At-zvg" firstAttribute="bottom" secondItem="wOs-xc-pFh" secondAttribute="bottom" constant="3" id="9iL-Ja-IEV"/>
-                                        <constraint firstItem="5gA-At-zvg" firstAttribute="trailing" secondItem="wOs-xc-pFh" secondAttribute="trailing" id="Fr9-4u-Fjl"/>
-                                        <constraint firstAttribute="trailing" secondItem="wOs-xc-pFh" secondAttribute="trailing" constant="12" id="GEd-Fw-9YD"/>
-                                        <constraint firstItem="5gA-At-zvg" firstAttribute="top" secondItem="Dco-TQ-g87" secondAttribute="top" id="OJT-fg-cNB"/>
-                                        <constraint firstItem="wOs-xc-pFh" firstAttribute="leading" secondItem="Dco-TQ-g87" secondAttribute="leading" constant="12" id="SF3-23-Zej"/>
-                                        <constraint firstItem="5gA-At-zvg" firstAttribute="leading" secondItem="Dco-TQ-g87" secondAttribute="leading" id="h8T-8J-Jsm"/>
-                                        <constraint firstAttribute="bottom" secondItem="wOs-xc-pFh" secondAttribute="bottom" constant="12" id="xcO-zl-6pc"/>
+                                        <constraint firstItem="5gA-At-zvg" firstAttribute="leading" secondItem="Dco-TQ-g87" secondAttribute="leading" id="VF1-js-eNG"/>
+                                        <constraint firstItem="wOs-xc-pFh" firstAttribute="width" relation="lessThanOrEqual" secondItem="Dco-TQ-g87" secondAttribute="width" constant="-10" id="abh-1E-CW4"/>
+                                        <constraint firstAttribute="bottom" secondItem="5gA-At-zvg" secondAttribute="bottom" constant="3" id="haF-Lv-qgX"/>
+                                        <constraint firstItem="5gA-At-zvg" firstAttribute="top" secondItem="Dco-TQ-g87" secondAttribute="top" constant="3" id="o92-QW-Ac0"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <outlet property="colorView" destination="5gA-At-zvg" id="b38-ug-dWM"/>
-                                    <outlet property="contentLabel" destination="wOs-xc-pFh" id="fUG-pn-L9i"/>
+                                    <outlet property="contentLabel" destination="wOs-xc-pFh" id="Mov-mv-Xb0"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

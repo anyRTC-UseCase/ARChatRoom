@@ -46,6 +46,8 @@ class ARChatModel: NSObject {
     var sound: Bool = false
     //0 ~ 8
     var currentMic: NSInteger = 9
+    //录音开关
+    var record: Bool = false
     //音乐播放开关
     var musicDic: NSMutableDictionary! = NSMutableDictionary()
     //非自由模式麦序

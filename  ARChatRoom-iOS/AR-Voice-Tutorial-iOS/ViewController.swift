@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var headImageView: UIImageView!
     @IBOutlet weak var maleButton: UIButton!
@@ -16,7 +16,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var nameTextField: UITextField!
     //头像
     var url: String?
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,11 +46,18 @@ class ViewController: UIViewController {
         } else {
             url = String(format: "https://teameeting.oss-cn-shanghai.aliyuncs.com/play/man/head%d.jpeg", random)
         }
-        headImageView.sd_setImage(with: NSURL(string: url!) as URL?, placeholderImage: UIImage(named: ""))
+        headImageView.sd_setImage(with: NSURL(string: url!) as URL?, placeholderImage: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is ARMainViewController {
+            let mainVc: ARMainViewController = segue.destination as! ARMainViewController
+            mainVc.modalPresentationCapturesStatusBarAppearance = true
+        }
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        if strlen(nameTextField.text!) != 0 {
+        if nameTextField.text?.count != 0 {
             var userModel: ARUserModel? = getUserInformation()
             if userModel == nil {
                 userModel = ARUserModel()
@@ -62,6 +68,8 @@ class ViewController: UIViewController {
             userModel?.name = nameTextField.text
             saveUserInformation(model: userModel!)
             return true
+        } else {
+            XHToast.showCenter(withText: "请输入昵称")
         }
         return false
     }
@@ -69,6 +77,11 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         headImageView.layer.cornerRadius = ARScreenWidth * 0.3/2
         headImageView.layer.borderColor = UIColor.lightGray.cgColor
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 

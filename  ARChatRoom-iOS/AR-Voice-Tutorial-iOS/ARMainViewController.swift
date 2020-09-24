@@ -15,11 +15,12 @@ let ARScreenWidth = UIScreen.main.bounds.size.width
 var chatModel: ARChatModel!
 var localUserModel: ARUserModel!
 
-class ARMainViewController: UIViewController {
+//状态栏字体颜色，默认default
+var StatusBarTextColor: Bool = false
+
+class ARMainViewController: ARBaseViewController {
 
     @IBOutlet weak var channelIdTextField: UITextField!
-    
-    var status: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,12 +33,12 @@ class ARMainViewController: UIViewController {
         
         ARVoiceRtm.updateRtmkit(delegate: self)
         //登录
-        ARVoiceRtm.rtmKit?.login(byToken: nil, user: account, completion: { (errorCode) in
+        ARVoiceRtm.rtmKit?.login(byToken: nil, user: account, completion: { [weak self] (errorCode) in
             guard errorCode == .ok else {
                 return
             }
             ARVoiceRtm.status = .online
-            self.setLocalUserAttributes()
+            self!.setLocalUserAttributes()
         })
     }
     
@@ -75,7 +76,7 @@ class ARMainViewController: UIViewController {
         (sender.tag == 50) ? (channelId = self.channelIdTextField.text) : (channelId = localUserModel.uid)
         if strlen(channelId!) != 0 {
             //获取频道属性
-            status = true
+            StatusBarTextColor = true
             customLoadingView()
             channelIdTextField.resignFirstResponder()
             ARVoiceRtm.rtmKit?.getChannelAllAttributes(channelId!, completion:{ (attributes, errorCode) in
@@ -95,7 +96,12 @@ class ARMainViewController: UIViewController {
                     (dic.object(forKey: "isMicLock") as? String == "1") ? (chatModel.isMicLock = true) : (chatModel.isMicLock = false)
                     chatModel.roomName = dic.object(forKey: "roomName") as? String
                     chatModel.announcement = dic.object(forKey: "notice") as? String
-                    chatModel.welcome = dic.object(forKey: "welecomeTip") as? String
+                    let record: String? = dic.object(forKey: "record") as? String
+                    (record == "1") ? (chatModel.record = true) : (chatModel.record = false)
+                    let musicValue = dic.object(forKey: "music") as? String
+                    if hosterId == localUserModel?.uid && musicValue != nil {
+                        self.deleteChannel(keys: ["music"])
+                    }
                     for index in 0...8 {
                         let key: String! = String(format: "seat%d", index)
                         var uid: String? = dic.object(forKey: key as Any) as? String
@@ -108,6 +114,8 @@ class ARMainViewController: UIViewController {
                         hosterId = localUserModel.uid
                         self.setChannelAttribute(channelId: localUserModel.uid)
                     } else {
+                        StatusBarTextColor = false
+                        self.setNeedsStatusBarAppearanceUpdate()
                         self.removeLoadingView()
                         XHToast.showCenter(withText: "房间不存在")
                         return
@@ -115,15 +123,30 @@ class ARMainViewController: UIViewController {
                 }
                 
                 self.removeLoadingView()
-                let vc: ARChatViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AR_Chat") as! ARChatViewController
-                (hosterId == localUserModel?.uid) ? (vc.isHoster = true) : (vc.isHoster = false)
                 chatModel.channelUid = hosterId
-                self.addChild(vc)
-                self.view.addSubview(vc.view)
+                
+                if chatModel.isLock != nil && hosterId != localUserModel.uid {
+                    self.chatTextField.placeholder = "请输入4位数字密码"
+                    self.chatTextField.becomeFirstResponder()
+                    self.chatTextField.isSecureTextEntry = true
+                    self.chatTextField.addTarget(self, action: #selector(self.chatTextFieldLimit), for: .editingChanged)
+                    self.confirmButton.addTarget(self, action: #selector(self.didSendChatTextField), for: .touchUpInside)
+                    return
+                }
+                
+                self.joinChatRoom()
             })
         } else {
             XHToast.showCenter(withText: "请输入房间ID")
         }
+    }
+    
+    func joinChatRoom() {
+        let vc: ARChatViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AR_Chat") as! ARChatViewController
+        (chatModel.channelUid == localUserModel?.uid) ? (vc.isHoster = true) : (vc.isHoster = false)
+        
+        self.addChild(vc)
+        self.view.addSubview(vc.view)
     }
     
     func setChannelAttribute(channelId: String!) {
@@ -143,19 +166,65 @@ class ARMainViewController: UIViewController {
     
     @IBAction func didClickBackButton(_ sender: Any) {
         if self.children.count == 0 {
-            ARVoiceRtm.rtmKit?.logout(completion: { (errorCode) in
-                print("logout sucess")
-            })
-            removeUserInformation()
-            let vc: UIViewController! = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AR_Home")
-            UIApplication.shared.keyWindow?.rootViewController = vc
+            UIAlertController.showAlert(in: self, withTitle: "提示", message: "确定退出当前账号？", cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: ["退出"]) { [weak self] (alertVc, action, index) in
+                if index == 2 {
+                    ARVoiceRtm.rtmKit?.logout(completion: { (errorCode) in
+                        print("logout sucess")
+                    })
+                    self!.removeUserInformation()
+                    
+                    let cachePath = self!.creatRecordPath()
+                    //删除录音文件
+                    let manger = FileManager.default
+                    do {
+                        try manger.removeItem(atPath: String(format: "%@", cachePath))
+                    } catch {
+                        print("Error occurs.")
+                    }
+                
+                    let vc: UIViewController! = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AR_Home")
+                    UIApplication.shared.keyWindow?.rootViewController = vc
+                }
+            }
         } else {
             XHToast.showCenter(withText: "当前正在语聊房中")
         }
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return status ? .lightContent : .default
+        return StatusBarTextColor ? .lightContent : .default
+    }
+    
+    @objc func chatTextFieldLimit() {
+        //限制4位数字
+        if isBlank(text: chatTextField.text) {
+            confirmButton.alpha = 0.3
+        } else {
+            confirmButton.alpha = 1.0
+            //限制4位数字
+           if chatTextField.text!.count > 4 {
+               let str: String = chatTextField.text!
+               chatTextField.text = String(str.prefix(4))
+           }
+        }
+    }
+    
+    @objc func didSendChatTextField() {
+        if !isBlank(text: chatTextField.text) {
+            //设置密码
+            if chatTextField.text?.count != 4 {
+                XHToast.showCenter(withText: "请输入4位数字密码")
+                return
+            }
+            
+            if chatModel.isLock == chatTextField.text {
+                joinChatRoom()
+            } else {
+                XHToast.showCenter(withText: "密码错误")
+            }
+            chatTextField.resignFirstResponder()
+            chatTextField.text = ""
+        }
     }
 }
 

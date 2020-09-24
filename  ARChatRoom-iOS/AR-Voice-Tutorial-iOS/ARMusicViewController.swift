@@ -48,7 +48,7 @@ class ARMusicViewController: UITableViewController {
         leftButton.frame = CGRect.init(x: 0, y: 0, width: 100, height: 17)
         leftButton.setTitle("音乐列表", for: .normal)
         leftButton.titleLabel?.font = UIFont(name: "PingFang SC", size: 17)
-        leftButton.setTitleColor(RGB(r: 96, g: 96, b: 96), for: .normal)
+        leftButton.setTitleColor(RGBA(r: 96, g: 96, b: 96, a: 1), for: .normal)
         leftButton.titleEdgeInsets = UIEdgeInsets.init(top: 0, left: 10, bottom: 0, right: 0);
         leftButton.setImage(UIImage(named: "icon_return"), for: .normal)
         leftButton.addTarget(self, action: #selector(didClickBackButton), for: .touchUpInside)
@@ -136,10 +136,7 @@ class ARMusicViewController: UITableViewController {
     }
     
     func updateMusicChannelAttribute() {
-        let channelAttribute: ARtmChannelAttribute = ARtmChannelAttribute()
-        channelAttribute.key = "music"
         let dict: NSDictionary = ["name": musicName!,"state": musicState!]
-        channelAttribute.value = getJSONStringFromDictionary(dictionary: dict)
-        addOrUpdateChannel(attribute: channelAttribute)
+        addOrUpdateChannel(key: "music", value: getJSONStringFromDictionary(dictionary: dict))
     }
 }

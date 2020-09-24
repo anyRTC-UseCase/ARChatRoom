@@ -6,5 +6,6 @@ target 'AR-Voice-Tutorial-iOS' do
     pod 'IQKeyboardManager'
     pod 'SDWebImage', '~> 3.7.3'
     pod 'XHToast', '~> 1.4.0'
+    pod 'TTTAttributedLabel'
 end
 

@@ -37,7 +37,7 @@ class ARModifyViewController: UIViewController, UITextViewDelegate {
         leftButton.frame = CGRect.init(x: 0, y: 0, width: 100, height: 17)
         leftButton.setTitle(list[infoState!.rawValue], for: .normal)
         leftButton.titleLabel?.font = UIFont(name: "PingFang SC", size: 17)
-        leftButton.setTitleColor(RGB(r: 96, g: 96, b: 96), for: .normal)
+        leftButton.setTitleColor(RGBA(r: 96, g: 96, b: 96, a:1), for: .normal)
         leftButton.titleEdgeInsets = UIEdgeInsets.init(top: 0, left: 10, bottom: 0, right: 0);
         leftButton.setImage(UIImage(named: "icon_return"), for: .normal)
         leftButton.addTarget(self, action: #selector(didClickBackButton), for: .touchUpInside)
@@ -60,28 +60,54 @@ class ARModifyViewController: UIViewController, UITextViewDelegate {
     }
     
     @objc func didClickBackButton() {
-        let channelAttribute: ARtmChannelAttribute = ARtmChannelAttribute()
+        infoTextView.resignFirstResponder()
         var value: String!
-        (infoTextView.text.count == 0) ? (value = "") : (value = infoTextView.text)
+        value = getAttributeValue(text: infoTextView.text)
         if infoState == ARChatInfoState(rawValue: 0) {
             if value!.count >= 4 {
-                channelAttribute.key = "roomName"
-                channelAttribute.value = value
-                chatModel.roomName = value
-                addOrUpdateChannel(attribute: channelAttribute)
+                if chatModel.roomName != value {
+                    saveModify(key: "roomName", value: value)
+                } else {
+                    self.navigationController?.popViewController(animated: true)
+                }
             } else {
-                print("invalid")
+                limitText(text: "内容保持在4~32个字以内")
             }
         } else if (infoState == ARChatInfoState(rawValue: 1)) {
-            channelAttribute.key = "notice"
-            channelAttribute.value = value
-            addOrUpdateChannel(attribute: channelAttribute)
+            if chatModel.announcement != value {
+                if !value.isEmpty {
+                    saveModify(key: "notice", value: value)
+                } else {
+                    deleteChannel(keys: ["notice"])
+                    self.navigationController?.popViewController(animated: true)
+                }
+            } else {
+                self.navigationController?.popViewController(animated: true)
+            }
         } else {
-            channelAttribute.key = "welecomeTip"
-            channelAttribute.value = value
-            addOrUpdateChannel(attribute: channelAttribute)
+            if  (chatModel.welcome != value) {
+                if !value.isEmpty {
+                    saveModify(key: "welecomeTip", value: value)
+                } else {
+                    deleteChannel(keys: ["welecomeTip"])
+                    self.navigationController?.popViewController(animated: true)
+                }
+            } else {
+                self.navigationController?.popViewController(animated: true)
+            }
         }
-        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func saveModify(key: String,value: String) {
+        UIAlertController.showAlert(in: self, withTitle: "确定修改？", message: nil, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: ["确定"]) { [weak self] (alertVc, action, index) in
+            if index == 2 {
+                self?.addOrUpdateChannel(key: key, value: value)
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+                self?.navigationController?.popViewController(animated: true)
+            }
+        }
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -92,6 +118,7 @@ class ARModifyViewController: UIViewController, UITextViewDelegate {
                 textView.text = String(textView.text.prefix(32))
                 textView.undoManager?.removeAllActions()
                 textView.becomeFirstResponder()
+                limitText(text: "内容保持在4~32个字以内")
             }
         } else if (infoState == ARChatInfoState(rawValue: 1)) {
             //192
@@ -99,6 +126,7 @@ class ARModifyViewController: UIViewController, UITextViewDelegate {
                 textView.text = String(textView.text.prefix(192))
                 textView.undoManager?.removeAllActions()
                 textView.becomeFirstResponder()
+                limitText(text: "内容保持在192个字以内")
             }
         } else if (infoState == ARChatInfoState(rawValue: 2)) {
             //16
@@ -106,7 +134,14 @@ class ARModifyViewController: UIViewController, UITextViewDelegate {
                 textView.text = String(textView.text.prefix(16))
                 textView.undoManager?.removeAllActions()
                 textView.becomeFirstResponder()
+                limitText(text: "内容保持在16个字以内")
             }
+        }
+    }
+    
+    func limitText(text: String?) {
+        UIAlertController.showAlert(in: self, withTitle: "提示", message: text, cancelButtonTitle: nil, destructiveButtonTitle: nil, otherButtonTitles: ["确定"]) { (vc, action, index) in
+            
         }
     }
 }

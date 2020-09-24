@@ -5,4 +5,4 @@
 #import "WMDragView.h"
 #import "XHToast.h"
 #import "UIAlertController+Blocks.h"
-#import "UILabel+YBAttributeTextTapAction.h"
+#import "TTTAttributedLabel.h"

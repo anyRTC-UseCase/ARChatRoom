@@ -9,9 +9,6 @@
 import UIKit
 import IQKeyboardManager
 
-/** 默认聊天（密码） */
-var PasswordInput: Bool = false
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -58,9 +55,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplication.ExtensionPointIdentifier) -> Bool {
-        if extensionPointIdentifier.rawValue == "com.apple.keyboard-service"{
-            return false
-        }
+//        if extensionPointIdentifier.rawValue == "com.apple.keyboard-service" {
+//            return false
+//        }
         return true
     }
 }

@@ -9,7 +9,9 @@
 import UIKit
 
 class ARChatInfoViewController: UITableViewController {
-    
+    var roomName: String?
+    var announcement: String?
+    var welcome: String?
     let list = ["房间名称","公告","欢迎语"]
 
     override func viewDidLoad() {
@@ -23,13 +25,17 @@ class ARChatInfoViewController: UITableViewController {
         leftButton.frame = CGRect.init(x: 0, y: 0, width: 100, height: 17)
         leftButton.setTitle("房间信息", for: .normal)
         leftButton.titleLabel?.font = UIFont(name: "PingFang SC", size: 17)
-        leftButton.setTitleColor(RGB(r: 96, g: 96, b: 96), for: .normal)
+        leftButton.setTitleColor(RGBA(r: 96, g: 96, b: 96, a: 1), for: .normal)
         leftButton.titleEdgeInsets = UIEdgeInsets.init(top: 0, left: 10, bottom: 0, right: 0);
         leftButton.setImage(UIImage(named: "icon_return"), for: .normal)
         leftButton.addTarget(self, action: #selector(didClickBackButton), for: .touchUpInside)
         self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: leftButton)
         
         tableView.tableFooterView = UIView()
+        
+        roomName = chatModel.roomName
+        announcement = chatModel.announcement
+        welcome = chatModel.welcome
     }
     
     @objc func didClickBackButton() {
@@ -56,7 +62,7 @@ class ARChatInfoViewController: UITableViewController {
             cell?.detailTextLabel?.font = UIFont(name: "PingFang SC", size: 15)
         }
         cell?.textLabel?.font = UIFont(name: "PingFang SC", size: 15)
-        cell?.textLabel?.textColor = RGB(r: 51, g: 51, b: 51)
+        cell?.textLabel?.textColor = RGBA(r: 51, g: 51, b: 51, a: 1)
         cell?.textLabel?.text = list[indexPath.row]
         cell?.accessoryType = .disclosureIndicator
         cell?.selectionStyle = .none
@@ -73,5 +79,13 @@ class ARChatInfoViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3) {
+            if (self.roomName != chatModel.roomName) || (self.announcement != chatModel.announcement) || (self.welcome != chatModel.welcome) {
+                self.promptBoxView(result: true, text: "更新成功")
+                self.roomName = chatModel.roomName
+                self.announcement = chatModel.announcement
+                self.welcome = chatModel.welcome
+            }
+        }
     }
 }

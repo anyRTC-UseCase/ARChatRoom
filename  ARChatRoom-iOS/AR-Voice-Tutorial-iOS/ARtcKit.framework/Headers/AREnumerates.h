@@ -1243,7 +1243,22 @@ typedef NS_ENUM(NSInteger, ARAudioType) {
      2:音频由麦克风产生
      */
     ARAudioTypeMic = 2,
-};;
+};
 
+/** 录音音质 */
+typedef NS_ENUM(NSInteger, ARAudioRecordingQuality) {
+    /**
+     低音质。采样率为 32 KHz，录制 10 分钟的文件大小为 1.2 M 左右
+     */
+    ARAudioRecordingQualityLow = 0,
+    /**
+     中音质。采样率为 32 KHz，录制 10 分钟的文件大小为 2 M 左右
+     */
+    ARAudioRecordingQualityMedium = 1,
+    /**
+     高音质。采样率为 32 KHz，录制 10 分钟的文件大小为 3.75 M 左右
+     */
+    ARAudioRecordingQualityHigh = 2
+};
 
 #endif /* AREnumerates_h */
