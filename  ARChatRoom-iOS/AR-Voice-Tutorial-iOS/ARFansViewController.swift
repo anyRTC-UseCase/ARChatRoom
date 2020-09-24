@@ -51,6 +51,10 @@ class ARFansViewController: UIViewController,UIGestureRecognizerDelegate {
             return false
         }
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
 }
 
 extension ARFansViewController: UITableViewDelegate,UITableViewDataSource {

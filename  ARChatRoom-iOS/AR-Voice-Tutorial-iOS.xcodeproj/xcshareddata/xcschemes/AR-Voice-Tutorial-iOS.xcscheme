@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6357EC8F24FE2E41005E0C60"
-               BuildableName = "&#x8bed;&#x97f3;&#x5f00;&#x9ed1;.app"
+               BuildableName = "anyRTC&#x8bed;&#x97f3;&#x5f00;&#x9ed1;.app"
                BlueprintName = "AR-Voice-Tutorial-iOS"
                ReferencedContainer = "container:AR-Voice-Tutorial-iOS.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6357EC8F24FE2E41005E0C60"
-            BuildableName = "&#x8bed;&#x97f3;&#x5f00;&#x9ed1;.app"
+            BuildableName = "anyRTC&#x8bed;&#x97f3;&#x5f00;&#x9ed1;.app"
             BlueprintName = "AR-Voice-Tutorial-iOS"
             ReferencedContainer = "container:AR-Voice-Tutorial-iOS.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "6357EC8F24FE2E41005E0C60"
-            BuildableName = "&#x8bed;&#x97f3;&#x5f00;&#x9ed1;.app"
+            BuildableName = "anyRTC&#x8bed;&#x97f3;&#x5f00;&#x9ed1;.app"
             BlueprintName = "AR-Voice-Tutorial-iOS"
             ReferencedContainer = "container:AR-Voice-Tutorial-iOS.xcodeproj">
          </BuildableReference>
