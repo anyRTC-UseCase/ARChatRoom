@@ -472,10 +472,10 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_announcement" translatesAutoresizingMaskIntoConstraints="NO" id="Eb9-zU-wOn">
-                                        <rect key="frame" x="34" y="64.5" width="230" height="230"/>
+                                        <rect key="frame" x="91.5" y="122" width="115" height="115"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="暂无公告" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FGr-iF-63b">
-                                        <rect key="frame" x="121" y="309.5" width="56" height="20"/>
+                                        <rect key="frame" x="121" y="252" width="56" height="20"/>
                                         <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                                         <color key="textColor" red="0.59993284940000002" green="0.60003870729999997" blue="0.59992617370000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -839,16 +839,16 @@
                                         <cells>
                                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ARChat_SoundCellID" id="BkT-jX-AfS" customClass="ARChatSoundCell" customModule="anyRTC语音开黑" customModuleProvider="target">
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="ll9-0b-GhK">
+                                                <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" id="ll9-0b-GhK">
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nhA-Rn-5hY">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nhA-Rn-5hY">
                                                             <rect key="frame" x="4" y="15" width="42" height="20"/>
                                                             <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_volatility" translatesAutoresizingMaskIntoConstraints="NO" id="b4r-gJ-fkf">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="icon_volatility" translatesAutoresizingMaskIntoConstraints="NO" id="b4r-gJ-fkf">
                                                             <rect key="frame" x="61" y="18" width="15" height="13"/>
                                                         </imageView>
                                                     </subviews>
@@ -1693,13 +1693,13 @@
                                 <rect key="frame" x="0.0" y="543" width="414" height="319"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="礼物" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rvc-U6-6T2">
-                                        <rect key="frame" x="192" y="21" width="30" height="0.0"/>
+                                        <rect key="frame" x="192" y="21" width="30" height="21"/>
                                         <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="15"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E7T-DU-B2d">
-                                        <rect key="frame" x="364" y="8.5" width="25" height="25"/>
+                                        <rect key="frame" x="364" y="19" width="25" height="25"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="25" id="M3d-7S-KEB"/>
                                             <constraint firstAttribute="width" constant="25" id="ae4-Vi-5tt"/>
@@ -1739,16 +1739,16 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LBV-QC-KM2">
-                                        <rect key="frame" x="2" y="42" width="410" height="194"/>
+                                        <rect key="frame" x="2" y="63" width="410" height="173"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Hfw-6a-nkj">
-                                                <rect key="frame" x="0.0" y="0.0" width="410" height="194"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="410" height="173"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="5XG-yY-o9C">
-                                                        <rect key="frame" x="0.0" y="0.0" width="410" height="94.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="410" height="84"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3HT-cP-4aY">
-                                                                <rect key="frame" x="0.0" y="0.0" width="84" height="94.5"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="84" height="84"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="84" id="Isv-bL-9WB"/>
                                                                 </constraints>
@@ -1766,7 +1766,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jNN-aI-7t2">
-                                                                <rect key="frame" x="108.5" y="0.0" width="84" height="94.5"/>
+                                                                <rect key="frame" x="108.5" y="0.0" width="84" height="84"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="84" id="zOi-Cc-oGe"/>
                                                                 </constraints>
@@ -1784,7 +1784,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VDu-Cl-NfA">
-                                                                <rect key="frame" x="217.5" y="0.0" width="84" height="94.5"/>
+                                                                <rect key="frame" x="217.5" y="0.0" width="84" height="84"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="84" id="cjl-QI-UVR"/>
                                                                 </constraints>
@@ -1802,7 +1802,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2c0-ow-kSu">
-                                                                <rect key="frame" x="326" y="0.0" width="84" height="94.5"/>
+                                                                <rect key="frame" x="326" y="0.0" width="84" height="84"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="84" id="iyb-JY-xV7"/>
                                                                 </constraints>
@@ -1822,10 +1822,10 @@
                                                         </subviews>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="y4f-rN-wRr">
-                                                        <rect key="frame" x="0.0" y="99.5" width="410" height="94.5"/>
+                                                        <rect key="frame" x="0.0" y="89" width="410" height="84"/>
                                                         <subviews>
                                                             <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cbg-Yu-uND">
-                                                                <rect key="frame" x="0.0" y="0.0" width="84" height="94.5"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="84" height="84"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="84" id="gMe-As-H0A"/>
                                                                 </constraints>
@@ -1843,7 +1843,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NoH-aV-mzQ">
-                                                                <rect key="frame" x="108.5" y="0.0" width="84" height="94.5"/>
+                                                                <rect key="frame" x="108.5" y="0.0" width="84" height="84"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="84" id="4rb-ef-XqJ"/>
                                                                 </constraints>
@@ -1861,7 +1861,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="83q-pq-RAA">
-                                                                <rect key="frame" x="217.5" y="0.0" width="84" height="94.5"/>
+                                                                <rect key="frame" x="217.5" y="0.0" width="84" height="84"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="84" id="BSq-rK-oc8"/>
                                                                 </constraints>
@@ -1879,7 +1879,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bGy-Uk-Tbp">
-                                                                <rect key="frame" x="326" y="0.0" width="84" height="94.5"/>
+                                                                <rect key="frame" x="326" y="0.0" width="84" height="84"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="84" id="0RQ-jB-TF2"/>
                                                                 </constraints>
@@ -2053,10 +2053,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_no_data" translatesAutoresizingMaskIntoConstraints="NO" id="EXA-hz-5db">
-                                <rect key="frame" x="79" y="248.5" width="256" height="220"/>
+                                <rect key="frame" x="143" y="303.5" width="128" height="110"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="暂无数据" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wQx-dl-pZm">
-                                <rect key="frame" x="179" y="489.5" width="56" height="20"/>
+                                <rect key="frame" x="179" y="434.5" width="56" height="20"/>
                                 <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                                 <color key="textColor" red="0.59993284940000002" green="0.60003870729999997" blue="0.59992617370000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
