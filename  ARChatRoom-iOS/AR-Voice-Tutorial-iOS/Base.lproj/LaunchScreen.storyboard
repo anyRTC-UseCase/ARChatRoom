@@ -22,14 +22,13 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="AXC-ER-McP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="X6V-Kg-y5W"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="AXC-ER-McP" secondAttribute="trailing" id="h4Q-4h-pcL"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="AXC-ER-McP" secondAttribute="bottom" id="oeq-MB-U0V"/>
-                            <constraint firstItem="AXC-ER-McP" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="tET-3w-TY9"/>
+                            <constraint firstItem="AXC-ER-McP" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="X6V-Kg-y5W"/>
+                            <constraint firstAttribute="trailing" secondItem="AXC-ER-McP" secondAttribute="trailing" id="h4Q-4h-pcL"/>
+                            <constraint firstAttribute="bottom" secondItem="AXC-ER-McP" secondAttribute="bottom" constant="34" id="oeq-MB-U0V"/>
+                            <constraint firstItem="AXC-ER-McP" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" constant="44" id="tET-3w-TY9"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <extendedEdge key="edgesForExtendedLayout"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
