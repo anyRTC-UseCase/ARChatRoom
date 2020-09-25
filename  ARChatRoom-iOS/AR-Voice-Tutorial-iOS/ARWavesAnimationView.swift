@@ -56,7 +56,7 @@ class ARWavesAnimationView: UIView {
     func scaleAnimation() -> CABasicAnimation {
         let scaleAnimation: CABasicAnimation = CABasicAnimation(keyPath: "transform.scale")
         scaleAnimation.fromValue = 1.0
-        scaleAnimation.toValue = 1.43
+        scaleAnimation.toValue = 1.40
         return scaleAnimation
     }
     

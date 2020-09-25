@@ -78,7 +78,7 @@ ARCall 示例项目支持以下平台和版本：
 
 参考以下文档在对应的平台编译及运行示例项目：
 
-- [Android 运行指南](https://github.com/anyRTC-UseCase/ARChatRoom/tree/master/%20ARChatRoom-Android)
+- [Android 运行指南](https://github.com/anyRTC-UseCase/ARChatRoom/tree/master/ARChatRoom-Android)
 - [iOS 运行指南](https://github.com/anyRTC-UseCase/ARChatRoom/tree/master/%20ARChatRoom-iOS)
 
 ## 常见问题

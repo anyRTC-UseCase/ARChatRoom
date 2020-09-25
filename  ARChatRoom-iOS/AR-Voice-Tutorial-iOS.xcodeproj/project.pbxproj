@@ -85,7 +85,7 @@
 		634444CA24FF71310038189A /* ARExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARExtension.swift; sourceTree = "<group>"; };
 		634444CC24FF726F0038189A /* ARUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARUserModel.swift; sourceTree = "<group>"; };
 		634444D02500838F0038189A /* ARVoiceRtm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARVoiceRtm.swift; sourceTree = "<group>"; };
-		6357EC9024FE2E41005E0C60 /* 语音开黑.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "语音开黑.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6357EC9024FE2E41005E0C60 /* anyRTC语音开黑.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "anyRTC语音开黑.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6357EC9324FE2E41005E0C60 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6357EC9724FE2E41005E0C60 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		6357EC9A24FE2E41005E0C60 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -160,7 +160,7 @@
 		6357EC9124FE2E41005E0C60 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6357EC9024FE2E41005E0C60 /* 语音开黑.app */,
+				6357EC9024FE2E41005E0C60 /* anyRTC语音开黑.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -260,7 +260,7 @@
 			);
 			name = "AR-Voice-Tutorial-iOS";
 			productName = "AR-Voice-Tutorial-iOS";
-			productReference = 6357EC9024FE2E41005E0C60 /* 语音开黑.app */;
+			productReference = 6357EC9024FE2E41005E0C60 /* anyRTC语音开黑.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -553,8 +553,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "AR.AR-Voice-Tutorial-iOS";
-				PRODUCT_NAME = "语音开黑";
+				PRODUCT_NAME = "anyRTC语音开黑";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "AR-Voice-Tutorial-iOS/AR-Voice-Tutorial-iOS-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -583,8 +584,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "AR.AR-Voice-Tutorial-iOS";
-				PRODUCT_NAME = "语音开黑";
+				PRODUCT_NAME = "anyRTC语音开黑";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "AR-Voice-Tutorial-iOS/AR-Voice-Tutorial-iOS-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

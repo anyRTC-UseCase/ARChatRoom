@@ -100,6 +100,18 @@ class ARInfoDataViewController: UIViewController, UIGestureRecognizerDelegate {
             XHToast.showCenter(withText: "敬请期待")
         } else if (sender.tag == 54) {
             //转交主持
+            if chatModel!.musicDic != nil {
+                //停止播放
+                rtcKit.stopAudioMixing()
+                deleteChannel(keys: ["music"])
+            }
+            
+            if chatModel.record {
+                //停止录音
+                rtcKit.stopAudioRecording()
+                deleteChannel(keys: ["record"])
+            }
+            chatModel.sound = false
             addOrUpdateChannel(key: "host", value: userModel.uid!)
         } else if (sender.tag == 55) {
             //送礼
@@ -132,5 +144,9 @@ class ARInfoDataViewController: UIViewController, UIGestureRecognizerDelegate {
                 }
             }
         }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 }

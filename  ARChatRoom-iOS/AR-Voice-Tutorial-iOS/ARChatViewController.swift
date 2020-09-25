@@ -91,7 +91,7 @@ class ARChatViewController: ARBaseViewController {
         }
         rtcKit.enable(inEarMonitoring: true)
         //启用说话者音量提示
-        rtcKit.enableAudioVolumeIndication(200, smooth: 3, report_vad: true)
+        rtcKit.enableAudioVolumeIndication(500, smooth: 3, report_vad: true)
         
         ARVoiceRtm.rtmKit?.aRtmDelegate = self
         //创建rtm频道
@@ -105,6 +105,7 @@ class ARChatViewController: ARBaseViewController {
     }
     
     func getChannelMembers() {
+        //获取频道成员
         rtmChannel.getMembersWithCompletion { [weak self] (members, errorCode) in
             if members?.count != 0 {
                 for object in members! {
@@ -281,7 +282,8 @@ class ARChatViewController: ARBaseViewController {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let nav: UINavigationController = storyboard.instantiateViewController(withIdentifier: "ARChat_MusicID") as! UINavigationController
                 //let vc: ARMusicViewController = nav.viewControllers[0] as! ARMusicViewController
-                nav.modalPresentationStyle = .fullScreen
+                nav.modalPresentationStyle = .overFullScreen
+                nav.modalPresentationCapturesStatusBarAppearance = true
                 self.present(nav, animated: true, completion: nil)
             } else {
                 promptBoxView(result: false, text: "只有主持人才可以")
@@ -536,24 +538,28 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
     
     func rtcEngineLocalAudioMixingDidFinish(_ engine: ARtcEngineKit) {
         //本地音乐文件播放已结束回调
-        deleteChannel(keys: ["music"])
+        //deleteChannel(keys: ["music"])
     }
     
     func rtcEngine(_ engine: ARtcEngineKit, reportAudioVolumeIndicationOfSpeakers speakers: [ARtcAudioVolumeInfo], totalVolume: Int) {
         //提示频道内谁正在说话、说话者音量及本地用户是否在说话的回调
         for object in speakers {
             let volumeInfo: ARtcAudioVolumeInfo! = object
-            if (volumeInfo.uid == "0" && totalVolume > 0) {
-                let micView: ARMicView! = (micArr[0] as! ARMicView)
-                if !isBlank(text: micView.uid) {
-                    micView.startAudioAnimation()
-                }
-            } else {
-                for videoView in micArr {
-                    let micView: ARMicView! = videoView as? ARMicView
-                    if micView.uid == volumeInfo.uid {
-                        print(micView.uid! + "======" + volumeInfo.uid)
-                        micView.startAudioAnimation()
+            if volumeInfo.volume > 0 {
+                if (volumeInfo.uid == "0") {
+                    if chatModel.currentMic != 9 {
+                        let micView: ARMicView! = (micArr[chatModel.currentMic] as! ARMicView)
+                        if !isBlank(text: micView.uid) {
+                            micView.startAudioAnimation()
+                        }
+                    }
+                } else {
+                    for videoView in micArr {
+                        let micView: ARMicView! = videoView as? ARMicView
+                        if micView.uid == volumeInfo.uid {
+                            print(micView.uid! + "======" + volumeInfo.uid)
+                            micView.startAudioAnimation()
+                        }
                     }
                 }
             }
@@ -562,7 +568,6 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
     
     func rtmKit(_ kit: ARtmKit, connectionStateChanged state: ARtmConnectionState, reason: ARtmConnectionChangeReason) {
         //rtm连接状态改变
-        
     }
     
     func rtmKit(_ kit: ARtmKit, messageReceived message: ARtmMessage, fromPeer peerId: String) {
@@ -677,6 +682,7 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
                     micButton.isHidden = false
                     isHoster = false
                     chatModel.currentMic = 0
+                    soundConstraint.constant = 0.0
                 }
             } else {
                 if host == localUserModel.uid {
@@ -693,6 +699,7 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
                 }
             }
             
+            //非自由上麦
             if (dic.object(forKey: "isMicLock") as? String) == "1" {
                 chatModel.isMicLock = true
                 micLock(lock: true)
@@ -823,6 +830,7 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
             
             //音乐
             let musicValue = dic.object(forKey: "music") as? String
+            
             if !isBlank(text: musicValue) {
                 chatModel.musicDic = getDictionaryFromJSONString(jsonString: musicValue!) as? NSMutableDictionary
                 let musicState: String? = chatModel.musicDic.object(forKey: "state") as? String
@@ -837,6 +845,11 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
                     animation.isRemovedOnCompletion = false
                     musicButton.layer.add(animation, forKey: "CABasicAnimation")
                 } else {
+                    musicLabel.text = ""
+                }
+            } else {
+                if !isBlank(text: musicLabel.text) {
+                    musicButton.layer.removeAnimation(forKey: "CABasicAnimation")
                     musicLabel.text = ""
                 }
             }
@@ -1031,7 +1044,7 @@ extension ARChatViewController:UICollectionViewDataSource,UICollectionViewDelega
         let dic = [NSAttributedString.Key.font: UIFont(name: "PingFang SC", size: 14)]
         let size = CGSize(width: CGFloat(MAXFLOAT), height: 40)
         let width = str.boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: dic as [NSAttributedString.Key : Any], context: nil).size.width
-        return CGSize(width: width + 60, height: 40)
+        return CGSize(width: width + 50, height: 40)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -1054,6 +1067,6 @@ class ARChatSoundCell: UICollectionViewCell {
     @IBOutlet weak var soundLabel: UILabel!
     
     func updateSoundCell(soundName: String!) {
-        soundLabel.attributedText = getAttributedString(text: soundName, image: UIImage(named: "icon_volatility")!, index: soundName.count)
+        soundLabel.text = soundName
     }
 }

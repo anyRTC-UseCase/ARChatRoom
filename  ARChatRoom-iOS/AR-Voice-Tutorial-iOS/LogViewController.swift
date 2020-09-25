@@ -167,7 +167,7 @@ class LogCell: UITableViewCell {
             (logModel.fromName == nil) ? (clickText = "") : (clickText = logModel.fromName)
             let text: String! = String(format: "%@ %@",clickText, state!)
             
-            let fromLink = contentLabel.addLink(toPhoneNumber: logModel.fromName!, with: NSRange.init(location: 0, length: logModel.fromName!.count))
+            let fromLink = contentLabel.addLink(toPhoneNumber: clickText!, with: NSRange.init(location: 0, length: clickText!.count))
             fromLink?.linkTapBlock = TTTAttributedLabelLinkBlock?.init({ [weak self] (TTTAttributedLabel, TTTAttributedLabelLink) in
                 self?.didClickUid(uid: logModel.fromUid)
             })

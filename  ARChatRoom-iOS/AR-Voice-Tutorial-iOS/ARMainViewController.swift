@@ -97,7 +97,14 @@ class ARMainViewController: ARBaseViewController {
                     chatModel.roomName = dic.object(forKey: "roomName") as? String
                     chatModel.announcement = dic.object(forKey: "notice") as? String
                     let record: String? = dic.object(forKey: "record") as? String
-                    (record == "1") ? (chatModel.record = true) : (chatModel.record = false)
+                    chatModel.record = false
+                    if (record == "1") {
+                        chatModel.record = true
+                        if hosterId == localUserModel.uid {
+                            self.deleteChannel(keys: ["record"])
+                            chatModel.record = false
+                        }
+                    }
                     let musicValue = dic.object(forKey: "music") as? String
                     if hosterId == localUserModel?.uid && musicValue != nil {
                         self.deleteChannel(keys: ["music"])

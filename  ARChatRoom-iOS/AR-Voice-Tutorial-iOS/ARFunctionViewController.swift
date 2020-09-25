@@ -29,6 +29,7 @@ class ARFunctionViewController: ARBaseViewController, UIGestureRecognizerDelegat
         self.view.addGestureRecognizer(tap)
         micButton.isSelected = chatModel.isMicLock!
         soundButton.isSelected = chatModel.sound
+        recordButton.isSelected = chatModel.record
         
         if chatModel.isLock?.count != 0 && chatModel.isLock != nil {
             passwordButton.isSelected = true
@@ -65,22 +66,16 @@ class ARFunctionViewController: ARBaseViewController, UIGestureRecognizerDelegat
             vc.modalPresentationStyle = .overCurrentContext
             self.present(vc, animated: true, completion: nil)
         } else if (sender.tag == 54) {
+            sender.isSelected.toggle()
             //录音
-            var state: String?
-            chatModel.record ? (state = "结束录音") : (state = "开始录音")
-            UIAlertController.showActionSheet(in: self, withTitle: nil, message: nil, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: [state as Any, "录音管理"], popoverPresentationControllerBlock: { (vc)
-                in
-            }) { (alertVc, action, index) in
-                if index == 2 {
-                    if chatModel.record {
-                        //结束录制
-                        rtcKit.stopAudioRecording()
-                        self.addOrUpdateChannel(key: "record", value: "0")
-                        self.dismiss(animated: false, completion: nil)
-                    } else {
+            if !sender.isSelected {
+                UIAlertController.showActionSheet(in: self, withTitle: nil, message: nil, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: ["开始录音", "录音管理"], popoverPresentationControllerBlock: { (vc)
+                    in
+                }) { (alertVc, action, index) in
+                    if index == 2 {
                         //开始录制
                         UIAlertController.showActionSheet(in: self, withTitle: nil, message: nil, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: ["高保真","有损压缩"], popoverPresentationControllerBlock: { (popVc) in
-                            
+                             
                         }) { (alertVc, action, index) in
                             if index != 0 {
                                 self.chatTextField.placeholder = "请输入录音名称"
@@ -90,13 +85,23 @@ class ARFunctionViewController: ARBaseViewController, UIGestureRecognizerDelegat
                                 self.confirmButton.addTarget(self, action: #selector(self.didSendChatTextField), for: .touchUpInside)
                             }
                         }
+                    } else if index == 3 {
+                        //录音管理
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        let vc: UIViewController! = storyboard.instantiateViewController(withIdentifier: "ARChat_Record")
+                        vc.modalPresentationStyle = .fullScreen
+                        self.present(vc, animated: true, completion: nil)
                     }
-                } else if index == 3 {
-                    //录音管理
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let vc: UIViewController! = storyboard.instantiateViewController(withIdentifier: "ARChat_Record")
-                    vc.modalPresentationStyle = .fullScreen
-                    self.present(vc, animated: true, completion: nil)
+                }
+            } else {
+                //结束
+                UIAlertController.showAlert(in: self, withTitle: "确定结束录制？", message: nil, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: ["确定"]) { (alertVc, action, index) in
+                    if index == 2 {
+                        //结束录制
+                        rtcKit.stopAudioRecording()
+                        self.addOrUpdateChannel(key: "record", value: "0")
+                        self.dismiss(animated: false, completion: nil)
+                    }
                 }
             }
         } else if (sender.tag == 55) {

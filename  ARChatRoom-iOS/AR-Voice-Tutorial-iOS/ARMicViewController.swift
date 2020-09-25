@@ -140,6 +140,10 @@ class ARMicViewController: UIViewController,UIGestureRecognizerDelegate {
         }
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
         print(" MicVc deinit")

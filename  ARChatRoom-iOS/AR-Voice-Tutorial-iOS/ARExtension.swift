@@ -255,7 +255,7 @@ extension UIViewController:CAAnimationDelegate {
         label.font = UIFont(name: "PingFang SC", size: 14)
         label.backgroundColor = UIColor.init(hexString: "#000000")
         label.textColor = UIColor.white
-        label.text = text
+        label.text = String(format: " %@ ", text)
         label.layer.cornerRadius = 15
         label.layer.masksToBounds = true
         backView.addSubview(label)
