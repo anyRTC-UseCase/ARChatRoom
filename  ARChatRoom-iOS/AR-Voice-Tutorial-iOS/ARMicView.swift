@@ -54,7 +54,7 @@ class ARMicView: UIView {
     var uid: String? {
         didSet
         {
-            if uid?.count != 0 && uid != nil {
+            if !isBlank(text: uid) {
                 lockImageView.isHidden = true
                 sexImageView.isHidden = false
                 padding.constant = -6
@@ -70,10 +70,7 @@ class ARMicView: UIView {
                 if ARMicStatus.micLock == micStatus && self.tag != 0 {
                     lockImageView.isHidden = false
                 }
-                
-                if wavesView != nil {
-                    wavesView!.removeFromSuperview()
-                }
+                endAudioAnimation()
             }
         }
     }
@@ -132,11 +129,16 @@ class ARMicView: UIView {
             wavesView!.center = micImageView.center
             self.insertSubview(wavesView!, at: 0)
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
-                if self.wavesView != nil {
-                    self.wavesView!.removeFromSuperview()
-                    self.wavesView = nil
-                }
+                self.endAudioAnimation()
             }
+        }
+    }
+    
+    //移除动画
+    public func endAudioAnimation() {
+        if self.wavesView != nil {
+            self.wavesView!.removeFromSuperview()
+            self.wavesView = nil
         }
     }
 }

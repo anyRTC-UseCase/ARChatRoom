@@ -56,17 +56,17 @@ class ARChatViewController: ARBaseViewController {
     var micArr = NSMutableArray()
     fileprivate var rtmChannel: ARtmChannel!
     /** 悬浮窗 */
-    lazy var floatingView: ARFloatingView! = {
-        let floatingView = ARFloatingView.init(frame: CGRect.zero)
-        floatingView.clickDragViewBlock = { [weak self] (dragView: WMDragView?) ->() in
+    lazy var floatingView: ARFloatingView = {
+        let suspensionView = ARFloatingView.init(frame: CGRect.zero)
+        suspensionView.clickDragViewBlock = { [weak self] (dragView: WMDragView?) ->() in
             self?.view.isHidden = false
             StatusBarTextColor = true
             self?.setNeedsStatusBarAppearanceUpdate()
-            floatingView.removeFromSuperview()
+            self!.floatingView.removeFromSuperview()
         }
-        floatingView.roomLabel.text = chatModel.roomName
-        floatingView.closeButton.addTarget(self, action: #selector(self.endChatRoom), for: .touchUpInside)
-        return floatingView
+        suspensionView.roomLabel.text = chatModel.roomName
+        suspensionView.closeButton.addTarget(self, action: #selector(self.endChatRoom), for: .touchUpInside)
+        return suspensionView
     }()
 
     override func viewDidLoad() {
@@ -93,7 +93,6 @@ class ARChatViewController: ARBaseViewController {
         //启用说话者音量提示
         rtcKit.enableAudioVolumeIndication(500, smooth: 3, report_vad: true)
         
-        ARVoiceRtm.rtmKit?.aRtmDelegate = self
         //创建rtm频道
         rtmChannel = ARVoiceRtm.rtmKit?.createChannel(withId: channelId, delegate: self)
         if (rtmChannel != nil) {
@@ -298,6 +297,12 @@ class ARChatViewController: ARBaseViewController {
                 }
             }
             rtcKit.muteLocalAudioStream(sender.isSelected)
+            if sender.isSelected && chatModel.currentMic != 9 {
+                let micView: ARMicView = micArr[chatModel.currentMic] as! ARMicView
+                if micView.uid == localUserModel.uid {
+                    micView.endAudioAnimation()
+                }
+            }
         } else if (sender.tag == 54) {
             //上下麦 -- 游客
             if !sender.isSelected {
@@ -566,10 +571,6 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
         }
     }
     
-    func rtmKit(_ kit: ARtmKit, connectionStateChanged state: ARtmConnectionState, reason: ARtmConnectionChangeReason) {
-        //rtm连接状态改变
-    }
-    
     func rtmKit(_ kit: ARtmKit, messageReceived message: ARtmMessage, fromPeer peerId: String) {
         //收到点对点消息回调
         let dic = getDictionaryFromJSONString(jsonString: message.text)
@@ -816,10 +817,10 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
             let roomName: String? = dic.object(forKey: "roomName") as? String
             if chatModel.roomName != roomName && !isBlank(text: chatModel.roomName){
                 self.logVC?.log(logModel: ARLogModel.createMessageMode(type: .warn, text: "主持人 修改了房间名称", micLocation: "", micState: false, record: false, password: false, welcom: "", join: false, fromUid: "", fromName: "", toUid: "", toName: "", giftName: ""))
+                floatingView.roomLabel.text = roomName
             }
             chatModel.roomName = roomName
-            self.view.isHidden ? (floatingView.roomLabel.text = chatModel.roomName) : nil
-            
+
             chatModel.isLock = password
             chatNameButton.setTitle(chatModel.roomName, for: .normal)
             if chatModel.isLock != nil {
