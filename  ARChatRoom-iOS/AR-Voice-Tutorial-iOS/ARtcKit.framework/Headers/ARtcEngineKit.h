@@ -1194,6 +1194,47 @@ SDK 支持通话过程中在客户端进行录音。调用该方法后，你可�
 
 //MARK: - 直播输入在线媒体流
 
+/**-----------------------------------------------------------------------------
+ * @name 直播输入在线媒体流
+ * -----------------------------------------------------------------------------
+ */
+
+/** 输入在线媒体流 URL
+
+ 该方法通过在服务端拉取视频流并发送到频道中，将正在播放的视频输入到正在进行的直播中。可主要应用于赛事直播、多人看视频互动等直播场景。
+
+ 调用该方法后，SDK 会在本地触发 streamInjectedStatusOfUrl 回调，报告输入在线媒体流的状态。
+
+ 成功输入媒体流后，该音视频流会出现在频道中，频道内所有用户都会收到 didJoinedOfUid 回调，其中 uid 为 "666"。
+
+**Note:**
+
+ - 频道内同一时间只允许输入一个在线媒体流。
+ - 请确保已开通旁路推流的功能，详见前提条件。
+ @param url    添加到直播中的视频流 URL 地址， 支持 RTMP， HLS， HTTP-FLV 协议传输。
+
+ - 支持的音频编码格式：AAC。
+ - 支持的视频编码格式：H264 (AVC)。
+ @param config 输入的视频流设置，详见 ARLiveInjectStreamConfig 。
+
+@return 0方法调用成功，<0方法调用失败
+ 
+    - ARErrorCodeInvalidArgument(-2)：输入的 URL 为空。请重新调用该方法，并确认输入的媒体流的 URL 是有效的。
+    - ARErrorCodeNotInitialized(-7)：引擎没有初始化。请确认调用该方法前已创建 RtcEngine 对象并完成初始化。
+    - ARErrorCodeNotSupported(-4)：频道非直播场景。请调用 setChannelProfile 并将频道设置为直播场景再调用该方法。
+    - ARErrorCodeNotReady(-3)：用户没有加入频道。
+*/
+- (int)addInjectStreamUrl:(NSString * _Nonnull)url config:(ARLiveInjectStreamConfig * _Nonnull)config;
+
+/** 删除输入的在线媒体流
+
+ 成功删除后会触发 didOfflineOfUid 回调，UID 为 666。
+
+ @param url 已输入、待删除的在线媒体流 URL 地址
+ @return 0方法调用成功，<0方法调用失败
+ */
+- (int)removeInjectStreamUrl:(NSString * _Nonnull)url;
+
 //MARK: - CDN 旁路推流
 
 //MARK: - 数据流

@@ -645,3 +645,64 @@ __attribute__((visibility("default"))) @interface ARtcChannelMediaOptions : NSOb
  */
 @property (nonatomic, assign) BOOL autoSubscribeVideo;
 @end
+
+/** 实况直播注入流配置
+ */
+__attribute__((visibility("default"))) @interface ARLiveInjectStreamConfig: NSObject
+/** 添加进入直播的外部视频源尺寸。
+
+默认值为 0，即保留视频导入前的尺寸
+ */
+@property (assign, nonatomic) CGSize size;
+/** 添加进入直播的外部视频源的 GOP。
+
+默认值为 30 帧
+ */
+@property (assign, nonatomic) NSInteger videoGop;
+/** 添加进入直播的外部视频源的帧率。
+
+默认值为 15 fps
+ */
+@property (assign, nonatomic) NSInteger videoFramerate;
+/** 添加进入直播的外部视频源的码率
+
+默认值为 400 Kbps
+
+视频码率的设置与分辨率相关。如果设置的视频码率超出合理范围，SDK 会按照合理区间自动设置码率。
+ */
+@property (assign, nonatomic) NSInteger videoBitrate;
+
+/** 添加进入直播的外部音频采样率
+
+默认值为 48000。详见 ARAudioSampleRateType。
+
+**Note:**
+
+建议目前采用默认值，不要自行设置。
+ */
+@property (assign, nonatomic) ARAudioSampleRateType audioSampleRate;
+/** 添加进入直播的外部音频码率
+
+默认值为 48 kbps。
+
+**Note:**
+
+建议目前采用默认值，不要自行设置。
+ */
+@property (assign, nonatomic) NSInteger audioBitrate;
+/** 添加进入直播的外部音频频道数
+
+取值范围 [1,2]，默认值为 1。
+
+**Note:**
+
+建议目前采用默认值，不要自行设置。
+ */
+@property (assign, nonatomic) NSInteger audioChannels;
+
+/** 创建默认实况直播注入流配置
+
+ @return 默认配置
+ */
++(ARLiveInjectStreamConfig *_Nonnull) defaultConfig;
+@end

@@ -12,6 +12,10 @@
 		631E5E572519A94900352D32 /* UIAlertController+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 631E5E532519A94900352D32 /* UIAlertController+Blocks.m */; };
 		631E5E582519A94900352D32 /* WMDragView.m in Sources */ = {isa = PBXBuildFile; fileRef = 631E5E542519A94900352D32 /* WMDragView.m */; };
 		6337F0F2251B988200E0EB53 /* ARWavesAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6337F0F1251B988200E0EB53 /* ARWavesAnimationView.swift */; };
+		633A9315251DFBE500D7A549 /* ARtcKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 633A9311251DFB1A00D7A549 /* ARtcKit.framework */; };
+		633A9316251DFBE500D7A549 /* ARtcKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 633A9311251DFB1A00D7A549 /* ARtcKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		633A9317251DFBE600D7A549 /* ARtmKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 633A9313251DFBD900D7A549 /* ARtmKit.framework */; };
+		633A9318251DFBE600D7A549 /* ARtmKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 633A9313251DFBD900D7A549 /* ARtmKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6343EA2F2517AC5A0018AAE4 /* ARBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6343EA2E2517AC5A0018AAE4 /* ARBaseViewController.swift */; };
 		634444C424FF396F0038189A /* ARMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634444C324FF396F0038189A /* ARMainViewController.swift */; };
 		634444C624FF45B80038189A /* ARChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634444C524FF45B80038189A /* ARChatViewController.swift */; };
@@ -47,10 +51,6 @@
 		63B400C4250601D3000D52EC /* wuya.wav in Resources */ = {isa = PBXBuildFile; fileRef = 63B400BE250601D3000D52EC /* wuya.wav */; };
 		63B400C5250601D3000D52EC /* chipmunk.wav in Resources */ = {isa = PBXBuildFile; fileRef = 63B400BF250601D3000D52EC /* chipmunk.wav */; };
 		63B400C725065EB0000D52EC /* ARChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B400C625065EB0000D52EC /* ARChatModel.swift */; };
-		63C6202B251B5BF500D42927 /* ARtcKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C62029251B5BE600D42927 /* ARtcKit.framework */; };
-		63C6202C251B5BF500D42927 /* ARtcKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 63C62029251B5BE600D42927 /* ARtcKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		63C62033251B5E6F00D42927 /* ARtmKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63C62031251B5E6700D42927 /* ARtmKit.framework */; };
-		63C62034251B5E6F00D42927 /* ARtmKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 63C62031251B5E6700D42927 /* ARtmKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		78D077A767644B0A6B49CA73 /* Pods_AR_Voice_Tutorial_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 695F3D8F3E96721161D6E642 /* Pods_AR_Voice_Tutorial_iOS.framework */; };
 /* End PBXBuildFile section */
 
@@ -61,8 +61,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				63C6202C251B5BF500D42927 /* ARtcKit.framework in Embed Frameworks */,
-				63C62034251B5E6F00D42927 /* ARtmKit.framework in Embed Frameworks */,
+				633A9316251DFBE500D7A549 /* ARtcKit.framework in Embed Frameworks */,
+				633A9318251DFBE600D7A549 /* ARtmKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -78,6 +78,8 @@
 		631E5E552519A94900352D32 /* UIAlertController+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertController+Blocks.h"; sourceTree = "<group>"; };
 		631E5E562519A94900352D32 /* WMDragView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMDragView.h; sourceTree = "<group>"; };
 		6337F0F1251B988200E0EB53 /* ARWavesAnimationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ARWavesAnimationView.swift; sourceTree = "<group>"; };
+		633A9311251DFB1A00D7A549 /* ARtcKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ARtcKit.framework; sourceTree = "<group>"; };
+		633A9313251DFBD900D7A549 /* ARtmKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ARtmKit.framework; sourceTree = "<group>"; };
 		6343EA2E2517AC5A0018AAE4 /* ARBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARBaseViewController.swift; sourceTree = "<group>"; };
 		634444C324FF396F0038189A /* ARMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARMainViewController.swift; sourceTree = "<group>"; };
 		634444C524FF45B80038189A /* ARChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARChatViewController.swift; sourceTree = "<group>"; };
@@ -116,8 +118,6 @@
 		63B400BE250601D3000D52EC /* wuya.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = wuya.wav; sourceTree = "<group>"; };
 		63B400BF250601D3000D52EC /* chipmunk.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = chipmunk.wav; sourceTree = "<group>"; };
 		63B400C625065EB0000D52EC /* ARChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARChatModel.swift; sourceTree = "<group>"; };
-		63C62029251B5BE600D42927 /* ARtcKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ARtcKit.framework; sourceTree = "<group>"; };
-		63C62031251B5E6700D42927 /* ARtmKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ARtmKit.framework; sourceTree = "<group>"; };
 		67080C44A84A78C80A917A65 /* Pods-AR-Voice-Tutorial-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AR-Voice-Tutorial-iOS.release.xcconfig"; path = "Target Support Files/Pods-AR-Voice-Tutorial-iOS/Pods-AR-Voice-Tutorial-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		695F3D8F3E96721161D6E642 /* Pods_AR_Voice_Tutorial_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AR_Voice_Tutorial_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -127,8 +127,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63C62033251B5E6F00D42927 /* ARtmKit.framework in Frameworks */,
-				63C6202B251B5BF500D42927 /* ARtcKit.framework in Frameworks */,
+				633A9317251DFBE600D7A549 /* ARtmKit.framework in Frameworks */,
+				633A9315251DFBE500D7A549 /* ARtcKit.framework in Frameworks */,
 				78D077A767644B0A6B49CA73 /* Pods_AR_Voice_Tutorial_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -168,8 +168,8 @@
 		6357EC9224FE2E41005E0C60 /* AR-Voice-Tutorial-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				63C62031251B5E6700D42927 /* ARtmKit.framework */,
-				63C62029251B5BE600D42927 /* ARtcKit.framework */,
+				633A9313251DFBD900D7A549 /* ARtmKit.framework */,
+				633A9311251DFB1A00D7A549 /* ARtcKit.framework */,
 				6357EC9324FE2E41005E0C60 /* AppDelegate.swift */,
 				6357EC9724FE2E41005E0C60 /* ViewController.swift */,
 				634444C324FF396F0038189A /* ARMainViewController.swift */,

@@ -361,7 +361,20 @@
 
 //MARK: - CDN Publisher Delegate Methods
 
-//MARK: - Inject Stream URL Delegate Methods
+//MARK: - 直播输入在线媒体流事件回调
+/**-----------------------------------------------------------------------------
+* @name 直播输入在线媒体流事件回调
+* -----------------------------------------------------------------------------
+*/
+
+/** 输入外部视频流状态回调
+
+ @param engine  ARtcEngineKit 对象
+ @param url 输入进直播的外部视频源 URL 地址
+ @param uid 用户 ID
+ @param status 详见ARInjectStreamStatus
+ */
+- (void)rtcEngine:(ARtcEngineKit *_Nonnull)engine streamInjectedStatusOfUrl:(NSString *_Nonnull)url uid:(NSString * _Nonnull)uid status:(ARInjectStreamStatus)status;
 
 //MARK: - Stream Message Delegate Methods
 
