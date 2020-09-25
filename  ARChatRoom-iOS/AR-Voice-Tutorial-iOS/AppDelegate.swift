@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared().shouldShowToolbarPlaceholder = false
         IQKeyboardManager.shared().shouldResignOnTouchOutside = true
         
+        RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.5))
+
         self.window = UIWindow.init(frame: UIScreen.main.bounds)
         self.window?.backgroundColor = UIColor.white
         
