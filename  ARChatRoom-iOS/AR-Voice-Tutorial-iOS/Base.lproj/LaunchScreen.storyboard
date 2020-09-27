@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="ipad10_5" orientation="portrait" layout="fullscreen" appearance="light"/>
+    <device id="ipad12_9rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -13,19 +13,19 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_launches" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AXC-ER-McP">
-                                <rect key="frame" x="0.0" y="0.0" width="834" height="1112"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_launch" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AXC-ER-McP">
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="AXC-ER-McP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="6C1-eN-KKk"/>
-                            <constraint firstItem="AXC-ER-McP" firstAttribute="bottom" secondItem="Ze5-6b-2t3" secondAttribute="bottom" id="9Wb-LT-Tg5"/>
-                            <constraint firstItem="AXC-ER-McP" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="Fk5-g4-xDv"/>
-                            <constraint firstItem="AXC-ER-McP" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="z2C-Ze-3Om"/>
+                            <constraint firstItem="AXC-ER-McP" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="4yJ-WW-U2N"/>
+                            <constraint firstItem="AXC-ER-McP" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="T8W-li-cg1"/>
+                            <constraint firstAttribute="bottom" secondItem="AXC-ER-McP" secondAttribute="bottom" id="Xv5-Ey-YEu"/>
+                            <constraint firstAttribute="trailing" secondItem="AXC-ER-McP" secondAttribute="trailing" id="dOH-Ik-TLa"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -37,6 +37,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="icon_launches" width="375" height="667"/>
+        <image name="icon_launch" width="375" height="667"/>
     </resources>
 </document>
