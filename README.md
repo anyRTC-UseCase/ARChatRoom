@@ -13,7 +13,7 @@ ARChatRoom 是anyRTC模仿语音开黑的示例项目，演示了如何通过 an
 - IM消息发送
 
 ## 代码下载
-Github代码下载慢，请移步至[码云](https://gitee.com/anyRTC/ARChatRoom)下载
+Github代码下载慢，请移步至[码云](https://gitee.com/anyRTC/archat-room)下载
 
 ### 支持场景
 
