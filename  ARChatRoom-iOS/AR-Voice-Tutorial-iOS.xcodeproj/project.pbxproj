@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07EB580C2520ADA800D49A1D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 07EB580B2520ADA800D49A1D /* LaunchScreen.storyboard */; };
 		6312CBDA251081EC00A18B86 /* ARMicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6312CBD9251081EC00A18B86 /* ARMicViewController.swift */; };
 		631E5DEB25187B4500352D32 /* ARRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631E5DEA25187B4500352D32 /* ARRecordViewController.swift */; };
 		631E5E572519A94900352D32 /* UIAlertController+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 631E5E532519A94900352D32 /* UIAlertController+Blocks.m */; };
@@ -27,7 +28,6 @@
 		6357EC9824FE2E41005E0C60 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357EC9724FE2E41005E0C60 /* ViewController.swift */; };
 		6357EC9B24FE2E41005E0C60 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6357EC9924FE2E41005E0C60 /* Main.storyboard */; };
 		6357EC9D24FE2E44005E0C60 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6357EC9C24FE2E44005E0C60 /* Assets.xcassets */; };
-		6357ECA024FE2E44005E0C60 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6357EC9E24FE2E44005E0C60 /* LaunchScreen.storyboard */; };
 		636537F02509C1F600B1317F /* ARAnnouncementController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636537EF2509C1F600B1317F /* ARAnnouncementController.swift */; };
 		636537F22509C40200B1317F /* ARFansViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636537F12509C40200B1317F /* ARFansViewController.swift */; };
 		6369B4032508C6B20028F2B4 /* ARChatInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6369B4022508C6B20028F2B4 /* ARChatInfoViewController.swift */; };
@@ -70,6 +70,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		07EB580B2520ADA800D49A1D /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		39D3B40D528FA83384A0086F /* Pods-AR-Voice-Tutorial-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AR-Voice-Tutorial-iOS.debug.xcconfig"; path = "Target Support Files/Pods-AR-Voice-Tutorial-iOS/Pods-AR-Voice-Tutorial-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		6312CBD9251081EC00A18B86 /* ARMicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARMicViewController.swift; sourceTree = "<group>"; };
 		631E5DEA25187B4500352D32 /* ARRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARRecordViewController.swift; sourceTree = "<group>"; };
@@ -92,7 +93,6 @@
 		6357EC9724FE2E41005E0C60 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		6357EC9A24FE2E41005E0C60 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6357EC9C24FE2E44005E0C60 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		6357EC9F24FE2E44005E0C60 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6357ECA124FE2E44005E0C60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		636537EF2509C1F600B1317F /* ARAnnouncementController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARAnnouncementController.swift; sourceTree = "<group>"; };
 		636537F12509C40200B1317F /* ARFansViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARFansViewController.swift; sourceTree = "<group>"; };
@@ -194,7 +194,7 @@
 				6357EC9924FE2E41005E0C60 /* Main.storyboard */,
 				63B4009F25011F99000D52EC /* Log.storyboard */,
 				6357EC9C24FE2E44005E0C60 /* Assets.xcassets */,
-				6357EC9E24FE2E44005E0C60 /* LaunchScreen.storyboard */,
+				07EB580B2520ADA800D49A1D /* LaunchScreen.storyboard */,
 				63B400B9250601D2000D52EC /* sound */,
 				6357ECA124FE2E44005E0C60 /* Info.plist */,
 				63B400992500FFCC000D52EC /* ARMicView.swift */,
@@ -303,7 +303,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				63B400C4250601D3000D52EC /* wuya.wav in Resources */,
-				6357ECA024FE2E44005E0C60 /* LaunchScreen.storyboard in Resources */,
 				636A7DA2250A070A002341D9 /* 最美的光.mp3 in Resources */,
 				63B400C1250601D3000D52EC /* guzhang.wav in Resources */,
 				63B4009C2500FFE9000D52EC /* ARMicView.xib in Resources */,
@@ -313,6 +312,7 @@
 				63B400C3250601D3000D52EC /* wodema.wav in Resources */,
 				6357EC9B24FE2E41005E0C60 /* Main.storyboard in Resources */,
 				63B400C0250601D3000D52EC /* awkward.wav in Resources */,
+				07EB580C2520ADA800D49A1D /* LaunchScreen.storyboard in Resources */,
 				63B400A025011F99000D52EC /* Log.storyboard in Resources */,
 				63B400C5250601D3000D52EC /* chipmunk.wav in Resources */,
 			);
@@ -406,14 +406,6 @@
 				6357EC9A24FE2E41005E0C60 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		6357EC9E24FE2E44005E0C60 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6357EC9F24FE2E44005E0C60 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
