@@ -1,17 +1,29 @@
 {
   "images" : [
     {
-      "idiom" : "iphone",
+      "idiom" : "universal",
       "scale" : "1x"
     },
     {
       "filename" : "启动页@2x.png",
-      "idiom" : "iphone,ipad",
+      "idiom" : "universal",
       "scale" : "2x"
     },
     {
       "filename" : "启动页@3x.png",
-      "idiom" : "iphone,ipad",
+      "idiom" : "universal",
+      "scale" : "3x"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "iphone",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "iphone",
       "scale" : "3x"
     },
     {
