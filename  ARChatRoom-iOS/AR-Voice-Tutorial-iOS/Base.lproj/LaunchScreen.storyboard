@@ -16,19 +16,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_launch" translatesAutoresizingMaskIntoConstraints="NO" id="AXC-ER-McP">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_launch" translatesAutoresizingMaskIntoConstraints="NO" id="AXC-ER-McP">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="AXC-ER-McP" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="X6V-Kg-y5W"/>
-                            <constraint firstAttribute="trailing" secondItem="AXC-ER-McP" secondAttribute="trailing" id="h4Q-4h-pcL"/>
-                            <constraint firstAttribute="bottom" secondItem="AXC-ER-McP" secondAttribute="bottom" constant="34" id="oeq-MB-U0V"/>
-                            <constraint firstItem="AXC-ER-McP" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" constant="44" id="tET-3w-TY9"/>
+                            <constraint firstItem="AXC-ER-McP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="6C1-eN-KKk"/>
+                            <constraint firstItem="AXC-ER-McP" firstAttribute="bottom" secondItem="Ze5-6b-2t3" secondAttribute="bottom" id="9Wb-LT-Tg5"/>
+                            <constraint firstItem="AXC-ER-McP" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="Fk5-g4-xDv"/>
+                            <constraint firstItem="AXC-ER-McP" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="z2C-Ze-3Om"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
