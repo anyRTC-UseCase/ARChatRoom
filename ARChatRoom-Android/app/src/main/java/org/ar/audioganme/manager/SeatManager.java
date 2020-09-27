@@ -73,26 +73,27 @@ public abstract class SeatManager {
         Log.d(TAG, String.format("toAudience %s", userId));
 
         ChannelData channelData = getChannelData();
-        if (Constant.isMyself(userId)) {
-            resetSeat(channelData.indexOfSeatArray(userId), new ResultCallback<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    getRtcManager().setClientRole(Constants.CLIENT_ROLE_AUDIENCE);
+        resetSeat(channelData.indexOfSeatArray(userId), new ResultCallback<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                getRtcManager().setClientRole(Constants.CLIENT_ROLE_AUDIENCE);
 
-                    if (callback != null)
-                        callback.onSuccess(aVoid);
-                }
+                if (callback != null)
+                    callback.onSuccess(aVoid);
+            }
 
-                @Override
-                public void onFailure(ErrorInfo errorInfo) {
-                    if (callback != null) {
-                        callback.onFailure(errorInfo);
-                    }
+            @Override
+            public void onFailure(ErrorInfo errorInfo) {
+                if (callback != null) {
+                    callback.onFailure(errorInfo);
                 }
-            });
+            }
+        });
+        /*if (Constant.isMyself(userId)) {
+
         } else {
             getMessageManager().sendOrder(userId, Message.ORDER_TYPE_AUDIENCE, null, callback);
-        }
+        }*/
     }
 
     private void occupySeat(String userId, int position, ResultCallback<Void> callback) {

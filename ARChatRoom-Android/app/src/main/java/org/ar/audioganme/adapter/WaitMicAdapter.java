@@ -1,5 +1,6 @@
 package org.ar.audioganme.adapter;
 
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -17,9 +18,11 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class WaitMicAdapter extends BaseQuickAdapter<WaitMicBean,BaseViewHolder> {
+    private boolean isAnchor;
 
-    public WaitMicAdapter() {
+    public WaitMicAdapter(boolean isAnchor) {
         super(R.layout.wait_mic_item);
+        this.isAnchor =isAnchor;
     }
 
     @Override
@@ -27,6 +30,13 @@ public class WaitMicAdapter extends BaseQuickAdapter<WaitMicBean,BaseViewHolder>
         CircleImageView waitAvatar = helper.getView(R.id.wait_mic_avatar);
         TextView waitName = helper.getView(R.id.wait_mic_name);
         TextView waitApply = helper.getView(R.id.wait_mic_apply);
+        if(isAnchor){
+            helper.setVisible(R.id.wait_mic_agree,true);
+            helper.setVisible(R.id.wait_mic_refuse,true);
+        }else {
+            helper.setVisible(R.id.wait_mic_agree,false);
+            helper.setVisible(R.id.wait_mic_refuse,false);
+        }
         helper.addOnClickListener(R.id.wait_mic_agree);
         helper.addOnClickListener(R.id.wait_mic_refuse);
         AlertUtil.showAvatar(item.waitAvatar,waitAvatar);

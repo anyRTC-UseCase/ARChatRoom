@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 
 import org.ar.audioganme.R;
 import org.ar.audioganme.activity.RecordActivity;
+import org.ar.audioganme.manager.ChatRoomManager;
 
 public class RecordDialog extends Dialog implements View.OnClickListener {
 
@@ -21,12 +22,15 @@ public class RecordDialog extends Dialog implements View.OnClickListener {
     private TextView tvValOne,tvValTwo,tvCancel;
     private Context context;
     private boolean isRecordUi;
-    public RecordDialog(@NonNull Context context, String valOne, String valTwo, boolean isRecordUi) {
+    private ChatRoomManager chatRoomManager;
+
+    public RecordDialog(@NonNull Context context, ChatRoomManager chatRoomManager, String valOne, String valTwo, boolean isRecordUi) {
         super(context);
         this.context =context;
         this.valOne =valOne;
         this.valTwo =valTwo;
         this.isRecordUi =isRecordUi;
+        this.chatRoomManager=chatRoomManager;
     }
 
     @Override
@@ -65,10 +69,10 @@ public class RecordDialog extends Dialog implements View.OnClickListener {
             case R.id.record_text_one:
                 dismiss();
                 if (isRecordUi){
-                    RecordDialog recordDialog=new RecordDialog(context,"高保真","有损压缩",false);
+                    RecordDialog recordDialog=new RecordDialog(context,chatRoomManager,"高保真","有损压缩",false);
                     recordDialog.show();
                 }else {
-                    InputDialog inputDialog =new InputDialog(context);
+                    InputDialog inputDialog =new InputDialog(context,chatRoomManager,true);
                     inputDialog.show();
                 }
                 break;
@@ -78,7 +82,7 @@ public class RecordDialog extends Dialog implements View.OnClickListener {
                     intent.setClass(context, RecordActivity.class);
                     context.startActivity(intent);
                 }else {
-                    InputDialog inputDialog =new InputDialog(context);
+                    InputDialog inputDialog =new InputDialog(context,chatRoomManager,false);
                     inputDialog.show();
                 }
                 dismiss();

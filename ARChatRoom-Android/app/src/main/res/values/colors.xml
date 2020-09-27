@@ -42,12 +42,18 @@
     <color name="effect_mymom_color">#FF0A6BBE</color>
 
     <color name="msg_text_system">#FFEC99</color>
+    <color name="msg_join_mic">#FF971C</color>
     <color name="msg_text_normal_id">#7CE3FF</color>
     <color name="msg_text_normal_msg">#FFFFFF</color>
     <color name="msg_text_member_change">#FF971C</color>
     <color name="msg_text_gift">#FC4070</color>
     <color name="msg_text_give_gift">#1DC158</color>
+    <color name="msg_text_attr">#C689FF</color>
 
     <color name="record_text_color">#181914</color>
     <color name="record_bg_line">#DEDEDE</color>
+    <color name="record_item_text">#666666</color>
+    <color name="record_delete">#F97171</color>
+
+    <color name="launch_color">#100A3A</color>
 </resources>

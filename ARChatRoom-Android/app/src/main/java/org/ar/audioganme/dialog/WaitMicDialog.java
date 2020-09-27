@@ -27,6 +27,7 @@ import org.ar.audioganme.model.ChannelData;
 import org.ar.audioganme.model.Member;
 import org.ar.audioganme.model.WaitMicBean;
 import org.ar.audioganme.util.AlertUtil;
+import org.ar.audioganme.util.MemberUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,17 +52,18 @@ public class WaitMicDialog extends Dialog implements View.OnClickListener {
     private WaitMicAdapter waitMicAdapter;
     private LinearLayoutManager linearLayoutManager;
     private ClickCallBack clickCallBack;
-    private boolean isAgree;
+    private boolean isAgree ,isAnchor;
     public interface ClickCallBack{
         void onClick(String userId,int pos,boolean isAgree);
     }
 
-    public WaitMicDialog(@NonNull Context context, ChatRoomManager chatRoomManager,HashMap<String, Integer> waitMap,ClickCallBack clickCallBack) {
+    public WaitMicDialog(@NonNull Context context, ChatRoomManager manager,HashMap<String, Integer> waitMap,boolean isAnchor,ClickCallBack callBack) {
         super(context);
         this.context =context;
-        this.chatRoomManager =chatRoomManager;
+        this.chatRoomManager =manager;
         this.waitMap =waitMap;
-        this.clickCallBack =clickCallBack;
+        this.clickCallBack =callBack;
+        this.isAnchor =isAnchor;
     }
 
     @Override
@@ -75,11 +77,16 @@ public class WaitMicDialog extends Dialog implements View.OnClickListener {
         channelData =chatRoomManager.getChannelData();
         linearLayoutManager = new LinearLayoutManager(context);
         mWaitRecycler.setLayoutManager(linearLayoutManager);
-        waitMicAdapter =new WaitMicAdapter();
+        waitMicAdapter =new WaitMicAdapter(isAnchor);
         mWaitRecycler.setAdapter(waitMicAdapter);
 
         mClose.setOnClickListener(this);
         mBtnQuickMic.setOnClickListener(this);
+        if (isAnchor){
+            mBtnQuickMic.setText("快速上麦");
+        }else {
+            mBtnQuickMic.setText("取消排麦");
+        }
         setItem();
         setListener();
     }
@@ -105,7 +112,7 @@ public class WaitMicDialog extends Dialog implements View.OnClickListener {
                     Log.i(TAG, "onItemChildClick: userId ="+userId+",micPos ="+micPos);
                     if (TextUtils.isEmpty(chatRoomManager.getChannelData().getSeatArray()[micPos-1])){
                         isAgree =true;
-                        chatRoomManager.toBroadcaster(userId,(micPos-1));
+                        //chatRoomManager.toBroadcaster(userId,(micPos-1));
                         try {
                             jsonObject.put("cmd","acceptLine");
                             jsonObject.put("seat",String.valueOf(micPos));
@@ -126,7 +133,9 @@ public class WaitMicDialog extends Dialog implements View.OnClickListener {
                 default:
                     break;
             }
-            clickCallBack.onClick(userId,micPos,isAgree);
+            if (clickCallBack !=null){
+                clickCallBack.onClick(userId,micPos,isAgree);
+            }
             deleteMicAttrVal(userId);
             waitMicAdapter.remove(position);
             if (waitMicAdapter.getItemCount() ==0){
@@ -191,11 +200,31 @@ public class WaitMicDialog extends Dialog implements View.OnClickListener {
                 dismiss();
                 break;
             case R.id.quick_mic:
-                setQuickMic();
+                if (isAnchor){
+                    setQuickMic();
+                }else {
+                    setCancel();
+                    dismiss();
+                }
                 break;
             default:
                 break;
         }
+    }
+
+    private void setCancel() {
+        isAgree =false;
+        JSONObject jsonObject =new JSONObject();
+        try {
+            jsonObject.put("cmd","rejectLine");
+            jsonObject.put("reason","取消排麦");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (clickCallBack !=null){
+            clickCallBack.onClick(MemberUtil.getUserId(),-1,isAgree);
+        }
+        deleteMicAttrVal(MemberUtil.getUserId());
     }
 
     private void setQuickMic() {
@@ -211,21 +240,22 @@ public class WaitMicDialog extends Dialog implements View.OnClickListener {
                 seatPosList.add(i);
             }
         }
-        if (seatCount ==0){
+        /*if (seatCount ==0){
             return;
-        }
-
+        }*/
         if (seatCount >= waitMicAdapter.getItemCount()){
             for (int i = 0; i <waitMicAdapter.getItemCount() ; i++) {
                 isAgree =true;
                 userId = Objects.requireNonNull(waitMicAdapter.getItem(i)).getUserId();
                 seatPos =seatPosList.get(i);
                 Log.i(TAG, "setQuickMic:userId = "+userId+",pos ="+seatPos);
-                chatRoomManager.toBroadcaster(userId,seatPos);
-                clickCallBack.onClick(userId,seatPos,isAgree);
+                //chatRoomManager.toBroadcaster(userId,seatPos);
+                if (clickCallBack !=null){
+                    clickCallBack.onClick(userId,seatPos,isAgree);
+                }
                 try {
                     jsonObject.put("cmd","acceptLine");
-                    jsonObject.put("seat",String.valueOf(seatPos));
+                    jsonObject.put("seat",String.valueOf(seatPos+1));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -239,12 +269,14 @@ public class WaitMicDialog extends Dialog implements View.OnClickListener {
                 isAgree =true;
                 userId = Objects.requireNonNull(waitMicAdapter.getItem(i)).getUserId();
                 seatPos =seatPosList.get(i);
-                chatRoomManager.toBroadcaster(userId,seatPos);
-                clickCallBack.onClick(userId,seatPos,isAgree);
+                //chatRoomManager.toBroadcaster(userId,seatPos);
+                if (clickCallBack !=null){
+                    clickCallBack.onClick(userId,seatPos,isAgree);
+                }
                 waitMicAdapter.remove(0);
                 try {
                     jsonObject.put("cmd","acceptLine");
-                    jsonObject.put("seat",String.valueOf(seatPos));
+                    jsonObject.put("seat",String.valueOf(seatPos+1));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -254,7 +286,9 @@ public class WaitMicDialog extends Dialog implements View.OnClickListener {
             for (int i = 0; i < waitMicAdapter.getItemCount(); i++) {
                 isAgree =false;
                 userId = Objects.requireNonNull(waitMicAdapter.getItem(i)).getUserId();
-                clickCallBack.onClick(userId,-1,isAgree);
+                if (clickCallBack !=null){
+                    clickCallBack.onClick(userId,-1,isAgree);
+                }
                 try {
                     jsonObject.put("cmd","rejectLine");
                     jsonObject.put("reason","拒绝上麦");

@@ -9,7 +9,6 @@ import org.ar.audioganme.manager.RtmManager;
 import org.ar.audioganme.util.SpUtil;
 
 public class App extends Application {
-	//anyRtc官网注册APPID
     public static final String RTC_APPID = "";
     public static final String RTM_APPID = "";
 

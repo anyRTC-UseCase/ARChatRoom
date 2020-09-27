@@ -37,6 +37,7 @@ public class FunctionDialog extends Dialog implements View.OnClickListener {
     private VolumeDialog volumeDialog;
     private RecordDialog recordDialog;
     private boolean isHasPwd;
+    private String recordState;
     private TipDialog tipDialog;
     private EffectCallBack effectCallBack;
     public interface EffectCallBack{
@@ -68,7 +69,7 @@ public class FunctionDialog extends Dialog implements View.OnClickListener {
         mClose =findViewById(R.id.function_close);
 
         isHasPwd =chatRoomManager.getChannelData().isLock();
-
+        recordState =chatRoomManager.getChannelData().getRecordState();
         tipDialog =new TipDialog(activity, "是否取消密码", "否", "是", null, new TipDialog.ConfirmCallBack() {
             @Override
             public void onClick() {
@@ -104,6 +105,14 @@ public class FunctionDialog extends Dialog implements View.OnClickListener {
             mSoundEffect.setSelected(true);
         }else {
             mSoundEffect.setSelected(false);
+        }
+
+        if ("1".equals(recordState)){
+            mRecord.setSelected(false);
+            mRecord.setText("停止录音");
+        }else {
+            mRecord.setSelected(true);
+            mRecord.setText("录音");
         }
 
     }
@@ -163,9 +172,18 @@ public class FunctionDialog extends Dialog implements View.OnClickListener {
                 dismiss();
                 break;
             case R.id.record:
-                recordDialog =new RecordDialog(activity,"开始录音","管理录音",true);
-                recordDialog.show();
-                dismiss();
+                if ("1".equals(recordState)){
+                    TipDialog tipDialog =new TipDialog(activity, "确定停止录音", "取消", "确定", null, () -> {
+                        chatRoomManager.getRtcManager().stopAudioRecording();
+                        chatRoomManager.getRtmManager().addOrUpdateChannelAttributes(AttributeKey.KEY_RECORD,"0",null);
+                        dismiss();
+                    });
+                    tipDialog.show();
+                }else {
+                    recordDialog =new RecordDialog(activity,chatRoomManager,"开始录音","管理录音",true);
+                    recordDialog.show();
+                    dismiss();
+                }
                 break;
             case R.id.sound_effect:
                 Constant.isEffectOpen = !mSoundEffect.isSelected();

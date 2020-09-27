@@ -1,6 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/room_color"
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/dp_35"
+        android:layout_height="@dimen/dp_44"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/record_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/dp_7"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:src="@drawable/back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/record_back"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/sp_17"
+            android:layout_marginLeft="@dimen/dp_18"
+            android:textColor="@color/text_color"
+            android:text="录音管理"/>
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_record"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:overScrollMode="never" />
+
+    <TextView
+        android:id="@+id/none_record"
+        android:layout_marginTop="@dimen/dp_140"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableTop="@drawable/none_record"
+        android:padding="@dimen/dp_10"
+        android:gravity="center"
+        android:text="暂无数据"
+        android:textSize="@dimen/sp_14"
+        android:textColor="#999999"/>
+
+</LinearLayout>

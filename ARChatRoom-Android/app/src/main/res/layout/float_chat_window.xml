@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/dp_113">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="@dimen/dp_195"
         android:layout_height="@dimen/dp_62"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/shape_float_window_bg">
+        android:background="@drawable/shape_float_window_bg"
+        android:layout_marginBottom="@dimen/dp_100">
 
         <RelativeLayout
             android:layout_width="@dimen/dp_183"

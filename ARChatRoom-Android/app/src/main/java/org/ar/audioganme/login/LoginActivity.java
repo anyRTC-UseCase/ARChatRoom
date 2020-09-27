@@ -1,5 +1,6 @@
 package org.ar.audioganme.login;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -38,6 +39,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView, View
     private int gender;
     private Toast mToast;
     private String mAvatarAddr;
+    private boolean isBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +47,18 @@ public class LoginActivity extends AppCompatActivity implements ILoginView, View
         StatusBarUtil.setDeepStatusBar(true,LoginActivity.this, Color.TRANSPARENT);
         setContentView(R.layout.activity_login);
         loginPresent = new LoginPresent(this);
-        /*if (!loginPresent.isLogin()){
-            Intent intent =new Intent(this, RoomActivity.class);
-            startActivity(intent);
-            finish();
-            return;
-        }*/
+        Log.i("TAG", "onCreate: isLogin ="+loginPresent.isLogin());
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!loginPresent.isLogin() && !isBack){
+            Intent intent =new Intent(this, RoomActivity.class);
+            startActivityForResult(intent,0);
+            return;
+        }
         init();
     }
 
@@ -66,11 +73,12 @@ public class LoginActivity extends AppCompatActivity implements ILoginView, View
         mSelectMan.setOnClickListener(this);
         mSelectGirl.setOnClickListener(this);
         mLogin.setOnClickListener(this);
-        mAvatarAddr =MemberUtil.getAvatar(true);
-        AlertUtil.setAvatar(this,mAvatarAddr,mHeadPortrait);
+
     }
 
     private void init() {
+        mAvatarAddr =MemberUtil.getAvatar(true);
+        AlertUtil.setAvatar(this,mAvatarAddr,mHeadPortrait);
         mSelectMan.setSelected(true);
         mSelectGirl.setSelected(false);
         mSelectMan.setTextColor(getResources().getColor(R.color.white));
@@ -83,8 +91,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView, View
     @Override
     public void loginSuccess() {
         Intent intent =new Intent(this, RoomActivity.class);
-        startActivity(intent);
-        finish();
+        startActivityForResult(intent,0);
     }
 
     @Override
@@ -121,6 +128,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginView, View
                 break;
             case R.id.login_confirm:
                 loginPresent.Login(mEtInput.getText().toString(),gender,mAvatarAddr);
+                mEtInput.setText("");
                 break;
             default:
                 break;
@@ -135,6 +143,14 @@ public class LoginActivity extends AppCompatActivity implements ILoginView, View
         } else {
             mToast = Toast.makeText(this,msg,Toast.LENGTH_SHORT);
             mToast.show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0 && resultCode == 2) {
+            isBack = data.getBooleanExtra("isBack",false);
         }
     }
 }

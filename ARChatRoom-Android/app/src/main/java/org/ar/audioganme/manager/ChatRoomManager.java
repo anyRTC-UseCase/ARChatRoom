@@ -12,6 +12,7 @@ import org.ar.audioganme.model.Constant;
 import org.ar.audioganme.model.Member;
 import org.ar.audioganme.model.Message;
 import org.ar.audioganme.model.MessageListBean;
+import org.ar.audioganme.util.MemberUtil;
 import org.ar.rtm.ErrorInfo;
 import org.ar.rtm.ResultCallback;
 import org.ar.rtm.RtmChannel;
@@ -53,6 +54,16 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
     }
 
     private QueryChannelAttributes queryListener;
+    //存放录音的路径
+    private List<String> recordPaths =new ArrayList<>();
+
+    public List<String> getRecordPaths() {
+        return recordPaths;
+    }
+
+    public void setRecordPaths(List<String> recordPaths) {
+        this.recordPaths = recordPaths;
+    }
 
     @Override
     public ChannelData getChannelData() {
@@ -123,11 +134,16 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
     }
 
     public void joinChannel(String channelId) {
-        mRtcManager.joinChannel(channelId, Constant.sUserId);
-        mRtmManager.setLocalUserAttributes(AttributeKey.KEY_NAME, Constant.sName);
-        mRtmManager.setLocalUserAttributes(AttributeKey.KEY_UID, Constant.sUserId);
-        mRtmManager.setLocalUserAttributes(AttributeKey.KEY_HEAD, Constant.sAvatarAddr);
-        mRtmManager.setLocalUserAttributes(AttributeKey.KEY_SEX, String.valueOf(Constant.sGender));
+        mRtcManager.joinChannel(channelId, MemberUtil.getUserId());
+        mRtmManager.setLocalUserAttributes(AttributeKey.KEY_NAME, MemberUtil.getName());
+        mRtmManager.setLocalUserAttributes(AttributeKey.KEY_UID, MemberUtil.getUserId());
+        mRtmManager.setLocalUserAttributes(AttributeKey.KEY_HEAD, MemberUtil.getAvatarAddr());
+        mRtmManager.setLocalUserAttributes(AttributeKey.KEY_SEX, String.valueOf(MemberUtil.getGender()));
+    }
+
+    public void clearAttrMap(){
+        if (attrUpdateMap!=null)
+            attrUpdateMap.clear();
     }
 
     public void leaveChannel() {
@@ -138,7 +154,7 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
     }
 
     private void checkAndBeAnchor() {
-        String myUserId = String.valueOf(Constant.sUserId);
+        String myUserId = String.valueOf(MemberUtil.getUserId());
 
         if (mChannelData.isAnchorMyself()) {
             int index = mChannelData.indexOfSeatArray(myUserId);
@@ -177,7 +193,7 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
     @Override
     public void sendOrder(String userId, String orderType, String content, ResultCallback<Void> callback) {
         if (!mChannelData.isAnchorMyself()) return;
-        Message message = new Message(orderType, content, Constant.sUserId);
+        Message message = new Message(orderType, content, MemberUtil.getUserId());
         mRtmManager.sendMessageToPeer(userId, message.toJsonString(), callback);
     }
 
@@ -223,7 +239,7 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
 //                    mListener.onUserGivingGift(message.getSendId());
                 break;
             case Message.MESSAGE_TYPE_ORDER:
-                String myUserId = String.valueOf(Constant.sUserId);
+                String myUserId = String.valueOf(MemberUtil.getUserId());
                 switch (message.getOrderType()) {
                     case Message.ORDER_TYPE_AUDIENCE:
                         toAudience(myUserId, null);
@@ -251,21 +267,19 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
                         int giftId = Integer.parseInt(jsonObject.getString("giftId"));
                         if (mListener!=null){
                             mListener.onUserGivingGift(userId,toUserId,giftId);
-                            String toName =mChannelData.getName(toUserId);
-                            String name =mChannelData.getName(userId);
                             if (mChannelData.isAnchor(toUserId)){
-                                addGiftMessage(name,toUserId,"主播",giftId);
+                                addGiftMessage(userId,toUserId,"主播",giftId);
                             }else if (mChannelData.isAnchor(userId)){
-                                addGiftMessage("主播",toUserId,toName,giftId);
+                                addGiftMessage("主播",toUserId,toUserId,giftId);
                             } else {
-                                addGiftMessage(name,toUserId,toName,giftId);
+                                addGiftMessage(userId,toUserId,toUserId,giftId);
                             }
                         }
                         break;
                     case MSG_TYPE_MESSAGE:
                         String content = jsonObject.getString("content");
                         if (mListener!=null){
-                            mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_NORMAL,mChannelData.getName(userId)+":",content));
+                            mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_NORMAL,userId,"："+content));
                         }
                         break;
 
@@ -278,7 +292,7 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
     private void addGiftMessage(String name,String toUserId,String toName,int giftId){
         if (mListener !=null){
             mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_GIFT,
-                    name,"赠送", (TextUtils.isEmpty(toUserId)? "所有人":toName),"一个"+giftNameArray[giftId]));
+                    name,"赠送", (TextUtils.isEmpty(toUserId)? "麦上全体人员":toName),"一个"+giftNameArray[giftId]));
         }
     }
 
@@ -354,11 +368,6 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
                 mListener.onMessageAdd(new MessageListBean
                         (MessageListBean.MSG_SYSYTEM,"系统：官方倡导绿色交友，" +
                                 "并24小时对互动房间进行巡查，如果发现低俗、骂人、人身攻击等违规行为。官方将进行封房封号处理。"));
-
-                if (!TextUtils.isEmpty(mChannelData.getWelcomeTip())){
-                    mListener.onMessageAdd(new MessageListBean
-                            (MessageListBean.MSG_SYSYTEM,mChannelData.getWelcomeTip()));
-                }
             }
         }
 
@@ -381,6 +390,7 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
                         switch (query){
                             case AttributeKey.KEY_HOST:
                                 String value = queryEntry.getValue();
+                                mChannelData.setAnchorId(value);
                                 if (queryListener!=null){
                                     Log.i(TAG, "onHasAttribute: true");
                                     queryListener.onHasAttribute(value,true);
@@ -406,14 +416,14 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
                     String insetVal =insetEntry.getValue();
                     if (!attrUpdateMap.containsKey(insetKey)){
                         Log.i(TAG, "onChannelAttributesUpdated: insetKey ="+insetKey);
-                        updateAttributes(insetKey,insetVal);
+                        updateAttributes(insetKey,insetVal,false);
                     }
                 }
             }else if (oldKeySize > newKeySize){
                 //删
                 for (Map.Entry<String, String> deleteEntry : attrUpdateMap.entrySet()) {
                     String deleteKey = deleteEntry.getKey();
-                    String userId =deleteEntry.getValue();
+                    String val =deleteEntry.getValue();
                     if (!attributes.containsKey(deleteKey)){
                         Log.i(TAG, "onChannelAttributesUpdated: deleteKey ="+deleteKey);
                         if (deleteKey.contains("seat")){
@@ -422,7 +432,7 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
                                 String value = null;
                                 if (updateSeatArray(index, value)) {
                                     if (mListener != null){
-                                        mListener.onSeatUpdated(userId,index);
+                                        mListener.onSeatUpdated(val,index);
                                     }
                                 }
                             }
@@ -432,6 +442,7 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
                                 mChannelData.setLock(false);
                                 mChannelData.setLockVal(null);
                                 if (mListener !=null){
+                                    mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_ATTR_UP,"系统：","主持人解除了房间密码"));
                                     mListener.onPwdLockUpdated("");
                                 }
                                 break;
@@ -457,7 +468,7 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
                         if (TextUtils.equals(newKey,oldKey)){
                             if (!TextUtils.equals(newVal,oldVal)){
                                 Log.i(TAG, "onChannelAttributesUpdated: newKey ="+newKey+",newVal ="+newVal);
-                                updateAttributes(newKey,newVal);
+                                updateAttributes(newKey,newVal,true);
                             }
                         }
                     }
@@ -485,9 +496,9 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
 
         @Override
         public void onMemberJoined(String userId) {
-            if (mListener != null)
-                mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_MEMBER_CHANGE,userId,"进入了房间"));
-
+            if (mListener != null){
+                mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_JOIN_LEFT_ROOM,userId,"进入了房间"));
+            }
         }
 
 
@@ -495,9 +506,9 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
         public void onMemberLeft(String userId) {
             if (mListener != null){
                 if (mChannelData.isAnchor(userId)){
-                    mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_SYSYTEM,"系统：主持人离开了"));
+                    mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_JOIN_LEFT_ROOM,userId,"主持人离开了"));
                 }else {
-                    mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_MEMBER_CHANGE,userId,"离开了房间"));
+                    mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_JOIN_LEFT_ROOM,userId,"离开了房间"));
                 }
             }
         }
@@ -512,7 +523,7 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
                     String acceptPos =jsonObject.getString("seat");
                     if (mListener !=null){
                         mChannelData.setAcceptPos(acceptPos);
-                        mListener.onAcceptLineUpdated(userId);
+                        mListener.onAcceptLineUpdated(userId,acceptPos);
                     }
                 }else if ("rejectLine".equals(cmd)){
                     String reason =jsonObject.getString("reason");
@@ -562,7 +573,7 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
         }
     };
 
-    private void updateAttributes(String key,String value){
+    private void updateAttributes(String key,String value,boolean isUpdate){
         if (key.contains("seat")){
             int index = AttributeKey.indexOfSeatKey(key);
             if (index >= 0) {
@@ -589,16 +600,22 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
             case AttributeKey.KEY_ROOM_NAME:
                 mChannelData.setRoomName(value);
                 if (mListener !=null){
+                    if (isUpdate){
+                        mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_ATTR_UP,"系统：","主持人修改了房间名称"));
+                    }
                     mListener.onRoomNameUpdated(value);
                 }
                 break;
             case AttributeKey.KEY_WELCOME_TIP:
                 mChannelData.setWelcomeTip(value);
+                if (mListener !=null){
+                    mListener.onWelcomeTipUpdate(value);
+                }
                 break;
             case AttributeKey.KEY_NOTICE:
                 mChannelData.setAnnouncement(value);
                 if (mListener !=null){
-                    mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_SYSYTEM,"系统：主持人修改了公告"));
+                    mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_ATTR_UP,"系统：","主持人修改了公告"));
                 }
                 break;
             case AttributeKey.KEY_IS_MIC_LOCK:
@@ -611,7 +628,7 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
                 mChannelData.setLock(true);
                 mChannelData.setLockVal(value);
                 if (mListener !=null){
-                    mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_SYSYTEM,"系统：主持人设置了密码"));
+                    mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_ATTR_UP,"系统：","主持人为房间设置了密码"));
                     mListener.onPwdLockUpdated(value);
                 }
                 break;
@@ -637,6 +654,19 @@ public final class ChatRoomManager extends SeatManager implements MessageManager
                 mChannelData.setWaitVal(value);
                 if (mListener !=null){
                     mListener.onWaitUpdated(value);
+                }
+                break;
+            case AttributeKey.KEY_RECORD:
+                mChannelData.setRecordState(value);
+                if ("1".equals(value)){
+                    mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_ATTR_UP,"系统：","房主开启了录音"));
+                }else if ("0".equals(value)){
+                    if (isUpdate){
+                        mListener.onMessageAdd(new MessageListBean(MessageListBean.MSG_ATTR_UP,"系统：","房主结束了录音"));
+                    }
+                }
+                if (mListener !=null){
+                    mListener.onRecordUpdated(value);
                 }
                 break;
             default:

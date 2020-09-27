@@ -59,7 +59,7 @@ public class MemberUtil {
         return avatarAdrr;
     }
 
-    public static String getAvatarAdrr() {
+    public static String getAvatarAddr() {
         String avatarAdrr = getMember().getAvatarAddr();
         if (TextUtils.isEmpty(avatarAdrr)){
             return null;

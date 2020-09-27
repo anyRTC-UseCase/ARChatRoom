@@ -156,11 +156,23 @@ public final class RtcManager {
             mRtcEngine.stopAudioMixing();
     }
 
-    public void  adjustAudioMixingVolume(int volume) {
+    public void adjustAudioMixingVolume(int volume) {
         if (mRtcEngine != null){
             Log.i(TAG, "adjustAudioMixingVolume: v ="+volume);
             mRtcEngine.adjustAudioMixingVolume(volume);
             //mRtcEngine.adjustAudioMixingPlayoutVolume(volume);
+        }
+    }
+
+    public void startAudioRecording(String path){
+        if (mRtcEngine != null) {
+            mRtcEngine.startAudioRecording(path,16000,Constants.AUDIO_RECORDING_QUALITY_MEDIUM);
+        }
+    }
+
+    public void stopAudioRecording(){
+        if (mRtcEngine != null) {
+            mRtcEngine.stopAudioRecording();
         }
     }
 

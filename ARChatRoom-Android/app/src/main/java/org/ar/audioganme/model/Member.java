@@ -79,4 +79,14 @@ public class Member implements Serializable {
         return new Gson().fromJson(str, Member.class);
     }
 
+    @Override
+    public String toString() {
+        return "Member{" +
+                "userId='" + userId + '\'' +
+                ", name='" + name + '\'' +
+                ", avatarAddr='" + avatarAddr + '\'' +
+                ", gender=" + gender +
+                '}';
+    }
+
 }

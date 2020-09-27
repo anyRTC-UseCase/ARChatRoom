@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.ar.audioganme.weight.SwipeMenuLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sw_record"
+    app:ios="false"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_67"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/record_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:src="@drawable/manage_record"/>
+
+    <TextView
+        android:id="@+id/record_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="测试录音"
+        android:layout_marginTop="@dimen/dp_12"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:layout_toRightOf="@+id/record_img"
+        android:textColor="@color/text_announcement_color"/>
+
+    <TextView
+        android:id="@+id/record_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2020.08.17 12:12:12"
+        android:layout_marginTop="@dimen/dp_38"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:layout_toRightOf="@+id/record_img"
+        android:textColor="@color/record_item_text"/>
+
+    <ImageView
+        android:id="@+id/record_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/share"
+        android:layout_marginRight="@dimen/dp_25"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gray_line"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/record_delete"
+        android:layout_width="@dimen/dp_82"
+        android:layout_height="@dimen/dp_67"
+        android:background="@color/record_delete"
+        android:gravity="center"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:text="删除"
+        android:textColor="@color/white"
+        android:textSize="17sp" />
+</org.ar.audioganme.weight.SwipeMenuLayout>

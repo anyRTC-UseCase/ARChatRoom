@@ -106,6 +106,7 @@ public class SeatGridAdapter extends RecyclerView.Adapter<SeatGridAdapter.ViewHo
                         holder.iv_sex.setImageResource(R.drawable.girl);
                     }
                     holder.iv_join.setVisibility(View.GONE);
+                    Log.i(TAG, "onBindViewHolder: seatId ="+seatId+",isUserMuted ="+mChannelData.isUserMuted(seatId));
                     holder.iv_mute.setVisibility(mChannelData.isUserMuted(seatId)?View.VISIBLE:View.GONE);
                 }else {
                     holder.iv_avatar.setImageResource(R.drawable.shape_circle_bg);

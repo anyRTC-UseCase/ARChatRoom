@@ -132,7 +132,7 @@
                 android:padding="@dimen/dp_5"
                 android:textSize="@dimen/sp_12"
                 android:textColor="@color/white"
-                android:drawableTop="@drawable/record"/>
+                android:drawableTop="@drawable/selector_record"/>
 
         </LinearLayout>
 

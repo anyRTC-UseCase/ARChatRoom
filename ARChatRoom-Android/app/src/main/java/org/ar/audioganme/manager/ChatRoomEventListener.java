@@ -5,11 +5,13 @@ import org.ar.audioganme.model.MessageListBean;
 
 public interface ChatRoomEventListener {
 
+    void onRecordUpdated(String state);
+
     void onNetWorkDelayChanges(int rtt);
 
     void onRejectLineUpdated(String val,String userId);
 
-    void onAcceptLineUpdated(String userId);
+    void onAcceptLineUpdated(String userId,String acceptPos);
 
     void onWaitUpdated(String val);
 

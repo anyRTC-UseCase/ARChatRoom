@@ -47,4 +47,5 @@
         android:text="取消"
         android:textColor="@color/record_text_color"
         android:textSize="@dimen/sp_16" />
+
 </RelativeLayout>

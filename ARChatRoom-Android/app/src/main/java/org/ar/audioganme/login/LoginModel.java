@@ -9,7 +9,6 @@ public class LoginModel implements ILoginModel{
 
     private ILoginPresenter loginPresenter;
     private String USER = "user";
-    private String userId = (int)((Math.random()*9+1)*100000)+"";
 
     public LoginModel(ILoginPresenter loginPresenter) {
         this.loginPresenter = loginPresenter;
@@ -17,6 +16,7 @@ public class LoginModel implements ILoginModel{
 
     @Override
     public void Login(String name, int gender,String avatarAddr) {
+        String userId = (int)((Math.random()*9+1)*100000)+"";
         Member member = new Member(userId,name,gender,avatarAddr);
         SpUtil.saveObject(USER,member);
         loginPresenter.loginSuccess();

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AudioGanme</string>
+    <string name="app_name">开黑语音</string>
     <string-array name="tourist_name">
         <item>1号麦位</item>
         <item>2号麦位</item>

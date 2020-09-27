@@ -3,6 +3,8 @@ package org.ar.audioganme.model;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.ar.audioganme.util.MemberUtil;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +37,15 @@ public class ChannelData implements Serializable {
     private String musicVal;
     private String waitVal;
     private String acceptPos;
+    private String recordState;
+
+    public String getRecordState() {
+        return recordState;
+    }
+
+    public void setRecordState(String recordState) {
+        this.recordState = recordState;
+    }
 
     public String getAcceptPos() {
         return acceptPos;
@@ -148,7 +159,7 @@ public class ChannelData implements Serializable {
 
     //主播是否为自己
     public boolean isAnchorMyself() {
-        return isAnchor(String.valueOf(Constant.sUserId));
+        return isAnchor(String.valueOf(MemberUtil.getUserId()));
     }
 
     // SeatArray

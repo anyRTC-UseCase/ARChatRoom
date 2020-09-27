@@ -162,14 +162,15 @@ public class InformantDialog extends Dialog implements View.OnClickListener {
                     mGift.setVisibility(View.VISIBLE);
                 }else {
                     RelativeLayout.LayoutParams params =new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                            AlertUtil.dip2px(context,300));
+                            RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    ll_infor.setBackgroundResource(R.drawable.show_avatar_bg3);
                     ll_infor.setLayoutParams(params);
                     mDownMic.setVisibility(View.GONE);
                     mProhibitMic.setVisibility(View.GONE);
                     mProhibitChat.setVisibility(View.VISIBLE);
                     mGoOut.setVisibility(View.VISIBLE);
                     mCareOf.setVisibility(View.GONE);
-                    mGift.setVisibility(View.GONE);
+                    mGift.setVisibility(View.VISIBLE);
                 }
             }
         }else {
@@ -198,19 +199,13 @@ public class InformantDialog extends Dialog implements View.OnClickListener {
                 mGift.setVisibility(View.VISIBLE);
             }
         }
-
-        if (channelData.isUserOnline(userId)){
-            AlertUtil.showAvatar(channelData.getMemberAvatar(userId),mAvatar);
-            mName.setText(member.getName());
-            if (member.getGender() ==0){
-                imgGender.setImageResource(R.drawable.man);
-            }else {
-                imgGender.setImageResource(R.drawable.girl);
-            }
+        AlertUtil.showAvatar(channelData.getMemberAvatar(userId),mAvatar);
+        mName.setText(member.getName());
+        if (member.getGender() ==0){
+            imgGender.setImageResource(R.drawable.man);
         }else {
-            mAvatar.setImageResource(R.drawable.ic_unkown);
+            imgGender.setImageResource(R.drawable.girl);
         }
-
         if (mMuteMicList !=null){
             if (mMuteMicList.contains(userId)){
                 mProhibitMic.setText("取消禁麦");
@@ -260,7 +255,7 @@ public class InformantDialog extends Dialog implements View.OnClickListener {
                     mProhibitMic.setText("禁麦");
                     isMuteMic =true;
                 }
-                setMuteMicChannelAttr();
+                setMuteMicChannelAttr(mMuteMicList,userId,chatRoomManager);
                 break;
             case R.id.information_prohibit_chat: //禁言
                 if (isMuteChat){
@@ -290,7 +285,7 @@ public class InformantDialog extends Dialog implements View.OnClickListener {
         }
     }
 
-    private void setMuteMicChannelAttr() {
+    public static void setMuteMicChannelAttr(List<String> mMuteMicList,String userId,ChatRoomManager chatRoomManager) {
         Log.i(TAG, "setChannelAttr: list ="+mMuteMicList);
         if (mMuteMicList !=null){
             if (mMuteMicList.contains(userId)){

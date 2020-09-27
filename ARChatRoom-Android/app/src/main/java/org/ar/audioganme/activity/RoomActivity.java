@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +19,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.lzf.easyfloat.EasyFloat;
+import com.lzf.easyfloat.interfaces.OnFloatCallbacks;
 
 import org.ar.audioganme.R;
 import org.ar.audioganme.dialog.PwdDialog;
@@ -35,7 +40,10 @@ import org.ar.rtm.ErrorInfo;
 import org.ar.rtm.ResultCallback;
 import org.ar.rtm.RtmAttribute;
 import org.ar.rtm.RtmChannelAttribute;
+import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -57,6 +65,7 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
     private ChatRoomManager manager;
     private PwdDialog pwdDialog;
     private boolean isRoom =false;
+    private List<String> recordPaths;
     private PwdDialog.PwdCallBack callBack;
 
     @Override
@@ -79,11 +88,20 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
         mGoConfirm.setOnClickListener(this);
     }
 
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
     private void init() {
         Member member = MemberUtil.getMember();
         mUserId =member.getUserId();
         manager =ChatRoomManager.instance(this);
         manager.setQueryListener(this);
+        recordPaths =manager.getRecordPaths();
         checkPermission();
     }
 
@@ -104,12 +122,37 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode ==KeyEvent.KEYCODE_BACK){
+            if (EasyFloat.appFloatIsShow()){
+                AlertUtil.showToast("当前正在语聊房中");
+                return true;
+            }
+            Intent intent =getIntent().putExtra("isBack",true);
+            setResult(2,intent);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.room_back:
+                if (EasyFloat.appFloatIsShow()){
+                    AlertUtil.showToast("当前正在语聊房中");
+                    return;
+                }
+                Intent intent =getIntent().putExtra("isBack",true);
+                setResult(2,intent);
                 finish();
                 break;
             case R.id.my_room:
+                if (EasyFloat.appFloatIsShow()){
+                    AlertUtil.showToast("当前正在语聊房中");
+                    return;
+                }
                 mChannelId =mUserId;
                 manager.login(mUserId,mChannelId);
                 isRoom =true;
@@ -117,6 +160,10 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.go_room_confirm:
                 if (TextUtils.isEmpty(mEtRoomId.getText().toString())){
                     AlertUtil.showToast("请输入房间ID");
+                    return;
+                }
+                if (EasyFloat.appFloatIsShow()){
+                    AlertUtil.showToast("当前正在语聊房中");
                     return;
                 }
                 mChannelId =mEtRoomId.getText().toString();
@@ -130,8 +177,10 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
 
     private void intentChat(boolean isAnchor){
         Intent i =new Intent(RoomActivity.this, ChatActivity.class);
+        Bundle bundle =new Bundle();
         i.putExtra(ChatActivity.KEY_CHANNEL_ID,mChannelId);
         i.putExtra(ChatActivity.KEY_ANCHOR_IS,isAnchor);
+        i.putExtras(bundle);
         i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(i);
     }
@@ -157,6 +206,7 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
                     if (isRoom || mUserId.equals(mChannelId)){
                         //设置主播：host，头像索引，名字，性别，和房间名称
                         Member member = MemberUtil.getMember();
+                        Log.i(TAG, "run: KEY_HOST ="+member.getUserId()+",name ="+member.getName());
                         List<RtmChannelAttribute> rtmChannelAttributes =new ArrayList<>();
                         rtmChannelAttributes.add(new RtmChannelAttribute(AttributeKey.KEY_HOST,member.getUserId()));
                         rtmChannelAttributes.add(new RtmChannelAttribute(AttributeKey.KEY_ROOM_NAME,"一起聊天吧"));
@@ -168,6 +218,24 @@ public class RoomActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
             }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        manager.clearAttrMap();
+        runOnUiThread(()->{
+            if (recordPaths !=null){
+                for (String path:recordPaths) {
+                    File file =new File(path);
+                    if (file.exists()){
+                        file.delete();
+                    }
+                }
+                recordPaths.clear();
+            }
+            manager.setRecordPaths(recordPaths);
         });
     }
 }

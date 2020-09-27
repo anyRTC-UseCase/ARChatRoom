@@ -23,6 +23,7 @@ public class AttributeKey {
     public static final String KEY_MUTE_INPUT_LIST = "MuteInputList";
     public static final String KEY_MUSIC = "music";
     public static final String KEY_WAITING_LIST = "waitinglist";
+    public static final String KEY_RECORD= "record";
 
     public static final String KEY_NAME = "name";
     public static final String KEY_UID = "uid";

@@ -6,6 +6,8 @@ public class MessageListBean {
     public static final int MSG_NORMAL = 1;
     public static final int MSG_MEMBER_CHANGE =2;
     public static final int MSG_GIFT =3;
+    public static final int MSG_JOIN_LEFT_ROOM =4;
+    public static final int MSG_ATTR_UP =5;
 
     public int type;
     public String name;
