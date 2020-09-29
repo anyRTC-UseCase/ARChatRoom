@@ -42,6 +42,7 @@ class ARChatViewController: ARBaseViewController {
     fileprivate var memberList = NSMutableArray()
     var channelId: String!
     var isHoster: Bool!
+    var cancelFromBan: Bool = false
     /** 游客正在申请上麦(非自由) */
     var applyMic: Bool = false
     /** 默认聊天（密码） */
@@ -861,7 +862,12 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
                 chatModel.muteMicList = getArrayFromJSONString(jsonString: value0!)
                 if chatModel.muteMicList.contains(localUserModel.uid!) && chatModel.currentMic != 9 {
                     rtcKit.muteLocalAudioStream(true)
+                    cancelFromBan = true
                     audioButton.isSelected = true
+                } else if cancelFromBan {
+                    rtcKit.muteLocalAudioStream(false)
+                    audioButton.isSelected = false
+                    cancelFromBan = false
                 }
             }
             
@@ -918,6 +924,7 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
                     }
                 }
                 
+                
                 let chatUserModel: ARChatUserModel? = getUserModelFromUid(uid: uid)
                 if chatUserModel != nil {
                     micView.chatUserModel = chatUserModel
@@ -962,7 +969,7 @@ extension ARChatViewController: UITextFieldDelegate, ARMicDelegate {
         chatTextField.keyboardType = .default
         chatTextField.isSecureTextEntry = false
     }
-    
+   
     func micLock(lock: Bool) {
         //上麦模式
         micArr.enumerateObjects { (object, index, stop) in
