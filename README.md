@@ -56,11 +56,10 @@ ARChatRoom 提供IM实时消息，送礼物等，适用于直播场景，狼人�
 
 ### 平台兼容
 
-ARCall 示例项目支持以下平台和版本：
+ARChatRoom 示例项目支持以下平台和版本：
 
 - iOS 9 及以上。
 - Android 4.4 及以上。
-- Web Chrome 72 及以上，Web 其他浏览器未经验证。
 
 ## 快速开始
 
