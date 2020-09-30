@@ -6,3 +6,4 @@
 #import "XHToast.h"
 #import "UIAlertController+Blocks.h"
 #import "TTTAttributedLabel.h"
+#import <Bugly/Bugly.h>

@@ -76,11 +76,12 @@ class LogCell: UITableViewCell {
         if logModel.contentType == .info {
             //聊天消息
             let clickText: String! = logModel.fromName
-            let text: String! = String(format: "%@：%@", clickText,logModel.content!)
+            let text: String! = String(format: "%@：%@ ", clickText,logModel.content!)
             let fromLink = contentLabel.addLink(toPhoneNumber: clickText as String?, with: NSRange.init(location: 0, length: clickText!.count))
             fromLink?.linkTapBlock = TTTAttributedLabelLinkBlock?.init({ [weak self] (TTTAttributedLabel, TTTAttributedLabelLink) in
                 self?.didClickUid(uid: logModel.fromUid)
             })
+            contentLabel.activeLinkAttributes = [NSAttributedString.Key.foregroundColor : UIColor.red, NSAttributedString.Key.underlineStyle : NSUnderlineStyle.init(rawValue: 0)]
             
             let contentAttributedString = NSMutableAttributedString.init(string: text)
             contentAttributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: RGBA(r: 124, g: 227, b: 255, a: 1), range: NSMakeRange(0, clickText!.count))

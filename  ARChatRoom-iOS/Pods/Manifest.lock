@@ -1,4 +1,5 @@
 PODS:
+  - Bugly (2.5.71)
   - IQKeyboardManager (6.5.6)
   - SDWebImage (3.7.6):
     - SDWebImage/Core (= 3.7.6)
@@ -8,6 +9,7 @@ PODS:
   - XHToast (1.4.0)
 
 DEPENDENCIES:
+  - Bugly
   - IQKeyboardManager
   - SDWebImage (~> 3.7.3)
   - SnapKit
@@ -16,6 +18,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Bugly
     - IQKeyboardManager
     - SDWebImage
     - SnapKit
@@ -23,12 +26,13 @@ SPEC REPOS:
     - XHToast
 
 SPEC CHECKSUMS:
+  Bugly: fd066c75c4a0eca1440f9b6a84bd37d51bfc85ac
   IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
   XHToast: 3b354766d56d9df8fef8e64387bbd25c90d71a86
 
-PODFILE CHECKSUM: 3fe57ea16202b71f065d011418637c0f5d264012
+PODFILE CHECKSUM: 6bdc6b54844ebcb62c2e7a5d0d402a99e4a0740e
 
 COCOAPODS: 1.9.3

@@ -94,6 +94,7 @@ class ARChatViewController: ARBaseViewController {
         rtcKit.enableAudioVolumeIndication(500, smooth: 3, report_vad: true)
         
         //创建rtm频道
+        ARVoiceRtm.rtmKit?.aRtmDelegate = self
         rtmChannel = ARVoiceRtm.rtmKit?.createChannel(withId: channelId, delegate: self)
         if (rtmChannel != nil) {
             rtmChannel.join { [weak self] (errorCode) in
@@ -562,7 +563,6 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDel
                     for videoView in micArr {
                         let micView: ARMicView! = videoView as? ARMicView
                         if micView.uid == volumeInfo.uid {
-                            print(micView.uid! + "======" + volumeInfo.uid)
                             micView.startAudioAnimation()
                         }
                     }

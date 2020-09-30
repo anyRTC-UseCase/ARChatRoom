@@ -1205,7 +1205,7 @@ SDK 支持通话过程中在客户端进行录音。调用该方法后，你可�
 
  调用该方法后，SDK 会在本地触发 streamInjectedStatusOfUrl 回调，报告输入在线媒体流的状态。
 
- 成功输入媒体流后，该音视频流会出现在频道中，频道内所有用户都会收到 didJoinedOfUid 回调，其中 uid 为 "666"。
+ 成功输入媒体流后，该音视频流会出现在频道中，频道内所有用户都会收到 didJoinedOfUid 回调，其中 uid 为 "share666"。
 
 **Note:**
 
@@ -1228,7 +1228,7 @@ SDK 支持通话过程中在客户端进行录音。调用该方法后，你可�
 
 /** 删除输入的在线媒体流
 
- 成功删除后会触发 didOfflineOfUid 回调，UID 为 666。
+ 成功删除后会触发 didOfflineOfUid 回调，UID 为  "share666"。
 
  @param url 已输入、待删除的在线媒体流 URL 地址
  @return 0方法调用成功，<0方法调用失败
