@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ARtmKit
 
 class ARBaseViewController: UIViewController {
     
@@ -18,6 +19,7 @@ class ARBaseViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        ARVoiceRtm.updateRtmkit(delegate: self)
         self.view.addSubview(getInputAccessoryView())
         NotificationCenter.default.addObserver(self,selector:#selector(keyboardChange(notify:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self,selector:#selector(keyboardChange(notify:)), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -74,5 +76,18 @@ class ARBaseViewController: UIViewController {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+}
+
+extension ARBaseViewController: ARtmDelegate {
+    //连接状态改变回调
+    func rtmKit(_ kit: ARtmKit, connectionStateChanged state: ARtmConnectionState, reason: ARtmConnectionChangeReason) {
+        if state == ARtmConnectionState(rawValue: 1) && reason == ARtmConnectionChangeReason(rawValue: 4) {
+            customLoadingView(text: "正在重连...",count: MAXFLOAT)
+            ARVoiceRtm.status = .offline
+        } else if state == ARtmConnectionState(rawValue: 3) && reason == ARtmConnectionChangeReason(rawValue: 2) {
+            removeLoadingViewDelay(text: "登录成功");
+            ARVoiceRtm.status = .online
+        }
     }
 }

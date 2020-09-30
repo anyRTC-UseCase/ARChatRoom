@@ -25,20 +25,22 @@ class ARMainViewController: ARBaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        //登录
+        customLoadingView(text: "登录中",count: MAXFLOAT)
         localUserModel = getUserInformation()
         guard let account = localUserModel!.uid, account.count > 0 else {
             return
         }
-        
-        ARVoiceRtm.updateRtmkit(delegate: self)
-        //登录
         ARVoiceRtm.rtmKit?.login(byToken: nil, user: account, completion: { [weak self] (errorCode) in
             guard errorCode == .ok else {
                 return
             }
             ARVoiceRtm.status = .online
-            self!.setLocalUserAttributes()
+            self?.setLocalUserAttributes()
+            self?.removeLoadingView()
         })
     }
     
@@ -67,84 +69,86 @@ class ARMainViewController: ARBaseViewController {
     }
     
     @IBAction func didClickEnterButton(_ sender: UIButton) {
-         if self.children.count != 0 {
-            XHToast.showCenter(withText: "当前正在语聊房中")
-            return
-        }
+        if ARVoiceRtm.status == .online {
+            if self.children.count != 0 {
+               XHToast.showCenter(withText: "当前正在语聊房中")
+               return
+           }
+           
+           var channelId: String?
+           (sender.tag == 50) ? (channelId = self.channelIdTextField.text) : (channelId = localUserModel.uid)
+           if strlen(channelId!) != 0 {
+               //获取频道属性
+               StatusBarTextColor = true
+               channelIdTextField.resignFirstResponder()
+               customLoadingView(text: "连接中", count: MAXFLOAT)
+               ARVoiceRtm.rtmKit?.getChannelAllAttributes(channelId!, completion:{ (attributes, errorCode) in
+                   var hosterId: String?
+                   chatModel = nil
+                   chatModel = ARChatModel()
+                   chatModel.channelId = channelId
+                   
+                   if attributes?.count != 0 {
+                       let dic: NSMutableDictionary = NSMutableDictionary()
+                       for attribute in attributes! {
+                           dic.setValue(attribute.value, forKey: attribute.key)
+                       }
         
-        var channelId: String?
-        (sender.tag == 50) ? (channelId = self.channelIdTextField.text) : (channelId = localUserModel.uid)
-        if strlen(channelId!) != 0 {
-            //获取频道属性
-            StatusBarTextColor = true
-            customLoadingView()
-            channelIdTextField.resignFirstResponder()
-            ARVoiceRtm.rtmKit?.getChannelAllAttributes(channelId!, completion:{ (attributes, errorCode) in
-                var hosterId: String?
-                chatModel = nil
-                chatModel = ARChatModel()
-                chatModel.channelId = channelId
-                
-                if attributes?.count != 0 {
-                    let dic: NSMutableDictionary = NSMutableDictionary()
-                    for attribute in attributes! {
-                        dic.setValue(attribute.value, forKey: attribute.key)
-                    }
-     
-                    hosterId = dic.object(forKey: "host") as? String
-                    chatModel.isLock = dic.object(forKey: "isLock") as? String
-                    (dic.object(forKey: "isMicLock") as? String == "1") ? (chatModel.isMicLock = true) : (chatModel.isMicLock = false)
-                    chatModel.roomName = dic.object(forKey: "roomName") as? String
-                    chatModel.announcement = dic.object(forKey: "notice") as? String
-                    let record: String? = dic.object(forKey: "record") as? String
-                    chatModel.record = false
-                    if (record == "1") {
-                        chatModel.record = true
-                        if hosterId == localUserModel.uid {
-                            self.deleteChannel(keys: ["record"])
-                            chatModel.record = false
-                        }
-                    }
-                    let musicValue = dic.object(forKey: "music") as? String
-                    if hosterId == localUserModel?.uid && musicValue != nil {
-                        self.deleteChannel(keys: ["music"])
-                    }
-                    for index in 0...8 {
-                        let key: String! = String(format: "seat%d", index)
-                        var uid: String? = dic.object(forKey: key as Any) as? String
-                        (uid == nil) ? (uid = "") : nil
-                        chatModel.seatDic.setValue(uid, forKey: key)
-                    }
-                } else {
-                    print("no Attributes")
-                    if localUserModel.uid == channelId {
-                        hosterId = localUserModel.uid
-                        self.setChannelAttribute(channelId: localUserModel.uid)
-                    } else {
-                        StatusBarTextColor = false
-                        self.setNeedsStatusBarAppearanceUpdate()
-                        self.removeLoadingView()
-                        XHToast.showCenter(withText: "房间不存在")
-                        return
-                    }
-                }
-                
-                self.removeLoadingView()
-                chatModel.channelUid = hosterId
-                
-                if chatModel.isLock != nil && hosterId != localUserModel.uid {
-                    self.chatTextField.placeholder = "请输入4位数字密码"
-                    self.chatTextField.becomeFirstResponder()
-                    self.chatTextField.isSecureTextEntry = true
-                    self.chatTextField.addTarget(self, action: #selector(self.chatTextFieldLimit), for: .editingChanged)
-                    self.confirmButton.addTarget(self, action: #selector(self.didSendChatTextField), for: .touchUpInside)
-                    return
-                }
-                
-                self.joinChatRoom()
-            })
-        } else {
-            XHToast.showCenter(withText: "请输入房间ID")
+                       hosterId = dic.object(forKey: "host") as? String
+                       chatModel.isLock = dic.object(forKey: "isLock") as? String
+                       (dic.object(forKey: "isMicLock") as? String == "1") ? (chatModel.isMicLock = true) : (chatModel.isMicLock = false)
+                       chatModel.roomName = dic.object(forKey: "roomName") as? String
+                       chatModel.announcement = dic.object(forKey: "notice") as? String
+                       let record: String? = dic.object(forKey: "record") as? String
+                       chatModel.record = false
+                       if (record == "1") {
+                           chatModel.record = true
+                           if hosterId == localUserModel.uid {
+                               self.deleteChannel(keys: ["record"])
+                               chatModel.record = false
+                           }
+                       }
+                       let musicValue = dic.object(forKey: "music") as? String
+                       if hosterId == localUserModel?.uid && musicValue != nil {
+                           self.deleteChannel(keys: ["music"])
+                       }
+                       for index in 0...8 {
+                           let key: String! = String(format: "seat%d", index)
+                           var uid: String? = dic.object(forKey: key as Any) as? String
+                           (uid == nil) ? (uid = "") : nil
+                           chatModel.seatDic.setValue(uid, forKey: key)
+                       }
+                   } else {
+                       print("no Attributes")
+                       if localUserModel.uid == channelId {
+                           hosterId = localUserModel.uid
+                           self.setChannelAttribute(channelId: localUserModel.uid)
+                       } else {
+                           StatusBarTextColor = false
+                           self.setNeedsStatusBarAppearanceUpdate()
+                           self.removeLoadingView()
+                           XHToast.showCenter(withText: "房间不存在")
+                           return
+                       }
+                   }
+                   
+                   self.removeLoadingView()
+                   chatModel.channelUid = hosterId
+                   
+                   if chatModel.isLock != nil && hosterId != localUserModel.uid {
+                       self.chatTextField.placeholder = "请输入4位数字密码"
+                       self.chatTextField.becomeFirstResponder()
+                       self.chatTextField.isSecureTextEntry = true
+                       self.chatTextField.addTarget(self, action: #selector(self.chatTextFieldLimit), for: .editingChanged)
+                       self.confirmButton.addTarget(self, action: #selector(self.didSendChatTextField), for: .touchUpInside)
+                       return
+                   }
+                   
+                   self.joinChatRoom()
+               })
+           } else {
+               XHToast.showCenter(withText: "请输入房间ID")
+           }
         }
     }
     
@@ -232,12 +236,5 @@ class ARMainViewController: ARBaseViewController {
             chatTextField.resignFirstResponder()
             chatTextField.text = ""
         }
-    }
-}
-
-extension ARMainViewController: ARtmDelegate {
-    //连接状态改变回调
-    func rtmKit(_ kit: ARtmKit, connectionStateChanged state: ARtmConnectionState, reason: ARtmConnectionChangeReason) {
-        
     }
 }

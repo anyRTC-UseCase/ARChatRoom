@@ -73,15 +73,16 @@ class LogCell: UITableViewCell {
     func update(logModel: ARLogModel) {
         colorView.backgroundColor = UIColor.init(hue: 0.0, saturation: 0.0, brightness: 0.0, alpha: 0.3)
         contentLabel.attributedText = nil
+        contentLabel.linkAttributes = [NSAttributedString.Key.foregroundColor : RGBA(r: 124, g: 227, b: 255, a: 1), NSAttributedString.Key.underlineStyle : NSUnderlineStyle.byWord.rawValue]
         if logModel.contentType == .info {
             //聊天消息
             let clickText: String! = logModel.fromName
             let text: String! = String(format: "%@：%@ ", clickText,logModel.content!)
+            
             let fromLink = contentLabel.addLink(toPhoneNumber: clickText as String?, with: NSRange.init(location: 0, length: clickText!.count))
             fromLink?.linkTapBlock = TTTAttributedLabelLinkBlock?.init({ [weak self] (TTTAttributedLabel, TTTAttributedLabelLink) in
                 self?.didClickUid(uid: logModel.fromUid)
             })
-            contentLabel.activeLinkAttributes = [NSAttributedString.Key.foregroundColor : UIColor.red, NSAttributedString.Key.underlineStyle : NSUnderlineStyle.init(rawValue: 0)]
             
             let contentAttributedString = NSMutableAttributedString.init(string: text)
             contentAttributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: RGBA(r: 124, g: 227, b: 255, a: 1), range: NSMakeRange(0, clickText!.count))
@@ -130,12 +131,13 @@ class LogCell: UITableViewCell {
                 self?.didClickUid(uid: logModel.fromUid)
             })
             
-            if logModel.toUid!.count != 0 {
-                let toLink = contentLabel.addLink(toPhoneNumber: clickText, with: NSRange.init(location: logModel.fromName!.count + 4, length: clickText.count))
-                toLink?.linkTapBlock = TTTAttributedLabelLinkBlock?.init({ [weak self] (TTTAttributedLabel, TTTAttributedLabelLink) in
-                    self?.didClickUid(uid: logModel.toUid)
-                })
-            }
+//            if logModel.toUid!.count != 0 {
+//                print(logModel.fromName!.count)
+//                let toLink = contentLabel.addLink(toPhoneNumber: clickText, with: NSRange.init(location: logModel.fromName!.count + 4, length: clickText.count))
+//                toLink?.linkTapBlock = TTTAttributedLabelLinkBlock?.init({ [weak self] (TTTAttributedLabel, TTTAttributedLabelLink) in
+//                    self?.didClickUid(uid: logModel.toUid)
+//                })
+//            }
             
             let contentAttributedString = NSMutableAttributedString.init(string: text)
             contentAttributedString.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.init(hexString: "#7CE3FF"), range: NSMakeRange(0, logModel.fromName!.count))

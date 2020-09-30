@@ -157,6 +157,7 @@ extension NSObject {
 
 var gloabWindow: UIWindow?
 var loadingView: UIView?
+var loadingLabel: UILabel?
 
 extension UIViewController:CAAnimationDelegate {
     
@@ -170,7 +171,7 @@ extension UIViewController:CAAnimationDelegate {
     }
     
     //加载视图
-    func customLoadingView() {
+    func customLoadingView(text:String, count: Float) {
         initializeLoadingView()
         let loadingImageView: UIImageView! = UIImageView.init(image: UIImage(named: "icon_loading"))
         loadingView?.addSubview(loadingImageView)
@@ -183,17 +184,17 @@ extension UIViewController:CAAnimationDelegate {
         animation.duration = 2.0
         animation.fromValue = 0.0
         animation.toValue = Double.pi * 2
-        animation.repeatCount = 3
+        animation.repeatCount = count
         animation.isRemovedOnCompletion = false
-        animation.delegate = self
+        //animation.delegate = self
         loadingImageView.layer.add(animation, forKey: "LoadingAnimation")
         
-        let label: UILabel = UILabel.init()
-        label.text = "连接中"
-        label.textColor = UIColor.white
-        label.font = UIFont(name: "PingFang SC", size: 14)
-        loadingView?.addSubview(label)
-        label.snp.makeConstraints({ (make) in
+        loadingLabel = UILabel.init()
+        loadingLabel!.text = text
+        loadingLabel!.textColor = UIColor.white
+        loadingLabel!.font = UIFont(name: "PingFang SC", size: 14)
+        loadingView?.addSubview(loadingLabel!)
+        loadingLabel!.snp.makeConstraints({ (make) in
             make.centerX.equalTo(loadingImageView.snp.centerX)
             make.top.equalTo(loadingImageView.snp.bottom).offset(26)
         })
@@ -203,6 +204,14 @@ extension UIViewController:CAAnimationDelegate {
     @objc func removeLoadingView() {
         loadingView?.removeFromSuperview()
         loadingView = nil
+    }
+    
+    //延迟移除等待视图
+    @objc func removeLoadingViewDelay(text: String?) {
+        if loadingLabel != nil {
+            loadingLabel?.text = text
+            self.perform(#selector(removeLoadingView), with: nil, afterDelay: 2.0);
+        }
     }
     
     public func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {

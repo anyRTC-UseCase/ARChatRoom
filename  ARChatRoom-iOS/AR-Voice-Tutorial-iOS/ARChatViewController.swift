@@ -276,7 +276,9 @@ class ARChatViewController: ARBaseViewController {
             delegate.window?.addSubview(floatingView)
         } else if (sender.tag == 51) {
             //关闭
-            endChatRoom()
+            UIAlertController.showAlert(in: self, withTitle: "确定退出房间？", message: nil, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: ["确定"]) { [weak self] (aletrVc, action, index) in
+                (index == 2) ? (self?.endChatRoom()) : nil
+            }
         } else if (sender.tag == 52) {
             //音乐 -- 主持人
             if isHoster {
@@ -521,7 +523,7 @@ class ARChatViewController: ARBaseViewController {
     }
 }
 
-extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate, ARtmDelegate {
+extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate {
     
     func rtcEngine(_ engine: ARtcEngineKit, reportRtcStats stats: ARChannelStats) {
         //当前通话统计回调。 该回调在通话或直播中每两秒触发一次
