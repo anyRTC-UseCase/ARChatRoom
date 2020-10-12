@@ -80,6 +80,7 @@ class ARChatViewController: ARBaseViewController {
     
     func initializeEngine() {
         //实例化rtc实例对象
+        ARVoiceRtm.updateRtmkit(delegate: self)
         rtcKit = ARtcEngineKit.sharedEngine(withAppId: AppID, delegate: self)
         rtcKit.setChannelProfile(.profileiveBroadcasting)
         if  isHoster {
