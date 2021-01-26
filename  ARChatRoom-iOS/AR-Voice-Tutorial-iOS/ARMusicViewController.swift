@@ -136,7 +136,6 @@ class ARMusicViewController: UITableViewController {
     }
     
     func updateMusicChannelAttribute() {
-        print(musicName! + "=====" + musicState!)
         let dict: NSDictionary = ["name": musicName!,"state": musicState!]
         addOrUpdateChannel(key: "music", value: getJSONStringFromDictionary(dictionary: dict))
     }

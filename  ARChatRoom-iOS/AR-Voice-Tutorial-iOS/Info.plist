@@ -18,6 +18,8 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -26,7 +28,7 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>camera</string>
+	<string>anyRTC语音开黑请求访问麦克风用于视频交流？</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>anyRTC语音开黑请求访问麦克风用于语音交流？</string>
 	<key>UIBackgroundModes</key>

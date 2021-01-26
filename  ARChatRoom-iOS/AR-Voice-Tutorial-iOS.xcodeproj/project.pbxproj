@@ -20,10 +20,6 @@
 		634444CB24FF71310038189A /* ARExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634444CA24FF71310038189A /* ARExtension.swift */; };
 		634444CD24FF726F0038189A /* ARUserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634444CC24FF726F0038189A /* ARUserModel.swift */; };
 		634444D12500838F0038189A /* ARVoiceRtm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634444D02500838F0038189A /* ARVoiceRtm.swift */; };
-		6355B02A2521B30200CE968D /* ARtcKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6355B0282521B2F800CE968D /* ARtcKit.framework */; };
-		6355B02B2521B30200CE968D /* ARtcKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6355B0282521B2F800CE968D /* ARtcKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6355B0322521B4EA00CE968D /* ARtmKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6355B0302521B4E000CE968D /* ARtmKit.framework */; };
-		6355B0332521B4EA00CE968D /* ARtmKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6355B0302521B4E000CE968D /* ARtmKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6357EC9424FE2E41005E0C60 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357EC9324FE2E41005E0C60 /* AppDelegate.swift */; };
 		6357EC9824FE2E41005E0C60 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6357EC9724FE2E41005E0C60 /* ViewController.swift */; };
 		6357EC9B24FE2E41005E0C60 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6357EC9924FE2E41005E0C60 /* Main.storyboard */; };
@@ -61,8 +57,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				6355B02B2521B30200CE968D /* ARtcKit.framework in Embed Frameworks */,
-				6355B0332521B4EA00CE968D /* ARtmKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -86,8 +80,6 @@
 		634444CA24FF71310038189A /* ARExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARExtension.swift; sourceTree = "<group>"; };
 		634444CC24FF726F0038189A /* ARUserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARUserModel.swift; sourceTree = "<group>"; };
 		634444D02500838F0038189A /* ARVoiceRtm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARVoiceRtm.swift; sourceTree = "<group>"; };
-		6355B0282521B2F800CE968D /* ARtcKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ARtcKit.framework; sourceTree = "<group>"; };
-		6355B0302521B4E000CE968D /* ARtmKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ARtmKit.framework; sourceTree = "<group>"; };
 		6357EC9024FE2E41005E0C60 /* anyRTC语音开黑.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "anyRTC语音开黑.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6357EC9324FE2E41005E0C60 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6357EC9724FE2E41005E0C60 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -127,8 +119,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6355B0322521B4EA00CE968D /* ARtmKit.framework in Frameworks */,
-				6355B02A2521B30200CE968D /* ARtcKit.framework in Frameworks */,
 				78D077A767644B0A6B49CA73 /* Pods_AR_Voice_Tutorial_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -168,8 +158,6 @@
 		6357EC9224FE2E41005E0C60 /* AR-Voice-Tutorial-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				6355B0302521B4E000CE968D /* ARtmKit.framework */,
-				6355B0282521B2F800CE968D /* ARtcKit.framework */,
 				6357EC9324FE2E41005E0C60 /* AppDelegate.swift */,
 				6357EC9724FE2E41005E0C60 /* ViewController.swift */,
 				634444C324FF396F0038189A /* ARMainViewController.swift */,
@@ -462,7 +450,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -517,7 +505,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -536,7 +524,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = 5543CP4MRT;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -569,7 +557,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = 5543CP4MRT;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (

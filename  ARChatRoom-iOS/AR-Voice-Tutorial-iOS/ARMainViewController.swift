@@ -119,7 +119,6 @@ class ARMainViewController: ARBaseViewController {
                            chatModel.seatDic.setValue(uid, forKey: key)
                        }
                    } else {
-                       print("no Attributes")
                        if localUserModel.uid == channelId {
                            hosterId = localUserModel.uid
                            self.setChannelAttribute(channelId: localUserModel.uid)

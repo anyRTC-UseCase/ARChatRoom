@@ -57,7 +57,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        if nameTextField.text?.count != 0 {
+        if !isBlank(text: nameTextField.text) {
             var userModel: ARUserModel? = getUserInformation()
             if userModel == nil {
                 userModel = ARUserModel()
