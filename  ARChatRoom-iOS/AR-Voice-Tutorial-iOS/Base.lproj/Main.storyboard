@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FQQ-Ml-aMd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FQQ-Ml-aMd">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -665,7 +665,7 @@
                                         <integer key="value" value="13"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="string" keyPath="layer.borderWidth" value="0.5"/>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="BHy-3h-u0z" kind="presentation" identifier="ARFansViewController" modalPresentationStyle="overCurrentContext" id="V0y-gB-tgu"/>
@@ -1103,7 +1103,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XhV-Rz-7ia">
-                                <rect key="frame" x="0.0" y="681" width="414" height="205"/>
+                                <rect key="frame" x="0.0" y="691" width="414" height="205"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="更多" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N4U-BY-qgO">
                                         <rect key="frame" x="192" y="18" width="30" height="15"/>
@@ -1277,7 +1277,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="YiR-QO-t0u" firstAttribute="trailing" secondItem="XhV-Rz-7ia" secondAttribute="trailing" id="9G0-JR-Afs"/>
-                            <constraint firstAttribute="bottom" secondItem="XhV-Rz-7ia" secondAttribute="bottom" constant="10" id="CKA-aX-pHA"/>
+                            <constraint firstAttribute="bottom" secondItem="XhV-Rz-7ia" secondAttribute="bottom" id="CKA-aX-pHA"/>
                             <constraint firstItem="XhV-Rz-7ia" firstAttribute="leading" secondItem="H4D-Bu-MSG" secondAttribute="leading" id="irb-GC-6IK"/>
                         </constraints>
                     </view>

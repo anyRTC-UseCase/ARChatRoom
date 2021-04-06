@@ -1,4 +1,6 @@
 ${PODS_ROOT}/Target Support Files/Pods-AR-Voice-Tutorial-iOS/Pods-AR-Voice-Tutorial-iOS-frameworks.sh
+${PODS_ROOT}/ARtcKit_iOS/ARtcKit/ARtcKit.framework
+${PODS_ROOT}/ARtmKit_iOS/ARtmKit/ARtmKit.framework
 ${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework
 ${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework
 ${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework

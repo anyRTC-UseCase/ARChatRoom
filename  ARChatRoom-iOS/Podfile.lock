@@ -1,38 +1,3 @@
-PODS:
-  - Bugly (2.5.71)
-  - IQKeyboardManager (6.5.6)
-  - SDWebImage (3.7.6):
-    - SDWebImage/Core (= 3.7.6)
-  - SDWebImage/Core (3.7.6)
-  - SnapKit (4.2.0)
-  - TTTAttributedLabel (2.0.0)
-  - XHToast (1.4.0)
-
-DEPENDENCIES:
-  - Bugly
-  - IQKeyboardManager
-  - SDWebImage (~> 3.7.3)
-  - SnapKit
-  - TTTAttributedLabel
-  - XHToast (~> 1.4.0)
-
-SPEC REPOS:
-  trunk:
-    - Bugly
-    - IQKeyboardManager
-    - SDWebImage
-    - SnapKit
-    - TTTAttributedLabel
-    - XHToast
-
-SPEC CHECKSUMS:
-  Bugly: fd066c75c4a0eca1440f9b6a84bd37d51bfc85ac
-  IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
-  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
-  SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
-  TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
-  XHToast: 3b354766d56d9df8fef8e64387bbd25c90d71a86
-
-PODFILE CHECKSUM: 66026394c2988cfd95b1b9c187e426453e34c18f
+PODFILE CHECKSUM: 344aa07bb3f78f3a291ab3fe7d3b06ba1abdf371
 
 COCOAPODS: 1.9.3

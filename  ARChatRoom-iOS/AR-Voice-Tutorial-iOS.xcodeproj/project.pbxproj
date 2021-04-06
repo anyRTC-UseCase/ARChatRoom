@@ -158,38 +158,18 @@
 		6357EC9224FE2E41005E0C60 /* AR-Voice-Tutorial-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				63E088E2261C73E200D808D9 /* AudioRoom */,
+				63E088E1261C731800D808D9 /* Common */,
+				63E088E0261C731000D808D9 /* Main */,
 				6357EC9324FE2E41005E0C60 /* AppDelegate.swift */,
 				6357EC9724FE2E41005E0C60 /* ViewController.swift */,
-				634444C324FF396F0038189A /* ARMainViewController.swift */,
-				634444C524FF45B80038189A /* ARChatViewController.swift */,
-				6343EA2E2517AC5A0018AAE4 /* ARBaseViewController.swift */,
 				634444C724FF47E20038189A /* AppID.swift */,
-				634444CA24FF71310038189A /* ARExtension.swift */,
-				634444CC24FF726F0038189A /* ARUserModel.swift */,
-				634444D02500838F0038189A /* ARVoiceRtm.swift */,
-				63B4009D25011F8E000D52EC /* LogViewController.swift */,
-				6369B4022508C6B20028F2B4 /* ARChatInfoViewController.swift */,
-				6369B4042508DD8D0028F2B4 /* ARModifyViewController.swift */,
-				6384205C2509019900BEDE39 /* ARVolumeViewController.swift */,
-				638420602509119800BEDE39 /* ARMusicViewController.swift */,
-				636537EF2509C1F600B1317F /* ARAnnouncementController.swift */,
-				636537F12509C40200B1317F /* ARFansViewController.swift */,
-				636A7DA3250A49AE002341D9 /* ARFunctionViewController.swift */,
-				6378C82E250CC1B1009A46EF /* ARInfoDataViewController.swift */,
-				6378C838250E17AC009A46EF /* ARGiftViewController.swift */,
-				6312CBD9251081EC00A18B86 /* ARMicViewController.swift */,
-				631E5DEA25187B4500352D32 /* ARRecordViewController.swift */,
 				6357EC9924FE2E41005E0C60 /* Main.storyboard */,
 				63B4009F25011F99000D52EC /* Log.storyboard */,
 				6357EC9C24FE2E44005E0C60 /* Assets.xcassets */,
 				07EB580B2520ADA800D49A1D /* LaunchScreen.storyboard */,
 				63B400B9250601D2000D52EC /* sound */,
 				6357ECA124FE2E44005E0C60 /* Info.plist */,
-				63B400992500FFCC000D52EC /* ARMicView.swift */,
-				63B4009B2500FFE9000D52EC /* ARMicView.xib */,
-				63B400C625065EB0000D52EC /* ARChatModel.swift */,
-				6378C830250DFAF4009A46EF /* ARFloatingView.swift */,
-				6337F0F1251B988200E0EB53 /* ARWavesAnimationView.swift */,
 				6378C834250E05C4009A46EF /* AR-Voice-Tutorial-iOS-Bridging-Header.h */,
 				631E5E522519A94900352D32 /* Lib */,
 			);
@@ -209,6 +189,50 @@
 				63B400BF250601D3000D52EC /* chipmunk.wav */,
 			);
 			path = sound;
+			sourceTree = "<group>";
+		};
+		63E088E0261C731000D808D9 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				634444C324FF396F0038189A /* ARMainViewController.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		63E088E1261C731800D808D9 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				634444CA24FF71310038189A /* ARExtension.swift */,
+				634444CC24FF726F0038189A /* ARUserModel.swift */,
+				634444D02500838F0038189A /* ARVoiceRtm.swift */,
+				6343EA2E2517AC5A0018AAE4 /* ARBaseViewController.swift */,
+				63B400C625065EB0000D52EC /* ARChatModel.swift */,
+				6378C830250DFAF4009A46EF /* ARFloatingView.swift */,
+				63B400992500FFCC000D52EC /* ARMicView.swift */,
+				63B4009B2500FFE9000D52EC /* ARMicView.xib */,
+				6337F0F1251B988200E0EB53 /* ARWavesAnimationView.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		63E088E2261C73E200D808D9 /* AudioRoom */ = {
+			isa = PBXGroup;
+			children = (
+				636537EF2509C1F600B1317F /* ARAnnouncementController.swift */,
+				6369B4022508C6B20028F2B4 /* ARChatInfoViewController.swift */,
+				634444C524FF45B80038189A /* ARChatViewController.swift */,
+				636537F12509C40200B1317F /* ARFansViewController.swift */,
+				636A7DA3250A49AE002341D9 /* ARFunctionViewController.swift */,
+				6378C838250E17AC009A46EF /* ARGiftViewController.swift */,
+				6378C82E250CC1B1009A46EF /* ARInfoDataViewController.swift */,
+				6312CBD9251081EC00A18B86 /* ARMicViewController.swift */,
+				6369B4042508DD8D0028F2B4 /* ARModifyViewController.swift */,
+				638420602509119800BEDE39 /* ARMusicViewController.swift */,
+				631E5DEA25187B4500352D32 /* ARRecordViewController.swift */,
+				6384205C2509019900BEDE39 /* ARVolumeViewController.swift */,
+				63B4009D25011F8E000D52EC /* LogViewController.swift */,
+			);
+			path = AudioRoom;
 			sourceTree = "<group>";
 		};
 		C21A91B1ADD2DA05B2E9E70A /* Frameworks */ = {
@@ -239,7 +263,6 @@
 				6357EC8C24FE2E41005E0C60 /* Sources */,
 				6357EC8D24FE2E41005E0C60 /* Frameworks */,
 				6357EC8E24FE2E41005E0C60 /* Resources */,
-				0BFA13BFD7BFAC7F7F1280D6 /* [CP] Embed Pods Frameworks */,
 				634444C024FE88F70038189A /* Embed Frameworks */,
 			);
 			buildRules = (
@@ -309,23 +332,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0BFA13BFD7BFAC7F7F1280D6 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AR-Voice-Tutorial-iOS/Pods-AR-Voice-Tutorial-iOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AR-Voice-Tutorial-iOS/Pods-AR-Voice-Tutorial-iOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AR-Voice-Tutorial-iOS/Pods-AR-Voice-Tutorial-iOS-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		CC54051D01A9FD8D9BF45A8F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
