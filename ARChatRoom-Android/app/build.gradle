@@ -49,9 +49,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     
     implementation 'com.readystatesoftware.systembartint:systembartint:1.0.3'
-
-    //implementation 'org.ar:rtc:4.1.0.3'
-    implementation 'org.ar:rtm:1.0.0.8'
+	
+    implementation 'org.ar:rtc:4.1.2.3'
+    implementation 'org.ar:rtm:1.0.1.7'
 
     implementation 'com.google.code.gson:gson:2.6.2'
 
