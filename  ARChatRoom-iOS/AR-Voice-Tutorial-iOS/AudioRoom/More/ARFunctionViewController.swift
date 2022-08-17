@@ -27,7 +27,7 @@ class ARFunctionViewController: ARBaseViewController, UIGestureRecognizerDelegat
         tap.addTarget(self, action: #selector(didClickCloseButton))
         tap.delegate = self
         self.view.addGestureRecognizer(tap)
-        micButton.isSelected = chatModel.isMicLock!
+        micButton.isSelected = chatModel.isMicLock
         soundButton.isSelected = chatModel.sound
         recordButton.isSelected = chatModel.record
         

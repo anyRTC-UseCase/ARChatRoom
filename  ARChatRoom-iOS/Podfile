@@ -1,11 +1,12 @@
+source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '9.0'
 use_frameworks!
 
 target 'AR-Voice-Tutorial-iOS' do
     #anyRTC 音视频库
-    pod 'ARtcKit_iOS', '~> 4.1.4.1'
+    pod 'ARtcKit_iOS', '~> 4.2.2.7'
     #anyRTC 实时消息库
-    pod 'ARtmKit_iOS', '~> 1.0.1.4'
+    pod 'ARtmKit_iOS', '~> 1.0.2.0'
     
     pod 'SnapKit'
     pod 'IQKeyboardManager'

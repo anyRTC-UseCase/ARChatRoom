@@ -97,7 +97,7 @@ class ARMainViewController: ARBaseViewController {
                        hosterId = dic.object(forKey: "host") as? String
                        chatModel.isLock = dic.object(forKey: "isLock") as? String
                        (dic.object(forKey: "isMicLock") as? String == "1") ? (chatModel.isMicLock = true) : (chatModel.isMicLock = false)
-                       chatModel.roomName = dic.object(forKey: "roomName") as? String
+                       chatModel.roomName = dic.object(forKey: "roomName") as? String ?? ""
                        chatModel.announcement = dic.object(forKey: "notice") as? String
                        let record: String? = dic.object(forKey: "record") as? String
                        chatModel.record = false

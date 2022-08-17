@@ -267,10 +267,12 @@ extension UIViewController:CAAnimationDelegate {
         label.text = String(format: " %@ ", text)
         label.layer.cornerRadius = 15
         label.layer.masksToBounds = true
+        label.lineBreakMode = .byTruncatingHead
         backView.addSubview(label)
         
         label.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.8)
             make.centerY.equalTo(backView.snp_centerY).multipliedBy(0.6)
             make.height.equalTo(30)
         }
@@ -325,7 +327,7 @@ extension UIViewController:CAAnimationDelegate {
         let options: ARtmChannelAttributeOptions = ARtmChannelAttributeOptions()
         options.enableNotificationToChannelMembers = true
         ARVoiceRtm.rtmKit?.addOrUpdateChannel(chatModel.channelId!, attributes: [channelAttribute], options: options, completion: { (errorCode) in
-            print("addOrUpdateChannel errorCode == %d",errorCode)
+            print("addOrUpdateChannel errorCode == %d",errorCode.rawValue)
         })
     }
     

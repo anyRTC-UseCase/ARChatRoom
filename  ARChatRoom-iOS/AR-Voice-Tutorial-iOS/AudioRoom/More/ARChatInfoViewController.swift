@@ -57,6 +57,7 @@ class ARChatInfoViewController: UITableViewController {
             cell = UITableViewCell.init(style: .value1, reuseIdentifier: cellid)
         }
         
+        cell?.detailTextLabel?.text = ""
         if indexPath.row == 0 {
             cell?.detailTextLabel?.text = chatModel.roomName
             cell?.detailTextLabel?.font = UIFont(name: "PingFang SC", size: 15)

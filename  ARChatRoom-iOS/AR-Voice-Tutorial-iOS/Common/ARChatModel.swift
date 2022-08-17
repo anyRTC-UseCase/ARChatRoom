@@ -16,13 +16,13 @@ class ARChatModel: NSObject {
     //密码房
     var isLock: String?
     //上麦模式
-    var isMicLock: Bool?
+    var isMicLock: Bool = false
     //房间公告
     var announcement: String?
     //主持人、游客
     var isHoster: Bool?
     //房间名称
-    var roomName: String?
+    var roomName: String = "一起来聊天吧"
     //欢迎语
     var welcome: String?
     //麦位

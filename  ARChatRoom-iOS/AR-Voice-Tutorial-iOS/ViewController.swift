@@ -9,18 +9,22 @@
 import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate {
-
     @IBOutlet weak var headImageView: UIImageView!
     @IBOutlet weak var maleButton: UIButton!
     @IBOutlet weak var femaleButton: UIButton!
     @IBOutlet weak var nameTextField: UITextField!
     //头像
-    var url: String?
+    private var url: String?
+    private var isMan = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        switchHead(sex: false)
+        switchHead()
+        nameTextField.addTarget(self, action: #selector(limitNickname), for: .editingChanged)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(switchHead))
+        headImageView.isUserInteractionEnabled = true
+        headImageView.addGestureRecognizer(tap)
     }
     
     @IBAction func didClickGenderButton(_ sender: UIButton!) {
@@ -28,25 +32,34 @@ class ViewController: UIViewController, UITextFieldDelegate {
             if !sender.isSelected {
                 sender.isSelected = true
                 femaleButton.isSelected = false
-                switchHead(sex: false)
+                isMan = false
+                switchHead()
             }
         } else {
             if !sender.isSelected {
-                switchHead(sex: true)
+                isMan = true
+                switchHead()
                 sender.isSelected = true
                 maleButton.isSelected = false
             }
         }
     }
     
-    func switchHead(sex: Bool) {
+    @objc func switchHead() {
         let random: NSInteger = NSInteger(arc4random() % 10 + 1)
-        if sex {
+        if !isMan {
             url = String(format: "https://teameeting.oss-cn-shanghai.aliyuncs.com/play/woman/head%d.jpeg", random)
         } else {
             url = String(format: "https://teameeting.oss-cn-shanghai.aliyuncs.com/play/man/head%d.jpeg", random)
         }
         headImageView.sd_setImage(with: NSURL(string: url!) as URL?, placeholderImage: nil)
+    }
+    
+    @objc func limitNickname() {
+        let nickName = nameTextField.text
+        if nameTextField?.text?.count ?? 0 > 8 {
+            nameTextField.text = String((nickName?.prefix(8))!)
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

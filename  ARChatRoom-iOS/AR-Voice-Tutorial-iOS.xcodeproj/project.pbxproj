@@ -158,20 +158,20 @@
 		6357EC9224FE2E41005E0C60 /* AR-Voice-Tutorial-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				6357EC9324FE2E41005E0C60 /* AppDelegate.swift */,
+				634444C724FF47E20038189A /* AppID.swift */,
+				6378C834250E05C4009A46EF /* AR-Voice-Tutorial-iOS-Bridging-Header.h */,
+				6357EC9C24FE2E44005E0C60 /* Assets.xcassets */,
 				63E088E2261C73E200D808D9 /* AudioRoom */,
 				63E088E1261C731800D808D9 /* Common */,
-				63E088E0261C731000D808D9 /* Main */,
-				6357EC9324FE2E41005E0C60 /* AppDelegate.swift */,
-				6357EC9724FE2E41005E0C60 /* ViewController.swift */,
-				634444C724FF47E20038189A /* AppID.swift */,
-				6357EC9924FE2E41005E0C60 /* Main.storyboard */,
-				63B4009F25011F99000D52EC /* Log.storyboard */,
-				6357EC9C24FE2E44005E0C60 /* Assets.xcassets */,
-				07EB580B2520ADA800D49A1D /* LaunchScreen.storyboard */,
-				63B400B9250601D2000D52EC /* sound */,
 				6357ECA124FE2E44005E0C60 /* Info.plist */,
-				6378C834250E05C4009A46EF /* AR-Voice-Tutorial-iOS-Bridging-Header.h */,
+				07EB580B2520ADA800D49A1D /* LaunchScreen.storyboard */,
 				631E5E522519A94900352D32 /* Lib */,
+				63B4009F25011F99000D52EC /* Log.storyboard */,
+				63E088E0261C731000D808D9 /* Main */,
+				6357EC9924FE2E41005E0C60 /* Main.storyboard */,
+				63B400B9250601D2000D52EC /* sound */,
+				6357EC9724FE2E41005E0C60 /* ViewController.swift */,
 			);
 			path = "AR-Voice-Tutorial-iOS";
 			sourceTree = "<group>";
@@ -218,21 +218,37 @@
 		63E088E2261C73E200D808D9 /* AudioRoom */ = {
 			isa = PBXGroup;
 			children = (
-				636537EF2509C1F600B1317F /* ARAnnouncementController.swift */,
-				6369B4022508C6B20028F2B4 /* ARChatInfoViewController.swift */,
 				634444C524FF45B80038189A /* ARChatViewController.swift */,
-				636537F12509C40200B1317F /* ARFansViewController.swift */,
+				8AC8E4D728AB9685008BD48C /* More */,
+				8AC8E4D828AB9759008BD48C /* Other */,
+			);
+			path = AudioRoom;
+			sourceTree = "<group>";
+		};
+		8AC8E4D728AB9685008BD48C /* More */ = {
+			isa = PBXGroup;
+			children = (
 				636A7DA3250A49AE002341D9 /* ARFunctionViewController.swift */,
+				6369B4042508DD8D0028F2B4 /* ARModifyViewController.swift */,
+				6369B4022508C6B20028F2B4 /* ARChatInfoViewController.swift */,
+				631E5DEA25187B4500352D32 /* ARRecordViewController.swift */,
+				6384205C2509019900BEDE39 /* ARVolumeViewController.swift */,
+			);
+			path = More;
+			sourceTree = "<group>";
+		};
+		8AC8E4D828AB9759008BD48C /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				636537EF2509C1F600B1317F /* ARAnnouncementController.swift */,
+				636537F12509C40200B1317F /* ARFansViewController.swift */,
 				6378C838250E17AC009A46EF /* ARGiftViewController.swift */,
 				6378C82E250CC1B1009A46EF /* ARInfoDataViewController.swift */,
 				6312CBD9251081EC00A18B86 /* ARMicViewController.swift */,
-				6369B4042508DD8D0028F2B4 /* ARModifyViewController.swift */,
 				638420602509119800BEDE39 /* ARMusicViewController.swift */,
-				631E5DEA25187B4500352D32 /* ARRecordViewController.swift */,
-				6384205C2509019900BEDE39 /* ARVolumeViewController.swift */,
 				63B4009D25011F8E000D52EC /* LogViewController.swift */,
 			);
-			path = AudioRoom;
+			path = Other;
 			sourceTree = "<group>";
 		};
 		C21A91B1ADD2DA05B2E9E70A /* Frameworks */ = {
@@ -543,7 +559,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "AR.AR-Voice-Tutorial-iOS";
 				PRODUCT_NAME = "anyRTC语音开黑";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -576,7 +592,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "AR.AR-Voice-Tutorial-iOS";
 				PRODUCT_NAME = "anyRTC语音开黑";
 				PROVISIONING_PROFILE_SPECIFIER = "";

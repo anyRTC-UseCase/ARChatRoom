@@ -82,7 +82,7 @@ class ARChatViewController: ARBaseViewController {
         //实例化rtc实例对象
         ARVoiceRtm.updateRtmkit(delegate: self)
         rtcKit = ARtcEngineKit.sharedEngine(withAppId: AppID, delegate: self)
-        rtcKit.setChannelProfile(.profileiveBroadcasting)
+        rtcKit.setChannelProfile(.liveBroadcasting)
         if  isHoster {
             rtcKit.setClientRole(.broadcaster)
         }
@@ -137,6 +137,11 @@ class ARChatViewController: ARBaseViewController {
                }
             }
             self?.memberList.add(chatUserModel)
+            if (self?.isHoster ?? false) && uid == localUserModel.uid {
+                let micView = self?.micArr.firstObject as! ARMicView
+                micView.chatUserModel = chatUserModel
+                micView.uid = localUserModel.uid
+            }
             
             if !exist {
                 let userModel: ARChatUserModel? = self?.getUserModelFromUid(uid: uid)
@@ -324,7 +329,7 @@ class ARChatViewController: ARBaseViewController {
                     audioButton.isSelected = false
                 }
             } else {
-                if chatModel.isMicLock! {
+                if chatModel.isMicLock {
                     //申请上麦
                     applyLockMic(value: "1")
                 } else {
@@ -777,7 +782,7 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate {
             }
             
             if topViewController() is ARMicViewController {
-                NotificationCenter.default.post(name: NSNotification.Name("ARChatNotificationMicRefresh"), object: self, userInfo: ["micLock": NSNumber.init(value: chatModel.isMicLock!)])
+                NotificationCenter.default.post(name: NSNotification.Name("ARChatNotificationMicRefresh"), object: self, userInfo: ["micLock": NSNumber.init(value: chatModel.isMicLock)])
             }
             
             let password: String? = dic.object(forKey: "isLock") as? String
@@ -823,7 +828,7 @@ extension ARChatViewController: ARtcEngineDelegate, ARtmChannelDelegate {
                 self.logVC?.log(logModel: ARLogModel.createMessageMode(type: .warn, text: "主持人 修改了房间名称", micLocation: "", micState: false, record: false, password: false, welcom: "", join: false, fromUid: "", fromName: "", toUid: "", toName: "", giftName: ""))
                 floatingView.roomLabel.text = roomName
             }
-            chatModel.roomName = roomName
+            chatModel.roomName = roomName ?? ""
 
             chatModel.isLock = password
             chatNameButton.setTitle(chatModel.roomName, for: .normal)

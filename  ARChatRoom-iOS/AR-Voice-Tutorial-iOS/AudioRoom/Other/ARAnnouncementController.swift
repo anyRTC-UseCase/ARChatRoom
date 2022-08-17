@@ -9,7 +9,6 @@
 import UIKit
 
 class ARAnnouncementController: UIViewController, UIGestureRecognizerDelegate {
-    
     @IBOutlet weak var announcementTextView: UITextView!
     
     let tap = UITapGestureRecognizer()
